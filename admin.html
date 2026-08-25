@@ -1,84 +1,182 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>Doana Digital - Admin</title>
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1"
+  >
 
-  <link rel="stylesheet" href="styles.css">
+  <meta
+    name="description"
+    content="Private administration area for Doana Digital."
+  >
+
+  <meta
+    name="robots"
+    content="noindex,nofollow"
+  >
+
+  <title>
+    Doana Digital — Admin
+  </title>
+
+  <link
+    rel="stylesheet"
+    href="styles.css"
+  >
 </head>
+
 
 <body>
 
+
 <main class="section">
 
-  <div class="container">
+  <div
+    class="container"
+    style="max-width:1100px;"
+  >
 
-    <div id="adminLogin">
 
-      <div class="kicker">
-        Doana Digital
+    <!-- ========================================
+         ADMIN LOGIN
+    ========================================= -->
+
+    <section
+      id="adminLogin"
+      class="admin-login-section"
+    >
+
+      <div
+        style="max-width:560px; margin:0 auto;"
+      >
+
+        <div class="kicker">
+          Doana Digital
+        </div>
+
+
+        <h1>
+          Admin Login
+        </h1>
+
+
+        <p class="lead">
+
+          Sign in to review and manage
+          client feedback.
+
+        </p>
+
+
+        <form id="adminLoginForm">
+
+
+          <!-- EMAIL -->
+
+          <label for="adminEmail">
+            Email
+          </label>
+
+
+          <input
+            id="adminEmail"
+            name="email"
+            type="email"
+            autocomplete="username"
+            required
+            placeholder="Admin email"
+          >
+
+
+
+          <!-- PASSWORD -->
+
+          <label for="adminPassword">
+            Password
+          </label>
+
+
+          <input
+            id="adminPassword"
+            name="password"
+            type="password"
+            autocomplete="current-password"
+            required
+            minlength="8"
+            placeholder="Password"
+          >
+
+
+
+          <!-- SIGN IN -->
+
+          <button
+            id="adminLoginButton"
+            class="btn btn-primary"
+            type="submit"
+          >
+            Sign In
+          </button>
+
+
+
+          <!-- FORGOT PASSWORD -->
+
+          <button
+            id="forgotPassword"
+            class="btn btn-secondary"
+            type="button"
+            style="margin-left:10px;"
+          >
+            Forgot password?
+          </button>
+
+
+
+          <!-- LOGIN STATUS -->
+
+          <div
+            id="adminLoginMessage"
+            class="success"
+            role="status"
+            aria-live="polite"
+          ></div>
+
+
+
+          <!-- RESET EMAIL STATUS -->
+
+          <div
+            id="resetMessage"
+            class="success"
+            role="status"
+            aria-live="polite"
+          ></div>
+
+
+        </form>
+
       </div>
 
-      <h1>
-        Admin Login
-      </h1>
-
-      <p class="lead">
-        Sign in to manage client feedback.
-      </p>
-
-      <form id="adminLoginForm">
-
-        <label for="adminEmail">
-          Email
-        </label>
-
-        <input
-          id="adminEmail"
-          type="email"
-          required
-          placeholder="Admin email"
-        >
-
-
-        <label for="adminPassword">
-          Password
-        </label>
-
-        <input
-          id="adminPassword"
-          type="password"
-          required
-          placeholder="Password"
-        >
-
-
-        <button
-          id="adminLoginButton"
-          class="btn btn-primary"
-          type="submit"
-        >
-          Sign In
-        </button>
-
-
-        <div
-          id="adminLoginMessage"
-          class="success"
-        ></div>
-
-      </form>
-
-    </div>
+    </section>
 
 
 
-    <div
+    <!-- ========================================
+         ADMIN DASHBOARD
+    ========================================= -->
+
+    <section
       id="adminDashboard"
       style="display:none;"
     >
+
+
+      <!-- HEADER -->
 
       <div class="admin-header">
 
@@ -88,11 +186,21 @@
             Feedback moderation
           </div>
 
+
           <h1>
             Client Reviews
           </h1>
 
+
+          <p class="lead">
+
+            Review submitted testimonials before
+            they appear publicly on the Doana website.
+
+          </p>
+
         </div>
+
 
 
         <button
@@ -106,7 +214,72 @@
       </div>
 
 
-      <div class="admin-filters">
+
+      <!-- ====================================
+           DASHBOARD SUMMARY
+      ===================================== -->
+
+      <div class="admin-summary">
+
+        <div class="admin-summary-card">
+
+          <span class="admin-summary-label">
+            Pending
+          </span>
+
+          <strong
+            id="pendingCount"
+            class="admin-summary-number"
+          >
+            —
+          </strong>
+
+        </div>
+
+
+        <div class="admin-summary-card">
+
+          <span class="admin-summary-label">
+            Approved
+          </span>
+
+          <strong
+            id="approvedCount"
+            class="admin-summary-number"
+          >
+            —
+          </strong>
+
+        </div>
+
+
+        <div class="admin-summary-card">
+
+          <span class="admin-summary-label">
+            Rejected
+          </span>
+
+          <strong
+            id="rejectedCount"
+            class="admin-summary-number"
+          >
+            —
+          </strong>
+
+        </div>
+
+      </div>
+
+
+
+      <!-- ====================================
+           FILTERS
+      ===================================== -->
+
+      <div
+        class="admin-filters"
+        aria-label="Review filters"
+      >
 
         <button
           class="btn admin-filter active"
@@ -116,6 +289,7 @@
           Pending
         </button>
 
+
         <button
           class="btn admin-filter"
           data-status="approved"
@@ -124,6 +298,7 @@
           Approved
         </button>
 
+
         <button
           class="btn admin-filter"
           data-status="rejected"
@@ -131,6 +306,7 @@
         >
           Rejected
         </button>
+
 
         <button
           class="btn admin-filter"
@@ -143,6 +319,24 @@
       </div>
 
 
+
+      <!-- ====================================
+           REVIEW STATUS MESSAGE
+      ===================================== -->
+
+      <div
+        id="adminActionMessage"
+        class="success"
+        role="status"
+        aria-live="polite"
+      ></div>
+
+
+
+      <!-- ====================================
+           REVIEW LIST
+      ===================================== -->
+
       <div id="adminReviewList">
 
         <p class="note">
@@ -151,14 +345,22 @@
 
       </div>
 
-    </div>
+
+    </section>
 
   </div>
 
 </main>
 
 
+
+<!-- ========================================
+     ADMIN JAVASCRIPT
+======================================== -->
+
 <script src="admin.js"></script>
 
+
 </body>
+
 </html>
