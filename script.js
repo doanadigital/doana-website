@@ -1,50 +1,109 @@
-document.getElementById("year") &&
-  (document.getElementById("year").textContent =
-    new Date().getFullYear());
+// =====================================================
+// DOANA DIGITAL
+// MAIN JAVASCRIPT
+// =====================================================
 
 
-// =========================
-// MOBILE NAVIGATION
-// =========================
 
-const menuBtn = document.querySelector(".menu-btn");
-const links = document.querySelector(".nav-links");
+// =====================================================
+// YEAR
+// =====================================================
 
-if (menuBtn && links) {
-  menuBtn.addEventListener("click", () => {
-    links.classList.toggle("open");
-  });
+const yearElement =
+  document.getElementById("year");
+
+if (yearElement) {
+
+  yearElement.textContent =
+    new Date().getFullYear();
+
 }
 
 
-// =========================
+
+// =====================================================
+// MOBILE NAVIGATION
+// =====================================================
+
+const menuBtn =
+  document.querySelector(".menu-btn");
+
+const links =
+  document.querySelector(".nav-links");
+
+
+if (menuBtn && links) {
+
+  menuBtn.addEventListener(
+    "click",
+    () => {
+
+      links.classList.toggle(
+        "open"
+      );
+
+    }
+  );
+
+}
+
+
+
+// =====================================================
 // ACTIVE NAVIGATION LINK
-// =========================
+// =====================================================
 
 const current =
-  location.pathname.split("/").pop() || "index.html";
-
-document.querySelectorAll(".nav-links a").forEach((a) => {
-  const href = a.getAttribute("href");
-
-  if (href === current) {
-    a.classList.add("active");
-  }
-});
+  location.pathname
+    .split("/")
+    .pop() || "index.html";
 
 
-// =========================
-// CONTACT FORM - WEB3FORMS
-// =========================
+document
+  .querySelectorAll(
+    ".nav-links a"
+  )
+  .forEach(
+    (a) => {
+
+      const href =
+        a.getAttribute("href");
+
+
+      if (href === current) {
+
+        a.classList.add(
+          "active"
+        );
+
+      }
+
+    }
+  );
+
+
+
+// =====================================================
+// CONTACT FORM
+// WEB3FORMS
+// =====================================================
 
 const contactForm =
-  document.getElementById("contactForm");
+  document.getElementById(
+    "contactForm"
+  );
+
 
 const contactSubmit =
-  document.getElementById("contactSubmit");
+  document.getElementById(
+    "contactSubmit"
+  );
+
 
 const contactSuccess =
-  document.getElementById("success");
+  document.getElementById(
+    "success"
+  );
 
 
 if (contactForm) {
@@ -56,22 +115,36 @@ if (contactForm) {
       event.preventDefault();
 
 
-      // Reset message
+      // Clear previous message
+
       if (contactSuccess) {
-        contactSuccess.style.display = "none";
-        contactSuccess.textContent = "";
+
+        contactSuccess.style.display =
+          "none";
+
+        contactSuccess.textContent =
+          "";
+
       }
 
 
-      // Disable button while sending
+      // Disable submit button
+
       if (contactSubmit) {
-        contactSubmit.disabled = true;
-        contactSubmit.textContent = "Sending...";
+
+        contactSubmit.disabled =
+          true;
+
+        contactSubmit.textContent =
+          "Sending...";
+
       }
 
 
       const formData =
-        new FormData(contactForm);
+        new FormData(
+          contactForm
+        );
 
 
       const formObject =
@@ -86,20 +159,24 @@ if (contactForm) {
           await fetch(
             "https://api.web3forms.com/submit",
             {
+
               method: "POST",
 
               headers: {
+
                 "Content-Type":
                   "application/json",
 
                 "Accept":
                   "application/json"
+
               },
 
               body:
                 JSON.stringify(
                   formObject
                 )
+
             }
           );
 
@@ -121,6 +198,7 @@ if (contactForm) {
             contactSuccess.style.display =
               "block";
 
+
             contactSuccess.textContent =
               "Thank you! Your inquiry has been sent successfully. We'll get back to you shortly.";
 
@@ -138,7 +216,7 @@ if (contactForm) {
       } catch (error) {
 
         console.error(
-          "Web3Forms submission error:",
+          "Web3Forms error:",
           error
         );
 
@@ -147,6 +225,7 @@ if (contactForm) {
 
           contactSuccess.style.display =
             "block";
+
 
           contactSuccess.textContent =
             "Sorry, your inquiry could not be sent. Please try again in a moment.";
@@ -159,6 +238,7 @@ if (contactForm) {
 
           contactSubmit.disabled =
             false;
+
 
           contactSubmit.textContent =
             "Send Inquiry";
@@ -173,12 +253,43 @@ if (contactForm) {
 }
 
 
-// =========================
-// REVIEWS
-// =========================
+
+// =====================================================
+// SUPABASE CONFIGURATION
+// =====================================================
+
+
+// IMPORTANT:
+//
+// Replace these TWO values.
+//
+// Example:
+//
+// const SUPABASE_URL =
+//   "https://abcdefgh.supabase.co";
+//
+// const SUPABASE_ANON_KEY =
+//   "eyJhbGciOi...";
+
+
+const SUPABASE_URL =
+  "https://efbmmxtteekbjayiesft.supabase.co";
+
+
+const SUPABASE_ANON_KEY =
+  "sb_publishable_xBSJ2JvLfmitO7-e-JJHpw_Ak3R7joj";
+
+
+
+// =====================================================
+// EXISTING DOANA CLIENT REVIEWS
+// =====================================================
+
 
 const starterReviews = [
+
   {
+
     name:
       "jaredb85 Longwood, United States",
 
@@ -189,9 +300,12 @@ const starterReviews = [
 
     text:
       "Did a nice job designing an a graphic image for my power point presentation."
+
   },
 
+
   {
+
     name:
       "Carol M. Erskine, Ireland",
 
@@ -202,51 +316,104 @@ const starterReviews = [
 
     text:
       "Fabulous exchange.... worked well and to my specifications. Quick response. thanks"
+
   }
+
 ];
 
 
-function getReviews() {
 
-  try {
-
-    const stored =
-      JSON.parse(
-        localStorage.getItem(
-          "doanaReviews"
-        ) || "[]"
-      );
+// =====================================================
+// REVIEW DATA
+// =====================================================
 
 
-    return [
-      ...stored,
-      ...starterReviews
-    ];
+let approvedOnlineReviews = [];
 
-  } catch {
 
-    return starterReviews;
 
-  }
-
-}
+// =====================================================
+// ESCAPE HTML
+// =====================================================
 
 
 function escapeHtml(str) {
 
-  return String(str).replace(
+  return String(
+    str ?? ""
+  ).replace(
+
     /[&<>"']/g,
 
-    (m) => ({
+    (character) => ({
+
       "&": "&amp;",
+
       "<": "&lt;",
+
       ">": "&gt;",
+
       '"': "&quot;",
+
       "'": "&#039;"
-    })[m]
+
+    })[character]
+
   );
 
 }
+
+
+
+// =====================================================
+// CREATE STAR RATING
+// =====================================================
+
+
+function createStars(
+  rating
+) {
+
+  const safeRating =
+    Math.max(
+      1,
+      Math.min(
+        5,
+        Number(rating) || 5
+      )
+    );
+
+
+  return "★".repeat(
+    safeRating
+  );
+
+}
+
+
+
+// =====================================================
+// GET ALL PUBLIC REVIEWS
+// =====================================================
+
+
+function getPublicReviews() {
+
+  return [
+
+    ...approvedOnlineReviews,
+
+    ...starterReviews
+
+  ];
+
+}
+
+
+
+// =====================================================
+// RENDER REVIEWS
+// =====================================================
 
 
 function renderReviews(
@@ -254,57 +421,100 @@ function renderReviews(
   max = null
 ) {
 
-  const el =
+  const element =
     document.getElementById(
       targetId
     );
 
 
-  if (!el) return;
+  if (!element) {
+
+    return;
+
+  }
 
 
   const reviews =
-    getReviews();
+    getPublicReviews();
 
 
   const display =
     max
-      ? reviews.slice(0, max)
+      ? reviews.slice(
+          0,
+          max
+        )
       : reviews;
 
 
-  el.innerHTML =
+  if (
+    display.length === 0
+  ) {
+
+    element.innerHTML = `
+
+      <p class="note">
+
+        No client reviews
+        are available yet.
+
+      </p>
+
+    `;
+
+
+    return;
+
+  }
+
+
+  element.innerHTML =
     display
       .map(
-        (r) => `
+        (review) => `
+
           <article class="review">
 
+
             <div class="stars">
-              ${"★".repeat(
-                Number(r.rating)
+
+              ${createStars(
+                review.rating
               )}
+
             </div>
+
 
             <p>
+
               “${escapeHtml(
-                r.text
+                review.text
               )}”
+
             </p>
 
+
             <div class="client">
+
               ${escapeHtml(
-                r.name
+                review.name
               )}
+
             </div>
+
 
             <div class="meta">
+
               ${escapeHtml(
-                r.business ||
+                review.business ||
                 "Client"
               )}
+
             </div>
 
+
           </article>
+
         `
       )
       .join("");
@@ -312,19 +522,126 @@ function renderReviews(
 }
 
 
-renderReviews(
-  "reviewList"
-);
 
-renderReviews(
-  "homeReviews",
-  3
-);
+// =====================================================
+// LOAD APPROVED REVIEWS FROM SUPABASE
+// =====================================================
 
 
-// =========================
+async function loadApprovedReviews() {
+
+  // If Supabase has not been configured,
+  // just show starter reviews.
+
+  if (
+    SUPABASE_URL.includes(
+      "PASTE_"
+    ) ||
+    SUPABASE_ANON_KEY.includes(
+      "PASTE_"
+    )
+  ) {
+
+    console.warn(
+      "Supabase has not been configured yet."
+    );
+
+
+    renderReviews(
+      "reviewList"
+    );
+
+
+    renderReviews(
+      "homeReviews",
+      3
+    );
+
+
+    return;
+
+  }
+
+
+  try {
+
+    const endpoint =
+      `${SUPABASE_URL}/rest/v1/reviews` +
+      `?status=eq.approved` +
+      `&select=id,name,business,rating,text,created_at` +
+      `&order=created_at.desc`;
+
+
+    const response =
+      await fetch(
+        endpoint,
+        {
+
+          method: "GET",
+
+          headers: {
+
+            "apikey":
+              SUPABASE_ANON_KEY,
+
+            "Authorization":
+              `Bearer ${SUPABASE_ANON_KEY}`,
+
+            "Accept":
+              "application/json"
+
+          }
+
+        }
+      );
+
+
+    if (!response.ok) {
+
+      throw new Error(
+        `Supabase returned ${response.status}`
+      );
+
+    }
+
+
+    approvedOnlineReviews =
+      await response.json();
+
+
+  } catch (error) {
+
+    console.error(
+      "Unable to load Supabase reviews:",
+      error
+    );
+
+
+    approvedOnlineReviews =
+      [];
+
+  }
+
+
+  renderReviews(
+    "reviewList"
+  );
+
+
+  renderReviews(
+    "homeReviews",
+    3
+  );
+
+}
+
+
+
+// =====================================================
 // FEEDBACK FORM
-// =========================
+// SUPABASE
+// =====================================================
+
 
 const feedbackForm =
   document.getElementById(
@@ -332,13 +649,80 @@ const feedbackForm =
   );
 
 
+const feedbackSubmit =
+  document.getElementById(
+    "feedbackSubmit"
+  );
+
+
+const feedbackSuccess =
+  document.getElementById(
+    "feedbackSuccess"
+  );
+
+
 if (feedbackForm) {
 
   feedbackForm.addEventListener(
     "submit",
-    (e) => {
+    async (event) => {
 
-      e.preventDefault();
+      event.preventDefault();
+
+
+      // Supabase configuration check
+
+      if (
+        SUPABASE_URL.includes(
+          "PASTE_"
+        ) ||
+        SUPABASE_ANON_KEY.includes(
+          "PASTE_"
+        )
+      ) {
+
+        if (feedbackSuccess) {
+
+          feedbackSuccess.style.display =
+            "block";
+
+
+          feedbackSuccess.textContent =
+            "Feedback system is not configured yet.";
+
+        }
+
+
+        return;
+
+      }
+
+
+      // Clear old message
+
+      if (feedbackSuccess) {
+
+        feedbackSuccess.style.display =
+          "none";
+
+        feedbackSuccess.textContent =
+          "";
+
+      }
+
+
+      // Disable button
+
+      if (feedbackSubmit) {
+
+        feedbackSubmit.disabled =
+          true;
+
+
+        feedbackSubmit.textContent =
+          "Submitting...";
+
+      }
 
 
       const data =
@@ -347,82 +731,195 @@ if (feedbackForm) {
         );
 
 
-      const review = {
-
-        name:
+      const name =
+        String(
           data.get(
             "clientName"
-          ),
+          ) || ""
+        ).trim();
 
-        business:
+
+      const business =
+        String(
           data.get(
             "clientBusiness"
-          ),
+          ) || ""
+        ).trim();
 
-        rating:
+
+      const rating =
+        Number(
           data.get(
             "rating"
-          ),
+          )
+        );
 
-        text:
+
+      const text =
+        String(
           data.get(
             "feedbackText"
-          ),
-
-        createdAt:
-          new Date()
-            .toISOString()
-
-      };
+          ) || ""
+        ).trim();
 
 
-      const existing =
-        JSON.parse(
-          localStorage.getItem(
-            "doanaReviews"
-          ) || "[]"
-        );
+
+      // Basic validation
+
+      if (
+        name.length < 2 ||
+        text.length < 5 ||
+        rating < 1 ||
+        rating > 5
+      ) {
+
+        if (feedbackSuccess) {
+
+          feedbackSuccess.style.display =
+            "block";
 
 
-      existing.unshift(
-        review
-      );
+          feedbackSuccess.textContent =
+            "Please complete all required feedback fields.";
+
+        }
 
 
-      localStorage.setItem(
-        "doanaReviews",
-        JSON.stringify(
-          existing
-        )
-      );
+        if (feedbackSubmit) {
+
+          feedbackSubmit.disabled =
+            false;
 
 
-      feedbackForm.reset();
+          feedbackSubmit.textContent =
+            "Submit Feedback";
+
+        }
 
 
-      const success =
-        document.getElementById(
-          "feedbackSuccess"
-        );
-
-
-      if (success) {
-
-        success.style.display =
-          "block";
+        return;
 
       }
 
 
-      renderReviews(
-        "reviewList"
-      );
+
+      const review = {
+
+        name:
+          name,
+
+        business:
+          business || null,
+
+        rating:
+          rating,
+
+        text:
+          text,
+
+        status:
+          "pending"
+
+      };
 
 
-      renderReviews(
-        "homeReviews",
-        3
-      );
+      try {
+
+        const response =
+          await fetch(
+            `${SUPABASE_URL}/rest/v1/reviews`,
+            {
+
+              method:
+                "POST",
+
+              headers: {
+
+                "apikey":
+                  SUPABASE_ANON_KEY,
+
+                "Authorization":
+                  `Bearer ${SUPABASE_ANON_KEY}`,
+
+                "Content-Type":
+                  "application/json",
+
+                "Prefer":
+                  "return=minimal"
+
+              },
+
+              body:
+                JSON.stringify(
+                  review
+                )
+
+            }
+          );
+
+
+        if (!response.ok) {
+
+          const errorText =
+            await response.text();
+
+
+          throw new Error(
+            errorText ||
+            `Supabase returned ${response.status}`
+          );
+
+        }
+
+
+        feedbackForm.reset();
+
+
+        if (feedbackSuccess) {
+
+          feedbackSuccess.style.display =
+            "block";
+
+
+          feedbackSuccess.textContent =
+            "Thank you! Your feedback has been submitted and will appear after it has been reviewed.";
+
+        }
+
+
+      } catch (error) {
+
+        console.error(
+          "Feedback submission error:",
+          error
+        );
+
+
+        if (feedbackSuccess) {
+
+          feedbackSuccess.style.display =
+            "block";
+
+
+          feedbackSuccess.textContent =
+            "Sorry, your feedback could not be submitted. Please try again.";
+
+        }
+
+      } finally {
+
+        if (feedbackSubmit) {
+
+          feedbackSubmit.disabled =
+            false;
+
+
+          feedbackSubmit.textContent =
+            "Submit Feedback";
+
+        }
+
+      }
 
     }
   );
@@ -430,9 +927,36 @@ if (feedbackForm) {
 }
 
 
-// =========================
+
+// =====================================================
+// INITIAL REVIEW LOAD
+// =====================================================
+
+
+// Show existing testimonials immediately.
+
+renderReviews(
+  "reviewList"
+);
+
+
+renderReviews(
+  "homeReviews",
+  3
+);
+
+
+// Then retrieve approved
+// public feedback from Supabase.
+
+loadApprovedReviews();
+
+
+
+// =====================================================
 // HERO IMAGE SLIDER
-// =========================
+// =====================================================
+
 
 const heroSlides =
   document.querySelectorAll(
@@ -440,25 +964,35 @@ const heroSlides =
   );
 
 
-let currentHeroSlide = 0;
+let currentHeroSlide =
+  0;
+
 
 let heroInterval;
 
 
-// Only run if hero slides exist
-if (heroSlides.length > 0) {
+
+if (
+  heroSlides.length > 0
+) {
 
 
-  // Make sure first image starts visible
+  // Set first slide
+
   heroSlides.forEach(
-    (slide, index) => {
+    (
+      slide,
+      index
+    ) => {
 
       slide.classList.remove(
         "active"
       );
 
 
-      if (index === 0) {
+      if (
+        index === 0
+      ) {
 
         slide.classList.add(
           "active"
@@ -468,6 +1002,7 @@ if (heroSlides.length > 0) {
 
     }
   );
+
 
 
   function showHeroSlide(
@@ -494,6 +1029,7 @@ if (heroSlides.length > 0) {
   }
 
 
+
   function nextHeroSlide() {
 
     const next =
@@ -508,6 +1044,7 @@ if (heroSlides.length > 0) {
     );
 
   }
+
 
 
   function startHeroSlider() {
@@ -526,7 +1063,7 @@ if (heroSlides.length > 0) {
   }
 
 
-  // Start automatic slideshow
+
   startHeroSlider();
 
 }
