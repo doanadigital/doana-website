@@ -1,7 +1,20 @@
 // =====================================================
 // DOANA DIGITAL
-// MAIN JAVASCRIPT
+// MAIN WEBSITE JAVASCRIPT
 // =====================================================
+
+
+
+// =====================================================
+// SUPABASE
+// =====================================================
+
+const SUPABASE_URL =
+  "https://efbmmxtteekbjayiesft.supabase.co";
+
+
+const SUPABASE_ANON_KEY =
+  "sb_publishable_xBSJ2JvLfmitO7-e-JJHpw_Ak3R7joj";
 
 
 
@@ -10,7 +23,10 @@
 // =====================================================
 
 const yearElement =
-  document.getElementById("year");
+  document.getElementById(
+    "year"
+  );
+
 
 if (yearElement) {
 
@@ -26,19 +42,27 @@ if (yearElement) {
 // =====================================================
 
 const menuBtn =
-  document.querySelector(".menu-btn");
+  document.querySelector(
+    ".menu-btn"
+  );
 
-const links =
-  document.querySelector(".nav-links");
+
+const navLinks =
+  document.querySelector(
+    ".nav-links"
+  );
 
 
-if (menuBtn && links) {
+if (
+  menuBtn &&
+  navLinks
+) {
 
   menuBtn.addEventListener(
     "click",
     () => {
 
-      links.classList.toggle(
+      navLinks.classList.toggle(
         "open"
       );
 
@@ -50,13 +74,14 @@ if (menuBtn && links) {
 
 
 // =====================================================
-// ACTIVE NAVIGATION LINK
+// ACTIVE NAVIGATION
 // =====================================================
 
-const current =
+const currentPage =
   location.pathname
     .split("/")
-    .pop() || "index.html";
+    .pop() ||
+  "index.html";
 
 
 document
@@ -64,28 +89,31 @@ document
     ".nav-links a"
   )
   .forEach(
-    (a) => {
 
-      const href =
-        a.getAttribute("href");
+    link => {
 
+      if (
+        link.getAttribute(
+          "href"
+        ) ===
+        currentPage
+      ) {
 
-      if (href === current) {
-
-        a.classList.add(
+        link.classList.add(
           "active"
         );
 
       }
 
     }
+
   );
 
 
 
 // =====================================================
 // CONTACT FORM
-// WEB3FORMS
+// WEB3FORMS + SUPABASE
 // =====================================================
 
 const contactForm =
@@ -110,17 +138,16 @@ if (contactForm) {
 
   contactForm.addEventListener(
     "submit",
-    async (event) => {
+    async event => {
 
       event.preventDefault();
 
-
-      // Clear previous message
 
       if (contactSuccess) {
 
         contactSuccess.style.display =
           "none";
+
 
         contactSuccess.textContent =
           "";
@@ -128,12 +155,11 @@ if (contactForm) {
       }
 
 
-      // Disable submit button
-
       if (contactSubmit) {
 
         contactSubmit.disabled =
           true;
+
 
         contactSubmit.textContent =
           "Sending...";
@@ -153,14 +179,85 @@ if (contactForm) {
         );
 
 
+      const inquiry = {
+
+        name:
+          String(
+            formData.get(
+              "name"
+            ) || ""
+          ).trim(),
+
+        email:
+          String(
+            formData.get(
+              "email"
+            ) || ""
+          ).trim(),
+
+        phone:
+          String(
+            formData.get(
+              "phone"
+            ) || ""
+          ).trim() || null,
+
+        business:
+          String(
+            formData.get(
+              "business"
+            ) || ""
+          ).trim() || null,
+
+        service:
+          String(
+            formData.get(
+              "service"
+            ) || ""
+          ).trim(),
+
+        budget:
+          String(
+            formData.get(
+              "budget"
+            ) || ""
+          ).trim() || null,
+
+        timeline:
+          String(
+            formData.get(
+              "timeline"
+            ) || ""
+          ).trim() || null,
+
+        message:
+          String(
+            formData.get(
+              "message"
+            ) || ""
+          ).trim(),
+
+        status:
+          "new"
+
+      };
+
+
       try {
 
-        const response =
+        // -----------------------------------------
+        // SEND EMAIL
+        // -----------------------------------------
+
+        const emailResponse =
           await fetch(
+
             "https://api.web3forms.com/submit",
+
             {
 
-              method: "POST",
+              method:
+                "POST",
 
               headers: {
 
@@ -178,45 +275,97 @@ if (contactForm) {
                 )
 
             }
+
           );
 
 
-        const result =
-          await response.json();
+        const emailResult =
+          await emailResponse.json();
 
 
         if (
-          response.ok &&
-          result.success
+          !emailResponse.ok ||
+          !emailResult.success
         ) {
 
-          contactForm.reset();
-
-
-          if (contactSuccess) {
-
-            contactSuccess.style.display =
-              "block";
-
-
-            contactSuccess.textContent =
-              "Thank you! Your inquiry has been sent successfully. We'll get back to you shortly.";
-
-          }
-
-        } else {
-
           throw new Error(
-            result.message ||
-            "Unable to send your message."
+            emailResult.message ||
+            "Unable to send inquiry."
           );
 
         }
 
+
+
+        // -----------------------------------------
+        // SAVE TO SUPABASE
+        // -----------------------------------------
+
+        const databaseResponse =
+          await fetch(
+
+            `${SUPABASE_URL}/rest/v1/contact_inquiries`,
+
+            {
+
+              method:
+                "POST",
+
+              headers: {
+
+                "apikey":
+                  SUPABASE_ANON_KEY,
+
+                "Authorization":
+                  `Bearer ${SUPABASE_ANON_KEY}`,
+
+                "Content-Type":
+                  "application/json",
+
+                "Prefer":
+                  "return=minimal"
+
+              },
+
+              body:
+                JSON.stringify(
+                  inquiry
+                )
+
+            }
+
+          );
+
+
+        if (!databaseResponse.ok) {
+
+          console.error(
+            "Inquiry database error:",
+            await databaseResponse.text()
+          );
+
+        }
+
+
+        contactForm.reset();
+
+
+        if (contactSuccess) {
+
+          contactSuccess.style.display =
+            "block";
+
+
+          contactSuccess.textContent =
+            "Thank you! Your inquiry has been sent successfully. We'll get back to you shortly.";
+
+        }
+
+
       } catch (error) {
 
         console.error(
-          "Web3Forms error:",
+          "Contact submission error:",
           error
         );
 
@@ -228,9 +377,10 @@ if (contactForm) {
 
 
           contactSuccess.textContent =
-            "Sorry, your inquiry could not be sent. Please try again in a moment.";
+            "Sorry, your inquiry could not be sent. Please try again.";
 
         }
+
 
       } finally {
 
@@ -248,6 +398,7 @@ if (contactForm) {
       }
 
     }
+
   );
 
 }
@@ -255,36 +406,8 @@ if (contactForm) {
 
 
 // =====================================================
-// SUPABASE CONFIGURATION
+// EXISTING TESTIMONIALS
 // =====================================================
-
-
-// IMPORTANT:
-//
-// Replace these TWO values.
-//
-// Example:
-//
-// const SUPABASE_URL =
-//   "https://abcdefgh.supabase.co";
-//
-// const SUPABASE_ANON_KEY =
-//   "eyJhbGciOi...";
-
-
-const SUPABASE_URL =
-  "https://efbmmxtteekbjayiesft.supabase.co";
-
-
-const SUPABASE_ANON_KEY =
-  "sb_publishable_xBSJ2JvLfmitO7-e-JJHpw_Ak3R7joj";
-
-
-
-// =====================================================
-// EXISTING DOANA CLIENT REVIEWS
-// =====================================================
-
 
 const starterReviews = [
 
@@ -296,7 +419,8 @@ const starterReviews = [
     business:
       "Minimalist Face Graphic for PowerPoint",
 
-    rating: 5,
+    rating:
+      5,
 
     text:
       "Did a nice job designing an a graphic image for my power point presentation."
@@ -312,7 +436,8 @@ const starterReviews = [
     business:
       "Colorful Product Promo Poster",
 
-    rating: 5,
+    rating:
+      5,
 
     text:
       "Fabulous exchange.... worked well and to my specifications. Quick response. thanks"
@@ -323,12 +448,8 @@ const starterReviews = [
 
 
 
-// =====================================================
-// REVIEW DATA
-// =====================================================
-
-
-let approvedOnlineReviews = [];
+let approvedOnlineReviews =
+  [];
 
 
 
@@ -336,26 +457,32 @@ let approvedOnlineReviews = [];
 // ESCAPE HTML
 // =====================================================
 
-
-function escapeHtml(str) {
+function escapeHtml(
+  value
+) {
 
   return String(
-    str ?? ""
+    value ?? ""
   ).replace(
 
     /[&<>"']/g,
 
-    (character) => ({
+    character => ({
 
-      "&": "&amp;",
+      "&":
+        "&amp;",
 
-      "<": "&lt;",
+      "<":
+        "&lt;",
 
-      ">": "&gt;",
+      ">":
+        "&gt;",
 
-      '"': "&quot;",
+      '"':
+        "&quot;",
 
-      "'": "&#039;"
+      "'":
+        "&#039;"
 
     })[character]
 
@@ -366,9 +493,8 @@ function escapeHtml(str) {
 
 
 // =====================================================
-// CREATE STAR RATING
+// STARS
 // =====================================================
-
 
 function createStars(
   rating
@@ -376,11 +502,19 @@ function createStars(
 
   const safeRating =
     Math.max(
+
       1,
+
       Math.min(
+
         5,
-        Number(rating) || 5
+
+        Number(
+          rating
+        ) || 5
+
       )
+
     );
 
 
@@ -393,9 +527,8 @@ function createStars(
 
 
 // =====================================================
-// GET ALL PUBLIC REVIEWS
+// PUBLIC REVIEWS
 // =====================================================
-
 
 function getPublicReviews() {
 
@@ -412,9 +545,8 @@ function getPublicReviews() {
 
 
 // =====================================================
-// RENDER REVIEWS
+// RENDER PUBLIC REVIEWS
 // =====================================================
-
 
 function renderReviews(
   targetId,
@@ -439,84 +571,70 @@ function renderReviews(
 
 
   const display =
+
     max
+
       ? reviews.slice(
           0,
           max
         )
+
       : reviews;
 
 
-  if (
-    display.length === 0
-  ) {
-
-    element.innerHTML = `
-
-      <p class="note">
-
-        No client reviews
-        are available yet.
-
-      </p>
-
-    `;
-
-
-    return;
-
-  }
-
-
   element.innerHTML =
+
     display
+
       .map(
-        (review) => `
 
-          <article class="review">
+        review => `
 
+          <article
+            class="review"
+          >
 
-            <div class="stars">
-
+            <div
+              class="stars"
+            >
               ${createStars(
                 review.rating
               )}
-
             </div>
 
 
             <p>
-
               “${escapeHtml(
                 review.text
               )}”
-
             </p>
 
 
-            <div class="client">
-
+            <div
+              class="client"
+            >
               ${escapeHtml(
                 review.name
               )}
-
             </div>
 
 
-            <div class="meta">
-
+            <div
+              class="meta"
+            >
               ${escapeHtml(
                 review.business ||
                 "Client"
               )}
-
             </div>
 
 
           </article>
 
         `
+
       )
+
       .join("");
 
 }
@@ -524,60 +642,30 @@ function renderReviews(
 
 
 // =====================================================
-// LOAD APPROVED REVIEWS FROM SUPABASE
+// LOAD APPROVED REVIEWS
 // =====================================================
 
-
 async function loadApprovedReviews() {
-
-  // If Supabase has not been configured,
-  // just show starter reviews.
-
-  if (
-    SUPABASE_URL.includes(
-      "PASTE_"
-    ) ||
-    SUPABASE_ANON_KEY.includes(
-      "PASTE_"
-    )
-  ) {
-
-    console.warn(
-      "Supabase has not been configured yet."
-    );
-
-
-    renderReviews(
-      "reviewList"
-    );
-
-
-    renderReviews(
-      "homeReviews",
-      3
-    );
-
-
-    return;
-
-  }
-
 
   try {
 
     const endpoint =
+
       `${SUPABASE_URL}/rest/v1/reviews` +
+
       `?status=eq.approved` +
+
       `&select=id,name,business,rating,text,created_at` +
+
       `&order=created_at.desc`;
 
 
     const response =
       await fetch(
-        endpoint,
-        {
 
-          method: "GET",
+        endpoint,
+
+        {
 
           headers: {
 
@@ -585,21 +673,19 @@ async function loadApprovedReviews() {
               SUPABASE_ANON_KEY,
 
             "Authorization":
-              `Bearer ${SUPABASE_ANON_KEY}`,
-
-            "Accept":
-              "application/json"
+              `Bearer ${SUPABASE_ANON_KEY}`
 
           }
 
         }
+
       );
 
 
     if (!response.ok) {
 
       throw new Error(
-        `Supabase returned ${response.status}`
+        await response.text()
       );
 
     }
@@ -612,7 +698,7 @@ async function loadApprovedReviews() {
   } catch (error) {
 
     console.error(
-      "Unable to load Supabase reviews:",
+      "Review loading error:",
       error
     );
 
@@ -639,9 +725,7 @@ async function loadApprovedReviews() {
 
 // =====================================================
 // FEEDBACK FORM
-// SUPABASE
 // =====================================================
-
 
 const feedbackForm =
   document.getElementById(
@@ -665,53 +749,10 @@ if (feedbackForm) {
 
   feedbackForm.addEventListener(
     "submit",
-    async (event) => {
+    async event => {
 
       event.preventDefault();
 
-
-      // Supabase configuration check
-
-      if (
-        SUPABASE_URL.includes(
-          "PASTE_"
-        ) ||
-        SUPABASE_ANON_KEY.includes(
-          "PASTE_"
-        )
-      ) {
-
-        if (feedbackSuccess) {
-
-          feedbackSuccess.style.display =
-            "block";
-
-
-          feedbackSuccess.textContent =
-            "Feedback system is not configured yet.";
-
-        }
-
-
-        return;
-
-      }
-
-
-      // Clear old message
-
-      if (feedbackSuccess) {
-
-        feedbackSuccess.style.display =
-          "none";
-
-        feedbackSuccess.textContent =
-          "";
-
-      }
-
-
-      // Disable button
 
       if (feedbackSubmit) {
 
@@ -725,97 +766,53 @@ if (feedbackForm) {
       }
 
 
+      if (feedbackSuccess) {
+
+        feedbackSuccess.style.display =
+          "none";
+
+
+        feedbackSuccess.textContent =
+          "";
+
+      }
+
+
       const data =
         new FormData(
           feedbackForm
         );
 
 
-      const name =
-        String(
-          data.get(
-            "clientName"
-          ) || ""
-        ).trim();
-
-
-      const business =
-        String(
-          data.get(
-            "clientBusiness"
-          ) || ""
-        ).trim();
-
-
-      const rating =
-        Number(
-          data.get(
-            "rating"
-          )
-        );
-
-
-      const text =
-        String(
-          data.get(
-            "feedbackText"
-          ) || ""
-        ).trim();
-
-
-
-      // Basic validation
-
-      if (
-        name.length < 2 ||
-        text.length < 5 ||
-        rating < 1 ||
-        rating > 5
-      ) {
-
-        if (feedbackSuccess) {
-
-          feedbackSuccess.style.display =
-            "block";
-
-
-          feedbackSuccess.textContent =
-            "Please complete all required feedback fields.";
-
-        }
-
-
-        if (feedbackSubmit) {
-
-          feedbackSubmit.disabled =
-            false;
-
-
-          feedbackSubmit.textContent =
-            "Submit Feedback";
-
-        }
-
-
-        return;
-
-      }
-
-
-
       const review = {
 
         name:
-          name,
+          String(
+            data.get(
+              "clientName"
+            ) || ""
+          ).trim(),
 
         business:
-          business || null,
+          String(
+            data.get(
+              "clientBusiness"
+            ) || ""
+          ).trim() || null,
 
         rating:
-          rating,
+          Number(
+            data.get(
+              "rating"
+            )
+          ),
 
         text:
-          text,
+          String(
+            data.get(
+              "feedbackText"
+            ) || ""
+          ).trim(),
 
         status:
           "pending"
@@ -827,7 +824,9 @@ if (feedbackForm) {
 
         const response =
           await fetch(
+
             `${SUPABASE_URL}/rest/v1/reviews`,
+
             {
 
               method:
@@ -855,18 +854,14 @@ if (feedbackForm) {
                 )
 
             }
+
           );
 
 
         if (!response.ok) {
 
-          const errorText =
-            await response.text();
-
-
           throw new Error(
-            errorText ||
-            `Supabase returned ${response.status}`
+            await response.text()
           );
 
         }
@@ -882,7 +877,7 @@ if (feedbackForm) {
 
 
           feedbackSuccess.textContent =
-            "Thank you! Your feedback has been submitted and will appear after it has been reviewed.";
+            "Thank you! Your feedback has been submitted and will appear after review.";
 
         }
 
@@ -890,7 +885,7 @@ if (feedbackForm) {
       } catch (error) {
 
         console.error(
-          "Feedback submission error:",
+          "Feedback error:",
           error
         );
 
@@ -902,9 +897,10 @@ if (feedbackForm) {
 
 
           feedbackSuccess.textContent =
-            "Sorry, your feedback could not be submitted. Please try again.";
+            "Sorry, your feedback could not be submitted.";
 
         }
+
 
       } finally {
 
@@ -922,6 +918,7 @@ if (feedbackForm) {
       }
 
     }
+
   );
 
 }
@@ -929,11 +926,8 @@ if (feedbackForm) {
 
 
 // =====================================================
-// INITIAL REVIEW LOAD
+// INITIAL REVIEWS
 // =====================================================
-
-
-// Show existing testimonials immediately.
 
 renderReviews(
   "reviewList"
@@ -946,17 +940,13 @@ renderReviews(
 );
 
 
-// Then retrieve approved
-// public feedback from Supabase.
-
 loadApprovedReviews();
 
 
 
 // =====================================================
-// HERO IMAGE SLIDER
+// HERO SLIDER
 // =====================================================
-
 
 const heroSlides =
   document.querySelectorAll(
@@ -973,17 +963,14 @@ let heroInterval;
 
 
 if (
-  heroSlides.length > 0
+  heroSlides.length >
+  0
 ) {
 
 
-  // Set first slide
-
   heroSlides.forEach(
-    (
-      slide,
-      index
-    ) => {
+
+    (slide, index) => {
 
       slide.classList.remove(
         "active"
@@ -991,7 +978,8 @@ if (
 
 
       if (
-        index === 0
+        index ===
+        0
       ) {
 
         slide.classList.add(
@@ -1001,8 +989,8 @@ if (
       }
 
     }
-  );
 
+  );
 
 
   function showHeroSlide(
@@ -1033,9 +1021,12 @@ if (
   function nextHeroSlide() {
 
     const next =
+
       (
-        currentHeroSlide + 1
+        currentHeroSlide +
+        1
       ) %
+
       heroSlides.length;
 
 
@@ -1047,23 +1038,10 @@ if (
 
 
 
-  function startHeroSlider() {
-
-    clearInterval(
-      heroInterval
+  heroInterval =
+    setInterval(
+      nextHeroSlide,
+      4000
     );
-
-
-    heroInterval =
-      setInterval(
-        nextHeroSlide,
-        4000
-      );
-
-  }
-
-
-
-  startHeroSlider();
 
 }

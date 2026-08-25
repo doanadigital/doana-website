@@ -1309,3 +1309,617 @@ textarea {
   }
 
 }
+
+/* ========================================
+   ADMIN MAIN TABS
+======================================== */
+
+.admin-main-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+
+  margin-bottom: 42px;
+}
+
+.admin-main-tab.active {
+  background: var(--accent);
+  color: #111;
+  border-color: transparent;
+}
+
+
+/* ========================================
+   ADMIN PANELS
+======================================== */
+
+.admin-panel {
+  margin-top: 10px;
+}
+
+
+/* ========================================
+   CONTACT INQUIRIES
+======================================== */
+
+#adminInquiryList {
+  display: grid;
+  gap: 18px;
+}
+
+.admin-inquiry-card {
+  padding: 24px;
+
+  background: var(--panel);
+
+  border: 1px solid var(--border);
+
+  border-radius: 22px;
+}
+
+.admin-inquiry-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+
+  gap: 20px;
+
+  margin-bottom: 18px;
+}
+
+.admin-inquiry-card h3 {
+  margin-bottom: 4px;
+}
+
+.admin-inquiry-details {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: 14px;
+
+  margin: 20px 0;
+}
+
+.admin-inquiry-field {
+  padding: 14px;
+
+  background: rgba(255,255,255,.025);
+
+  border: 1px solid var(--border);
+
+  border-radius: 14px;
+}
+
+.admin-inquiry-field strong {
+  display: block;
+
+  margin-bottom: 4px;
+
+  color: var(--muted);
+
+  font-size: 0.8rem;
+
+  text-transform: uppercase;
+
+  letter-spacing: .06em;
+}
+
+.admin-inquiry-message {
+  margin-top: 18px;
+
+  padding: 18px;
+
+  background: #0d0d12;
+
+  border: 1px solid var(--border);
+
+  border-radius: 16px;
+}
+
+.status-new {
+  background: rgba(201,167,255,.15);
+  color: var(--accent);
+}
+
+.status-contacted {
+  background: rgba(124,231,216,.15);
+  color: var(--accent2);
+}
+
+.status-closed {
+  background: rgba(255,255,255,.08);
+  color: var(--muted);
+}
+
+.inquiry-email {
+  color: var(--accent2);
+}
+
+@media (max-width:700px) {
+
+  .admin-inquiry-top {
+    flex-direction: column;
+  }
+
+  .admin-inquiry-details {
+    grid-template-columns: 1fr;
+  }
+
+}
+
+/* =====================================================
+   ADMIN LOGIN
+===================================================== */
+
+.admin-login-section {
+  padding:
+    40px 0
+    80px;
+}
+
+
+.admin-login-actions {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 12px;
+}
+
+
+
+/* =====================================================
+   ADMIN HEADER
+===================================================== */
+
+.admin-header {
+  display: flex;
+
+  align-items: flex-start;
+
+  justify-content:
+    space-between;
+
+  gap: 30px;
+
+  margin-bottom:
+    36px;
+}
+
+
+
+/* =====================================================
+   ADMIN MAIN TABS
+===================================================== */
+
+.admin-main-tabs {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 12px;
+
+  margin-bottom:
+    48px;
+}
+
+
+.admin-main-tab.active {
+  background:
+    var(--accent);
+
+  color:
+    #111;
+
+  border-color:
+    transparent;
+}
+
+
+
+/* =====================================================
+   ADMIN SUMMARY
+===================================================== */
+
+.admin-summary {
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      3,
+      minmax(0, 1fr)
+    );
+
+  gap: 16px;
+
+  margin-bottom:
+    30px;
+}
+
+
+.admin-summary-card {
+  padding:
+    22px;
+
+  background:
+    var(--panel);
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius:
+    20px;
+}
+
+
+.admin-summary-label {
+  display: block;
+
+  margin-bottom:
+    6px;
+
+  color:
+    var(--muted);
+
+  font-size:
+    .82rem;
+
+  text-transform:
+    uppercase;
+
+  letter-spacing:
+    .08em;
+}
+
+
+.admin-summary-number {
+  font-size:
+    2rem;
+
+  line-height:
+    1;
+}
+
+
+
+/* =====================================================
+   ADMIN FILTERS
+===================================================== */
+
+.admin-filters {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 10px;
+
+  margin-bottom:
+    26px;
+}
+
+
+.admin-filter.active,
+.inquiry-filter.active {
+  background:
+    var(--accent);
+
+  color:
+    #111;
+
+  border-color:
+    transparent;
+}
+
+
+
+/* =====================================================
+   REVIEW CARDS
+===================================================== */
+
+#adminReviewList,
+#adminInquiryList {
+  display: grid;
+
+  gap: 18px;
+}
+
+
+.admin-review-card,
+.admin-inquiry-card {
+  padding:
+    24px;
+
+  background:
+    var(--panel);
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius:
+    22px;
+}
+
+
+.admin-review-top,
+.admin-inquiry-top {
+  display: flex;
+
+  justify-content:
+    space-between;
+
+  align-items:
+    flex-start;
+
+  gap: 20px;
+}
+
+
+
+/* =====================================================
+   ADMIN STATUS
+===================================================== */
+
+.admin-status {
+  display:
+    inline-flex;
+
+  align-items:
+    center;
+
+  padding:
+    5px 10px;
+
+  border-radius:
+    999px;
+
+  font-size:
+    .74rem;
+
+  font-weight:
+    800;
+
+  text-transform:
+    uppercase;
+
+  letter-spacing:
+    .06em;
+}
+
+
+.status-pending {
+  background:
+    rgba(
+      248,
+      212,
+      119,
+      .15
+    );
+
+  color:
+    #f8d477;
+}
+
+
+.status-approved,
+.status-contacted {
+  background:
+    rgba(
+      124,
+      231,
+      216,
+      .15
+    );
+
+  color:
+    var(--accent2);
+}
+
+
+.status-rejected {
+  background:
+    rgba(
+      255,
+      100,
+      100,
+      .15
+    );
+
+  color:
+    #ffaaaa;
+}
+
+
+.status-new {
+  background:
+    rgba(
+      201,
+      167,
+      255,
+      .15
+    );
+
+  color:
+    var(--accent);
+}
+
+
+.status-closed {
+  background:
+    rgba(
+      255,
+      255,
+      255,
+      .08
+    );
+
+  color:
+    var(--muted);
+}
+
+
+
+/* =====================================================
+   INQUIRY DETAILS
+===================================================== */
+
+.admin-inquiry-details {
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      2,
+      minmax(0,1fr)
+    );
+
+  gap: 14px;
+
+  margin:
+    20px 0;
+}
+
+
+.admin-inquiry-field {
+  padding:
+    14px;
+
+  background:
+    rgba(
+      255,
+      255,
+      255,
+      .025
+    );
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius:
+    14px;
+}
+
+
+.admin-inquiry-field strong {
+  display: block;
+
+  margin-bottom:
+    4px;
+
+  color:
+    var(--muted);
+
+  font-size:
+    .8rem;
+
+  text-transform:
+    uppercase;
+
+  letter-spacing:
+    .06em;
+}
+
+
+.admin-inquiry-message {
+  margin-top:
+    18px;
+
+  padding:
+    18px;
+
+  background:
+    #0d0d12;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius:
+    16px;
+}
+
+
+.inquiry-email {
+  color:
+    var(--accent2);
+}
+
+
+
+/* =====================================================
+   ADMIN ACTIONS
+===================================================== */
+
+.admin-actions {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 10px;
+
+  margin-top:
+    20px;
+}
+
+
+.admin-delete {
+  color:
+    #ffaaaa;
+
+  border-color:
+    rgba(
+      255,
+      100,
+      100,
+      .35
+    );
+}
+
+
+
+/* =====================================================
+   ADMIN MOBILE
+===================================================== */
+
+@media (
+  max-width:700px
+) {
+
+  .admin-header,
+  .admin-review-top,
+  .admin-inquiry-top {
+
+    flex-direction:
+      column;
+
+  }
+
+
+  .admin-summary,
+  .admin-inquiry-details {
+
+    grid-template-columns:
+      1fr;
+
+  }
+
+
+  .admin-main-tabs {
+
+    flex-direction:
+      column;
+
+  }
+
+
+  .admin-main-tabs .btn {
+
+    width:
+      100%;
+
+  }
+
+}

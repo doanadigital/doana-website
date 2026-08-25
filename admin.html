@@ -1,7 +1,9 @@
 <!doctype html>
+
 <html lang="en">
 
 <head>
+
   <meta charset="utf-8">
 
   <meta
@@ -27,6 +29,7 @@
     rel="stylesheet"
     href="styles.css"
   >
+
 </head>
 
 
@@ -37,13 +40,13 @@
 
   <div
     class="container"
-    style="max-width:1100px;"
+    style="max-width:1180px;"
   >
 
 
-    <!-- ========================================
+    <!-- =================================================
          ADMIN LOGIN
-    ========================================= -->
+    ================================================== -->
 
     <section
       id="adminLogin"
@@ -51,7 +54,10 @@
     >
 
       <div
-        style="max-width:560px; margin:0 auto;"
+        style="
+          max-width:560px;
+          margin:0 auto;
+        "
       >
 
         <div class="kicker">
@@ -65,22 +71,17 @@
 
 
         <p class="lead">
-
-          Sign in to review and manage
-          client feedback.
-
+          Sign in to manage project inquiries
+          and client feedback.
         </p>
 
 
         <form id="adminLoginForm">
 
 
-          <!-- EMAIL -->
-
           <label for="adminEmail">
             Email
           </label>
-
 
           <input
             id="adminEmail"
@@ -92,13 +93,9 @@
           >
 
 
-
-          <!-- PASSWORD -->
-
           <label for="adminPassword">
             Password
           </label>
-
 
           <input
             id="adminPassword"
@@ -111,33 +108,27 @@
           >
 
 
+          <div class="admin-login-actions">
 
-          <!-- SIGN IN -->
-
-          <button
-            id="adminLoginButton"
-            class="btn btn-primary"
-            type="submit"
-          >
-            Sign In
-          </button>
-
+            <button
+              id="adminLoginButton"
+              class="btn btn-primary"
+              type="submit"
+            >
+              Sign In
+            </button>
 
 
-          <!-- FORGOT PASSWORD -->
+            <button
+              id="forgotPassword"
+              class="btn btn-secondary"
+              type="button"
+            >
+              Forgot password?
+            </button>
 
-          <button
-            id="forgotPassword"
-            class="btn btn-secondary"
-            type="button"
-            style="margin-left:10px;"
-          >
-            Forgot password?
-          </button>
+          </div>
 
-
-
-          <!-- LOGIN STATUS -->
 
           <div
             id="adminLoginMessage"
@@ -146,9 +137,6 @@
             aria-live="polite"
           ></div>
 
-
-
-          <!-- RESET EMAIL STATUS -->
 
           <div
             id="resetMessage"
@@ -166,9 +154,9 @@
 
 
 
-    <!-- ========================================
+    <!-- =================================================
          ADMIN DASHBOARD
-    ========================================= -->
+    ================================================== -->
 
     <section
       id="adminDashboard"
@@ -176,31 +164,28 @@
     >
 
 
-      <!-- HEADER -->
+      <!-- DASHBOARD HEADER -->
 
       <div class="admin-header">
 
         <div>
 
           <div class="kicker">
-            Feedback moderation
+            Doana administration
           </div>
 
 
           <h1>
-            Client Reviews
+            Dashboard
           </h1>
 
 
           <p class="lead">
-
-            Review submitted testimonials before
-            they appear publicly on the Doana website.
-
+            Manage project inquiries and
+            moderate client testimonials.
           </p>
 
         </div>
-
 
 
         <button
@@ -215,135 +200,337 @@
 
 
 
-      <!-- ====================================
-           DASHBOARD SUMMARY
-      ===================================== -->
+      <!-- =================================================
+           MAIN TABS
+      ================================================== -->
 
-      <div class="admin-summary">
+      <div class="admin-main-tabs">
 
-        <div class="admin-summary-card">
-
-          <span class="admin-summary-label">
-            Pending
-          </span>
-
-          <strong
-            id="pendingCount"
-            class="admin-summary-number"
-          >
-            —
-          </strong>
-
-        </div>
+        <button
+          id="inquiriesTab"
+          class="btn admin-main-tab active"
+          data-panel="inquiries"
+          type="button"
+        >
+          Contact Inquiries
+        </button>
 
 
-        <div class="admin-summary-card">
-
-          <span class="admin-summary-label">
-            Approved
-          </span>
-
-          <strong
-            id="approvedCount"
-            class="admin-summary-number"
-          >
-            —
-          </strong>
-
-        </div>
-
-
-        <div class="admin-summary-card">
-
-          <span class="admin-summary-label">
-            Rejected
-          </span>
-
-          <strong
-            id="rejectedCount"
-            class="admin-summary-number"
-          >
-            —
-          </strong>
-
-        </div>
+        <button
+          id="reviewsTab"
+          class="btn admin-main-tab"
+          data-panel="reviews"
+          type="button"
+        >
+          Client Reviews
+        </button>
 
       </div>
 
 
 
-      <!-- ====================================
-           FILTERS
-      ===================================== -->
+      <!-- =================================================
+           CONTACT INQUIRIES
+      ================================================== -->
 
-      <div
-        class="admin-filters"
-        aria-label="Review filters"
+      <section
+        id="inquiriesPanel"
+        class="admin-panel"
       >
 
-        <button
-          class="btn admin-filter active"
-          data-status="pending"
-          type="button"
-        >
-          Pending
-        </button>
+        <div class="section-head">
+
+          <div>
+
+            <div class="kicker">
+              Leads
+            </div>
+
+            <h2>
+              Contact Inquiries
+            </h2>
+
+          </div>
 
 
-        <button
-          class="btn admin-filter"
-          data-status="approved"
-          type="button"
-        >
-          Approved
-        </button>
+          <p>
+            View project requests, contact potential
+            clients and track each inquiry.
+          </p>
 
-
-        <button
-          class="btn admin-filter"
-          data-status="rejected"
-          type="button"
-        >
-          Rejected
-        </button>
-
-
-        <button
-          class="btn admin-filter"
-          data-status="all"
-          type="button"
-        >
-          All
-        </button>
-
-      </div>
+        </div>
 
 
 
-      <!-- ====================================
-           REVIEW STATUS MESSAGE
-      ===================================== -->
+        <!-- INQUIRY COUNTERS -->
 
-      <div
-        id="adminActionMessage"
-        class="success"
-        role="status"
-        aria-live="polite"
-      ></div>
+        <div class="admin-summary">
+
+          <div class="admin-summary-card">
+
+            <span class="admin-summary-label">
+              New
+            </span>
+
+            <strong
+              id="newInquiryCount"
+              class="admin-summary-number"
+            >
+              —
+            </strong>
+
+          </div>
+
+
+          <div class="admin-summary-card">
+
+            <span class="admin-summary-label">
+              Contacted
+            </span>
+
+            <strong
+              id="contactedInquiryCount"
+              class="admin-summary-number"
+            >
+              —
+            </strong>
+
+          </div>
+
+
+          <div class="admin-summary-card">
+
+            <span class="admin-summary-label">
+              Closed
+            </span>
+
+            <strong
+              id="closedInquiryCount"
+              class="admin-summary-number"
+            >
+              —
+            </strong>
+
+          </div>
+
+        </div>
 
 
 
-      <!-- ====================================
-           REVIEW LIST
-      ===================================== -->
+        <!-- INQUIRY FILTERS -->
 
-      <div id="adminReviewList">
+        <div class="admin-filters">
 
-        <p class="note">
-          Loading reviews...
-        </p>
+          <button
+            class="btn inquiry-filter active"
+            data-inquiry-status="new"
+            type="button"
+          >
+            New
+          </button>
 
-      </div>
+
+          <button
+            class="btn inquiry-filter"
+            data-inquiry-status="contacted"
+            type="button"
+          >
+            Contacted
+          </button>
+
+
+          <button
+            class="btn inquiry-filter"
+            data-inquiry-status="closed"
+            type="button"
+          >
+            Closed
+          </button>
+
+
+          <button
+            class="btn inquiry-filter"
+            data-inquiry-status="all"
+            type="button"
+          >
+            All
+          </button>
+
+        </div>
+
+
+
+        <div
+          id="inquiryActionMessage"
+          class="success"
+          role="status"
+          aria-live="polite"
+        ></div>
+
+
+
+        <div id="adminInquiryList">
+
+          <p class="note">
+            Loading inquiries...
+          </p>
+
+        </div>
+
+      </section>
+
+
+
+      <!-- =================================================
+           CLIENT REVIEWS
+      ================================================== -->
+
+      <section
+        id="reviewsPanel"
+        class="admin-panel"
+        style="display:none;"
+      >
+
+        <div class="section-head">
+
+          <div>
+
+            <div class="kicker">
+              Feedback moderation
+            </div>
+
+            <h2>
+              Client Reviews
+            </h2>
+
+          </div>
+
+
+          <p>
+            Approve genuine feedback before
+            displaying it publicly.
+          </p>
+
+        </div>
+
+
+
+        <!-- REVIEW COUNTERS -->
+
+        <div class="admin-summary">
+
+          <div class="admin-summary-card">
+
+            <span class="admin-summary-label">
+              Pending
+            </span>
+
+            <strong
+              id="pendingCount"
+              class="admin-summary-number"
+            >
+              —
+            </strong>
+
+          </div>
+
+
+          <div class="admin-summary-card">
+
+            <span class="admin-summary-label">
+              Approved
+            </span>
+
+            <strong
+              id="approvedCount"
+              class="admin-summary-number"
+            >
+              —
+            </strong>
+
+          </div>
+
+
+          <div class="admin-summary-card">
+
+            <span class="admin-summary-label">
+              Rejected
+            </span>
+
+            <strong
+              id="rejectedCount"
+              class="admin-summary-number"
+            >
+              —
+            </strong>
+
+          </div>
+
+        </div>
+
+
+
+        <!-- REVIEW FILTERS -->
+
+        <div class="admin-filters">
+
+          <button
+            class="btn admin-filter active"
+            data-status="pending"
+            type="button"
+          >
+            Pending
+          </button>
+
+
+          <button
+            class="btn admin-filter"
+            data-status="approved"
+            type="button"
+          >
+            Approved
+          </button>
+
+
+          <button
+            class="btn admin-filter"
+            data-status="rejected"
+            type="button"
+          >
+            Rejected
+          </button>
+
+
+          <button
+            class="btn admin-filter"
+            data-status="all"
+            type="button"
+          >
+            All
+          </button>
+
+        </div>
+
+
+
+        <div
+          id="adminActionMessage"
+          class="success"
+          role="status"
+          aria-live="polite"
+        ></div>
+
+
+
+        <div id="adminReviewList">
+
+          <p class="note">
+            Loading reviews...
+          </p>
+
+        </div>
+
+      </section>
 
 
     </section>
@@ -352,11 +539,6 @@
 
 </main>
 
-
-
-<!-- ========================================
-     ADMIN JAVASCRIPT
-======================================== -->
 
 <script src="admin.js"></script>
 

@@ -1,21 +1,22 @@
 // =====================================================
-// DOANA DIGITAL - ADMIN DASHBOARD
+// DOANA DIGITAL
+// ADMIN DASHBOARD
 // =====================================================
 
 
+
 // =====================================================
-// 1. SUPABASE CONFIGURATION
+// SUPABASE
 // =====================================================
 
 const SUPABASE_URL =
   "https://efbmmxtteekbjayiesft.supabase.co";
 
+
 const SUPABASE_ANON_KEY =
   "sb_publishable_xBSJ2JvLfmitO7-e-JJHpw_Ak3R7joj";
 
 
-// This automatically creates the correct reset URL
-// whether you're running locally or on GitHub Pages.
 
 const PASSWORD_RESET_URL =
   new URL(
@@ -26,133 +27,284 @@ const PASSWORD_RESET_URL =
 
 
 // =====================================================
-// 2. PAGE ELEMENTS
+// DOM ELEMENTS
 // =====================================================
 
 const loginSection =
-  document.getElementById("adminLogin");
+  document.getElementById(
+    "adminLogin"
+  );
+
 
 const dashboard =
-  document.getElementById("adminDashboard");
+  document.getElementById(
+    "adminDashboard"
+  );
+
 
 const loginForm =
-  document.getElementById("adminLoginForm");
+  document.getElementById(
+    "adminLoginForm"
+  );
+
 
 const loginButton =
-  document.getElementById("adminLoginButton");
+  document.getElementById(
+    "adminLoginButton"
+  );
+
 
 const loginMessage =
-  document.getElementById("adminLoginMessage");
+  document.getElementById(
+    "adminLoginMessage"
+  );
+
 
 const forgotPasswordButton =
-  document.getElementById("forgotPassword");
+  document.getElementById(
+    "forgotPassword"
+  );
+
 
 const resetMessage =
-  document.getElementById("resetMessage");
+  document.getElementById(
+    "resetMessage"
+  );
+
 
 const logoutButton =
-  document.getElementById("adminLogout");
+  document.getElementById(
+    "adminLogout"
+  );
+
+
+
+// =====================================================
+// MAIN TABS
+// =====================================================
+
+const inquiriesTab =
+  document.getElementById(
+    "inquiriesTab"
+  );
+
+
+const reviewsTab =
+  document.getElementById(
+    "reviewsTab"
+  );
+
+
+const inquiriesPanel =
+  document.getElementById(
+    "inquiriesPanel"
+  );
+
+
+const reviewsPanel =
+  document.getElementById(
+    "reviewsPanel"
+  );
+
+
+
+// =====================================================
+// INQUIRY ELEMENTS
+// =====================================================
+
+const inquiryList =
+  document.getElementById(
+    "adminInquiryList"
+  );
+
+
+const inquiryActionMessage =
+  document.getElementById(
+    "inquiryActionMessage"
+  );
+
+
+const newInquiryCount =
+  document.getElementById(
+    "newInquiryCount"
+  );
+
+
+const contactedInquiryCount =
+  document.getElementById(
+    "contactedInquiryCount"
+  );
+
+
+const closedInquiryCount =
+  document.getElementById(
+    "closedInquiryCount"
+  );
+
+
+const inquiryFilterButtons =
+  document.querySelectorAll(
+    ".inquiry-filter"
+  );
+
+
+
+// =====================================================
+// REVIEW ELEMENTS
+// =====================================================
 
 const reviewList =
-  document.getElementById("adminReviewList");
+  document.getElementById(
+    "adminReviewList"
+  );
+
 
 const actionMessage =
-  document.getElementById("adminActionMessage");
+  document.getElementById(
+    "adminActionMessage"
+  );
+
 
 const pendingCount =
-  document.getElementById("pendingCount");
+  document.getElementById(
+    "pendingCount"
+  );
+
 
 const approvedCount =
-  document.getElementById("approvedCount");
+  document.getElementById(
+    "approvedCount"
+  );
+
 
 const rejectedCount =
-  document.getElementById("rejectedCount");
-
-const filterButtons =
-  document.querySelectorAll(".admin-filter");
-
+  document.getElementById(
+    "rejectedCount"
+  );
 
 
-// =====================================================
-// 3. ADMIN STATE
-// =====================================================
-
-let accessToken = null;
-
-let currentFilter = "pending";
+const reviewFilterButtons =
+  document.querySelectorAll(
+    ".admin-filter"
+  );
 
 
 
 // =====================================================
-// 4. MESSAGE HELPERS
+// STATE
 // =====================================================
 
-function showMessage(element, message) {
+let accessToken =
+  null;
+
+
+let currentReviewFilter =
+  "pending";
+
+
+let currentInquiryFilter =
+  "new";
+
+
+
+// =====================================================
+// HELPERS
+// =====================================================
+
+function showMessage(
+  element,
+  message
+) {
 
   if (!element) {
     return;
   }
 
-  element.textContent = message;
 
-  element.style.display = "block";
+  element.textContent =
+    message;
+
+
+  element.style.display =
+    "block";
+
 }
 
 
-function hideMessage(element) {
+
+function hideMessage(
+  element
+) {
 
   if (!element) {
     return;
   }
 
-  element.textContent = "";
 
-  element.style.display = "none";
+  element.textContent =
+    "";
+
+
+  element.style.display =
+    "none";
+
 }
 
 
 
-// =====================================================
-// 5. HTML ESCAPING
-// =====================================================
+function escapeHtml(
+  value
+) {
 
-function escapeHtml(value) {
+  return String(
+    value ?? ""
+  ).replace(
 
-  return String(value ?? "").replace(
     /[&<>"']/g,
+
     character => ({
+
       "&": "&amp;",
+
       "<": "&lt;",
+
       ">": "&gt;",
+
       '"': "&quot;",
+
       "'": "&#039;"
+
     })[character]
+
   );
 
 }
 
 
 
-// =====================================================
-// 6. DATE FORMAT
-// =====================================================
-
-function formatDate(value) {
+function formatDate(
+  value
+) {
 
   if (!value) {
     return "";
   }
 
+
   const date =
     new Date(value);
+
 
   if (
     Number.isNaN(
       date.getTime()
     )
   ) {
+
     return "";
+
   }
+
 
   return date.toLocaleString();
 
@@ -161,7 +313,7 @@ function formatDate(value) {
 
 
 // =====================================================
-// 7. LOGIN
+// LOGIN
 // =====================================================
 
 if (loginForm) {
@@ -176,6 +328,7 @@ if (loginForm) {
       hideMessage(
         loginMessage
       );
+
 
       hideMessage(
         resetMessage
@@ -210,11 +363,13 @@ if (loginForm) {
         );
 
         return;
+
       }
 
 
       loginButton.disabled =
         true;
+
 
       loginButton.textContent =
         "Signing in...";
@@ -222,30 +377,36 @@ if (loginForm) {
 
       try {
 
-        // -----------------------------------------
-        // AUTHENTICATE WITH SUPABASE
-        // -----------------------------------------
-
         const response =
           await fetch(
+
             `${SUPABASE_URL}/auth/v1/token?grant_type=password`,
+
             {
-              method: "POST",
+
+              method:
+                "POST",
 
               headers: {
+
                 "apikey":
                   SUPABASE_ANON_KEY,
 
                 "Content-Type":
                   "application/json"
+
               },
 
               body:
                 JSON.stringify({
+
                   email,
                   password
+
                 })
+
             }
+
           );
 
 
@@ -258,14 +419,10 @@ if (loginForm) {
           !result.access_token
         ) {
 
-          console.error(
-            "Supabase login error:",
-            result
-          );
-
           throw new Error(
             "LOGIN_FAILED"
           );
+
         }
 
 
@@ -273,37 +430,28 @@ if (loginForm) {
           result.access_token;
 
 
-        // -----------------------------------------
-        // VERIFY THIS USER IS ACTUALLY AN ADMIN
-        // -----------------------------------------
-
         const isAdmin =
           await verifyAdmin();
 
 
         if (!isAdmin) {
 
-          accessToken = null;
+          accessToken =
+            null;
+
 
           throw new Error(
             "NOT_ADMIN"
           );
+
         }
 
-
-        // -----------------------------------------
-        // SAVE SESSION
-        // -----------------------------------------
 
         sessionStorage.setItem(
           "doanaAdminToken",
           accessToken
         );
 
-
-        // -----------------------------------------
-        // OPEN DASHBOARD
-        // -----------------------------------------
 
         await showDashboard();
 
@@ -341,12 +489,14 @@ if (loginForm) {
         loginButton.disabled =
           false;
 
+
         loginButton.textContent =
           "Sign In";
 
       }
 
     }
+
   );
 
 }
@@ -354,53 +504,46 @@ if (loginForm) {
 
 
 // =====================================================
-// 8. VERIFY ADMIN ACCOUNT
+// VERIFY ADMIN
 // =====================================================
 
 async function verifyAdmin() {
 
   if (!accessToken) {
+
     return false;
+
   }
 
 
   try {
 
-    /*
-      Because your RLS policy only allows a user
-      to see their own row in admin_users,
-      getting one row means they are an admin.
-    */
-
     const response =
       await fetch(
+
         `${SUPABASE_URL}/rest/v1/admin_users?select=user_id`,
+
         {
-          method: "GET",
 
           headers: {
+
             "apikey":
               SUPABASE_ANON_KEY,
 
             "Authorization":
-              `Bearer ${accessToken}`,
+              `Bearer ${accessToken}`
 
-            "Accept":
-              "application/json"
           }
+
         }
+
       );
 
 
     if (!response.ok) {
 
-      console.error(
-        "Admin verification HTTP error:",
-        response.status,
-        await response.text()
-      );
-
       return false;
+
     }
 
 
@@ -421,7 +564,9 @@ async function verifyAdmin() {
       error
     );
 
+
     return false;
+
   }
 
 }
@@ -429,10 +574,12 @@ async function verifyAdmin() {
 
 
 // =====================================================
-// 9. FORGOT PASSWORD
+// FORGOT PASSWORD
 // =====================================================
 
-if (forgotPasswordButton) {
+if (
+  forgotPasswordButton
+) {
 
   forgotPasswordButton.addEventListener(
     "click",
@@ -441,6 +588,7 @@ if (forgotPasswordButton) {
       hideMessage(
         loginMessage
       );
+
 
       hideMessage(
         resetMessage
@@ -460,15 +608,17 @@ if (forgotPasswordButton) {
 
         showMessage(
           resetMessage,
-          "Enter your admin email first, then click Forgot password."
+          "Enter your admin email first."
         );
 
         return;
+
       }
 
 
       forgotPasswordButton.disabled =
         true;
+
 
       forgotPasswordButton.textContent =
         "Sending...";
@@ -478,47 +628,51 @@ if (forgotPasswordButton) {
 
         const response =
           await fetch(
+
             `${SUPABASE_URL}/auth/v1/recover`,
+
             {
-              method: "POST",
+
+              method:
+                "POST",
 
               headers: {
+
                 "apikey":
                   SUPABASE_ANON_KEY,
 
                 "Content-Type":
                   "application/json"
+
               },
 
               body:
                 JSON.stringify({
+
                   email,
+
                   redirect_to:
                     PASSWORD_RESET_URL
+
                 })
+
             }
+
           );
 
 
         if (!response.ok) {
 
-          const errorText =
-            await response.text();
-
-          console.error(
-            "Recovery error:",
-            errorText
-          );
-
           throw new Error(
             "RESET_FAILED"
           );
+
         }
 
 
         showMessage(
           resetMessage,
-          "If this email belongs to the admin account, a password reset link has been sent. Check your inbox and spam folder."
+          "If this email belongs to the admin account, a password reset link has been sent."
         );
 
 
@@ -532,7 +686,7 @@ if (forgotPasswordButton) {
 
         showMessage(
           resetMessage,
-          "Unable to send the password reset email right now. Please try again."
+          "Unable to send the password reset email."
         );
 
 
@@ -541,12 +695,14 @@ if (forgotPasswordButton) {
         forgotPasswordButton.disabled =
           false;
 
+
         forgotPasswordButton.textContent =
           "Forgot password?";
 
       }
 
     }
+
   );
 
 }
@@ -554,7 +710,7 @@ if (forgotPasswordButton) {
 
 
 // =====================================================
-// 10. SHOW DASHBOARD
+// DASHBOARD
 // =====================================================
 
 async function showDashboard() {
@@ -580,19 +736,124 @@ async function showDashboard() {
   );
 
 
-  await loadCounts();
+  hideMessage(
+    inquiryActionMessage
+  );
 
-  await loadReviews();
+
+  await loadInquiryCounts();
+
+  await loadReviewCounts();
+
+
+  showAdminPanel(
+    "inquiries"
+  );
 
 }
 
 
 
 // =====================================================
-// 11. LOAD REVIEW COUNTS
+// MAIN ADMIN TABS
 // =====================================================
 
-async function loadCounts() {
+function showAdminPanel(
+  panel
+) {
+
+  if (
+    panel ===
+    "inquiries"
+  ) {
+
+    inquiriesPanel.style.display =
+      "block";
+
+
+    reviewsPanel.style.display =
+      "none";
+
+
+    inquiriesTab.classList.add(
+      "active"
+    );
+
+
+    reviewsTab.classList.remove(
+      "active"
+    );
+
+
+    loadInquiries();
+
+  } else {
+
+    inquiriesPanel.style.display =
+      "none";
+
+
+    reviewsPanel.style.display =
+      "block";
+
+
+    inquiriesTab.classList.remove(
+      "active"
+    );
+
+
+    reviewsTab.classList.add(
+      "active"
+    );
+
+
+    loadReviews();
+
+  }
+
+}
+
+
+
+if (inquiriesTab) {
+
+  inquiriesTab.addEventListener(
+    "click",
+    () => {
+
+      showAdminPanel(
+        "inquiries"
+      );
+
+    }
+  );
+
+}
+
+
+
+if (reviewsTab) {
+
+  reviewsTab.addEventListener(
+    "click",
+    () => {
+
+      showAdminPanel(
+        "reviews"
+      );
+
+    }
+  );
+
+}
+
+
+
+// =====================================================
+// INQUIRY COUNTS
+// =====================================================
+
+async function loadInquiryCounts() {
 
   if (!accessToken) {
     return;
@@ -603,21 +864,23 @@ async function loadCounts() {
 
     const response =
       await fetch(
-        `${SUPABASE_URL}/rest/v1/reviews?select=id,status`,
+
+        `${SUPABASE_URL}/rest/v1/contact_inquiries?select=id,status`,
+
         {
-          method: "GET",
 
           headers: {
+
             "apikey":
               SUPABASE_ANON_KEY,
 
             "Authorization":
-              `Bearer ${accessToken}`,
+              `Bearer ${accessToken}`
 
-            "Accept":
-              "application/json"
           }
+
         }
+
       );
 
 
@@ -626,57 +889,64 @@ async function loadCounts() {
       throw new Error(
         await response.text()
       );
+
     }
 
 
-    const reviews =
+    const inquiries =
       await response.json();
 
 
-    const pending =
-      reviews.filter(
-        review =>
-          review.status ===
-          "pending"
+    const newCount =
+      inquiries.filter(
+
+        inquiry =>
+          inquiry.status ===
+          "new"
+
       ).length;
 
 
-    const approved =
-      reviews.filter(
-        review =>
-          review.status ===
-          "approved"
+    const contactedCount =
+      inquiries.filter(
+
+        inquiry =>
+          inquiry.status ===
+          "contacted"
+
       ).length;
 
 
-    const rejected =
-      reviews.filter(
-        review =>
-          review.status ===
-          "rejected"
+    const closedCount =
+      inquiries.filter(
+
+        inquiry =>
+          inquiry.status ===
+          "closed"
+
       ).length;
 
 
-    if (pendingCount) {
+    if (newInquiryCount) {
 
-      pendingCount.textContent =
-        pending;
+      newInquiryCount.textContent =
+        newCount;
 
     }
 
 
-    if (approvedCount) {
+    if (contactedInquiryCount) {
 
-      approvedCount.textContent =
-        approved;
+      contactedInquiryCount.textContent =
+        contactedCount;
 
     }
 
 
-    if (rejectedCount) {
+    if (closedInquiryCount) {
 
-      rejectedCount.textContent =
-        rejected;
+      closedInquiryCount.textContent =
+        closedCount;
 
     }
 
@@ -684,7 +954,7 @@ async function loadCounts() {
   } catch (error) {
 
     console.error(
-      "Unable to load review counts:",
+      "Inquiry count error:",
       error
     );
 
@@ -695,40 +965,48 @@ async function loadCounts() {
 
 
 // =====================================================
-// 12. LOAD REVIEWS
+// LOAD INQUIRIES
 // =====================================================
 
-async function loadReviews() {
+async function loadInquiries() {
 
   if (
     !accessToken ||
-    !reviewList
+    !inquiryList
   ) {
+
     return;
+
   }
 
 
-  reviewList.innerHTML = `
+  inquiryList.innerHTML = `
+
     <p class="note">
-      Loading reviews...
+      Loading inquiries...
     </p>
+
   `;
 
 
   let endpoint =
-    `${SUPABASE_URL}/rest/v1/reviews` +
-    `?select=id,name,business,rating,text,status,created_at` +
+
+    `${SUPABASE_URL}/rest/v1/contact_inquiries` +
+
+    `?select=id,name,email,phone,business,service,budget,timeline,message,status,created_at` +
+
     `&order=created_at.desc`;
 
 
   if (
-    currentFilter !==
+    currentInquiryFilter !==
     "all"
   ) {
 
     endpoint +=
+
       `&status=eq.${encodeURIComponent(
-        currentFilter
+        currentInquiryFilter
       )}`;
 
   }
@@ -738,21 +1016,23 @@ async function loadReviews() {
 
     const response =
       await fetch(
+
         endpoint,
+
         {
-          method: "GET",
 
           headers: {
+
             "apikey":
               SUPABASE_ANON_KEY,
 
             "Authorization":
-              `Bearer ${accessToken}`,
+              `Bearer ${accessToken}`
 
-            "Accept":
-              "application/json"
           }
+
         }
+
       );
 
 
@@ -761,6 +1041,714 @@ async function loadReviews() {
       throw new Error(
         await response.text()
       );
+
+    }
+
+
+    const inquiries =
+      await response.json();
+
+
+    renderInquiries(
+      inquiries
+    );
+
+
+  } catch (error) {
+
+    console.error(
+      "Unable to load inquiries:",
+      error
+    );
+
+
+    inquiryList.innerHTML = `
+
+      <p class="note">
+        Unable to load inquiries.
+      </p>
+
+    `;
+
+  }
+
+}
+
+
+
+// =====================================================
+// RENDER INQUIRIES
+// =====================================================
+
+function renderInquiries(
+  inquiries
+) {
+
+  if (!inquiryList) {
+
+    return;
+
+  }
+
+
+  if (
+    !Array.isArray(inquiries) ||
+    inquiries.length === 0
+  ) {
+
+    inquiryList.innerHTML = `
+
+      <p class="note">
+        No ${escapeHtml(
+          currentInquiryFilter
+        )} inquiries found.
+      </p>
+
+    `;
+
+    return;
+
+  }
+
+
+  inquiryList.innerHTML =
+
+    inquiries
+
+      .map(
+
+        inquiry => `
+
+          <article
+            class="admin-inquiry-card"
+          >
+
+
+            <div
+              class="admin-inquiry-top"
+            >
+
+              <div>
+
+                <h3>
+                  ${escapeHtml(
+                    inquiry.name
+                  )}
+                </h3>
+
+
+                <a
+                  class="inquiry-email"
+                  href="mailto:${escapeHtml(
+                    inquiry.email
+                  )}"
+                >
+                  ${escapeHtml(
+                    inquiry.email
+                  )}
+                </a>
+
+              </div>
+
+
+              <span
+                class="
+                  admin-status
+                  status-${escapeHtml(
+                    inquiry.status
+                  )}
+                "
+              >
+                ${escapeHtml(
+                  inquiry.status
+                )}
+              </span>
+
+            </div>
+
+
+
+            <div
+              class="admin-inquiry-details"
+            >
+
+
+              <div
+                class="admin-inquiry-field"
+              >
+
+                <strong>
+                  Business
+                </strong>
+
+                ${escapeHtml(
+                  inquiry.business ||
+                  "—"
+                )}
+
+              </div>
+
+
+
+              <div
+                class="admin-inquiry-field"
+              >
+
+                <strong>
+                  Phone
+                </strong>
+
+                ${
+                  inquiry.phone
+
+                    ? `
+
+                      <a
+                        href="tel:${escapeHtml(
+                          inquiry.phone
+                        )}"
+                      >
+                        ${escapeHtml(
+                          inquiry.phone
+                        )}
+                      </a>
+
+                    `
+
+                    : "—"
+                }
+
+              </div>
+
+
+
+              <div
+                class="admin-inquiry-field"
+              >
+
+                <strong>
+                  Service
+                </strong>
+
+                ${escapeHtml(
+                  inquiry.service ||
+                  "—"
+                )}
+
+              </div>
+
+
+
+              <div
+                class="admin-inquiry-field"
+              >
+
+                <strong>
+                  Budget
+                </strong>
+
+                ${escapeHtml(
+                  inquiry.budget ||
+                  "—"
+                )}
+
+              </div>
+
+
+
+              <div
+                class="admin-inquiry-field"
+              >
+
+                <strong>
+                  Timeline
+                </strong>
+
+                ${escapeHtml(
+                  inquiry.timeline ||
+                  "—"
+                )}
+
+              </div>
+
+
+
+              <div
+                class="admin-inquiry-field"
+              >
+
+                <strong>
+                  Submitted
+                </strong>
+
+                ${escapeHtml(
+                  formatDate(
+                    inquiry.created_at
+                  )
+                )}
+
+              </div>
+
+
+            </div>
+
+
+
+            <div
+              class="admin-inquiry-message"
+            >
+
+              <strong>
+                Project details
+              </strong>
+
+
+              <p>
+                ${escapeHtml(
+                  inquiry.message
+                )}
+              </p>
+
+            </div>
+
+
+
+            <div
+              class="admin-actions"
+            >
+
+
+              ${
+                inquiry.status !==
+                "contacted"
+
+                  ? `
+
+                    <button
+                      class="btn"
+                      type="button"
+                      data-inquiry-action="contacted"
+                      data-inquiry-id="${inquiry.id}"
+                    >
+                      Mark Contacted
+                    </button>
+
+                  `
+
+                  : ""
+              }
+
+
+              ${
+                inquiry.status !==
+                "closed"
+
+                  ? `
+
+                    <button
+                      class="btn"
+                      type="button"
+                      data-inquiry-action="closed"
+                      data-inquiry-id="${inquiry.id}"
+                    >
+                      Close
+                    </button>
+
+                  `
+
+                  : ""
+              }
+
+
+              <a
+                class="btn btn-primary"
+                href="mailto:${escapeHtml(
+                  inquiry.email
+                )}?subject=${encodeURIComponent(
+                  `Re: Your Doana Digital ${inquiry.service || "project"} inquiry`
+                )}"
+              >
+                Email Client
+              </a>
+
+
+              <button
+                class="btn admin-delete"
+                type="button"
+                data-inquiry-action="delete"
+                data-inquiry-id="${inquiry.id}"
+              >
+                Delete
+              </button>
+
+
+            </div>
+
+
+          </article>
+
+        `
+
+      )
+
+      .join("");
+
+
+  document
+    .querySelectorAll(
+      "[data-inquiry-action]"
+    )
+    .forEach(
+
+      button => {
+
+        button.addEventListener(
+          "click",
+          handleInquiryAction
+        );
+
+      }
+
+    );
+
+}
+
+
+
+// =====================================================
+// INQUIRY ACTIONS
+// =====================================================
+
+async function handleInquiryAction(
+  event
+) {
+
+  const button =
+    event.currentTarget;
+
+
+  const id =
+    button.dataset.inquiryId;
+
+
+  const action =
+    button.dataset.inquiryAction;
+
+
+  if (
+    !id ||
+    !action
+  ) {
+
+    return;
+
+  }
+
+
+  if (
+    action ===
+    "delete"
+  ) {
+
+    const confirmed =
+      window.confirm(
+        "Delete this inquiry permanently?"
+      );
+
+
+    if (!confirmed) {
+
+      return;
+
+    }
+
+
+    await deleteInquiry(
+      id
+    );
+
+
+    return;
+
+  }
+
+
+  await updateInquiryStatus(
+    id,
+    action
+  );
+
+}
+
+
+
+// =====================================================
+// UPDATE INQUIRY STATUS
+// =====================================================
+
+async function updateInquiryStatus(
+  id,
+  status
+) {
+
+  hideMessage(
+    inquiryActionMessage
+  );
+
+
+  try {
+
+    const response =
+      await fetch(
+
+        `${SUPABASE_URL}/rest/v1/contact_inquiries?id=eq.${encodeURIComponent(
+          id
+        )}`,
+
+        {
+
+          method:
+            "PATCH",
+
+          headers: {
+
+            "apikey":
+              SUPABASE_ANON_KEY,
+
+            "Authorization":
+              `Bearer ${accessToken}`,
+
+            "Content-Type":
+              "application/json",
+
+            "Prefer":
+              "return=minimal"
+
+          },
+
+          body:
+            JSON.stringify({
+
+              status
+
+            })
+
+        }
+
+      );
+
+
+    if (!response.ok) {
+
+      throw new Error(
+        await response.text()
+      );
+
+    }
+
+
+    showMessage(
+
+      inquiryActionMessage,
+
+      status ===
+      "contacted"
+
+        ? "Inquiry marked as contacted."
+
+        : "Inquiry closed."
+
+    );
+
+
+    await loadInquiryCounts();
+
+    await loadInquiries();
+
+
+  } catch (error) {
+
+    console.error(
+      "Inquiry update error:",
+      error
+    );
+
+
+    showMessage(
+      inquiryActionMessage,
+      "Unable to update this inquiry."
+    );
+
+  }
+
+}
+
+
+
+// =====================================================
+// DELETE INQUIRY
+// =====================================================
+
+async function deleteInquiry(
+  id
+) {
+
+  try {
+
+    const response =
+      await fetch(
+
+        `${SUPABASE_URL}/rest/v1/contact_inquiries?id=eq.${encodeURIComponent(
+          id
+        )}`,
+
+        {
+
+          method:
+            "DELETE",
+
+          headers: {
+
+            "apikey":
+              SUPABASE_ANON_KEY,
+
+            "Authorization":
+              `Bearer ${accessToken}`
+
+          }
+
+        }
+
+      );
+
+
+    if (!response.ok) {
+
+      throw new Error(
+        await response.text()
+      );
+
+    }
+
+
+    showMessage(
+      inquiryActionMessage,
+      "Inquiry deleted."
+    );
+
+
+    await loadInquiryCounts();
+
+    await loadInquiries();
+
+
+  } catch (error) {
+
+    console.error(
+      "Inquiry delete error:",
+      error
+    );
+
+
+    showMessage(
+      inquiryActionMessage,
+      "Unable to delete this inquiry."
+    );
+
+  }
+
+}
+
+
+
+// =====================================================
+// INQUIRY FILTERS
+// =====================================================
+
+inquiryFilterButtons.forEach(
+
+  button => {
+
+    button.addEventListener(
+      "click",
+      async () => {
+
+
+        inquiryFilterButtons.forEach(
+
+          item =>
+            item.classList.remove(
+              "active"
+            )
+
+        );
+
+
+        button.classList.add(
+          "active"
+        );
+
+
+        currentInquiryFilter =
+          button.dataset.inquiryStatus ||
+          "new";
+
+
+        await loadInquiries();
+
+      }
+
+    );
+
+  }
+
+);
+
+
+
+// =====================================================
+// REVIEW COUNTS
+// =====================================================
+
+async function loadReviewCounts() {
+
+  if (!accessToken) {
+
+    return;
+
+  }
+
+
+  try {
+
+    const response =
+      await fetch(
+
+        `${SUPABASE_URL}/rest/v1/reviews?select=id,status`,
+
+        {
+
+          headers: {
+
+            "apikey":
+              SUPABASE_ANON_KEY,
+
+            "Authorization":
+              `Bearer ${accessToken}`
+
+          }
+
+        }
+
+      );
+
+
+    if (!response.ok) {
+
+      throw new Error(
+        await response.text()
+      );
+
     }
 
 
@@ -768,7 +1756,150 @@ async function loadReviews() {
       await response.json();
 
 
-    renderAdminReviews(
+    if (pendingCount) {
+
+      pendingCount.textContent =
+
+        reviews.filter(
+
+          review =>
+            review.status ===
+            "pending"
+
+        ).length;
+
+    }
+
+
+    if (approvedCount) {
+
+      approvedCount.textContent =
+
+        reviews.filter(
+
+          review =>
+            review.status ===
+            "approved"
+
+        ).length;
+
+    }
+
+
+    if (rejectedCount) {
+
+      rejectedCount.textContent =
+
+        reviews.filter(
+
+          review =>
+            review.status ===
+            "rejected"
+
+        ).length;
+
+    }
+
+
+  } catch (error) {
+
+    console.error(
+      "Review count error:",
+      error
+    );
+
+  }
+
+}
+
+
+
+// =====================================================
+// LOAD REVIEWS
+// =====================================================
+
+async function loadReviews() {
+
+  if (
+    !accessToken ||
+    !reviewList
+  ) {
+
+    return;
+
+  }
+
+
+  reviewList.innerHTML = `
+
+    <p class="note">
+      Loading reviews...
+    </p>
+
+  `;
+
+
+  let endpoint =
+
+    `${SUPABASE_URL}/rest/v1/reviews` +
+
+    `?select=id,name,business,rating,text,status,created_at` +
+
+    `&order=created_at.desc`;
+
+
+  if (
+    currentReviewFilter !==
+    "all"
+  ) {
+
+    endpoint +=
+
+      `&status=eq.${encodeURIComponent(
+        currentReviewFilter
+      )}`;
+
+  }
+
+
+  try {
+
+    const response =
+      await fetch(
+
+        endpoint,
+
+        {
+
+          headers: {
+
+            "apikey":
+              SUPABASE_ANON_KEY,
+
+            "Authorization":
+              `Bearer ${accessToken}`
+
+          }
+
+        }
+
+      );
+
+
+    if (!response.ok) {
+
+      throw new Error(
+        await response.text()
+      );
+
+    }
+
+
+    const reviews =
+      await response.json();
+
+
+    renderReviews(
       reviews
     );
 
@@ -782,9 +1913,11 @@ async function loadReviews() {
 
 
     reviewList.innerHTML = `
+
       <p class="note">
         Unable to load reviews.
       </p>
+
     `;
 
   }
@@ -794,15 +1927,17 @@ async function loadReviews() {
 
 
 // =====================================================
-// 13. RENDER ADMIN REVIEWS
+// RENDER REVIEWS
 // =====================================================
 
-function renderAdminReviews(
+function renderReviews(
   reviews
 ) {
 
   if (!reviewList) {
+
     return;
+
   }
 
 
@@ -812,158 +1947,182 @@ function renderAdminReviews(
   ) {
 
     reviewList.innerHTML = `
+
       <p class="note">
         No ${escapeHtml(
-          currentFilter
+          currentReviewFilter
         )} reviews found.
       </p>
+
     `;
 
     return;
+
   }
 
 
   reviewList.innerHTML =
+
     reviews
+
       .map(
-        review => {
 
-          const rating =
-            Math.max(
-              1,
-              Math.min(
-                5,
-                Number(
-                  review.rating
-                ) || 1
-              )
-            );
+        review => `
 
 
-          const status =
-            review.status ||
-            "pending";
+          <article
+            class="admin-review-card"
+          >
 
 
-          return `
+            <div
+              class="admin-review-top"
+            >
 
-            <article class="admin-review-card">
+              <div>
 
-              <div class="admin-review-top">
+                <div class="stars">
 
-                <div>
+                  ${"★".repeat(
 
-                  <div class="stars">
-                    ${"★".repeat(
-                      rating
-                    )}
-                  </div>
+                    Math.max(
+                      1,
+                      Math.min(
+                        5,
+                        Number(
+                          review.rating
+                        )
+                      )
+                    )
 
-
-                  <h3>
-                    ${escapeHtml(
-                      review.name
-                    )}
-                  </h3>
-
-
-                  <p class="note">
-                    ${escapeHtml(
-                      review.business ||
-                      "Client"
-                    )}
-                  </p>
+                  )}
 
                 </div>
 
 
-                <span
-                  class="
-                    admin-status
-                    status-${escapeHtml(
-                      status
-                    )}
-                  "
-                >
+                <h3>
                   ${escapeHtml(
-                    status
+                    review.name
                   )}
-                </span>
+                </h3>
+
+
+                <p class="note">
+                  ${escapeHtml(
+                    review.business ||
+                    "Client"
+                  )}
+                </p>
 
               </div>
 
 
-              <p>
-                “${escapeHtml(
-                  review.text
-                )}”
-              </p>
-
-
-              <p class="note">
-                Submitted:
+              <span
+                class="
+                  admin-status
+                  status-${escapeHtml(
+                    review.status
+                  )}
+                "
+              >
                 ${escapeHtml(
-                  formatDate(
-                    review.created_at
-                  )
+                  review.status
                 )}
-              </p>
+              </span>
+
+            </div>
 
 
-              <div class="admin-actions">
+            <p>
+
+              “${escapeHtml(
+                review.text
+              )}”
+
+            </p>
 
 
-                ${
-                  status !==
-                  "approved"
-                    ? `
-                      <button
-                        type="button"
-                        class="btn"
-                        data-review-action="approve"
-                        data-review-id="${review.id}"
-                      >
-                        Approve
-                      </button>
-                    `
-                    : ""
-                }
+            <p class="note">
+
+              Submitted:
+
+              ${escapeHtml(
+
+                formatDate(
+                  review.created_at
+                )
+
+              )}
+
+            </p>
 
 
-                ${
-                  status !==
-                  "rejected"
-                    ? `
-                      <button
-                        type="button"
-                        class="btn"
-                        data-review-action="reject"
-                        data-review-id="${review.id}"
-                      >
-                        Reject
-                      </button>
-                    `
-                    : ""
-                }
+            <div
+              class="admin-actions"
+            >
 
 
-                <button
-                  type="button"
-                  class="btn admin-delete"
-                  data-review-action="delete"
-                  data-review-id="${review.id}"
-                >
-                  Delete
-                </button>
+              ${
+                review.status !==
+                "approved"
 
-              </div>
+                  ? `
 
-            </article>
+                    <button
+                      type="button"
+                      class="btn"
+                      data-review-action="approve"
+                      data-review-id="${review.id}"
+                    >
+                      Approve
+                    </button>
 
-          `;
+                  `
 
-        }
+                  : ""
+              }
+
+
+              ${
+                review.status !==
+                "rejected"
+
+                  ? `
+
+                    <button
+                      type="button"
+                      class="btn"
+                      data-review-action="reject"
+                      data-review-id="${review.id}"
+                    >
+                      Reject
+                    </button>
+
+                  `
+
+                  : ""
+              }
+
+
+              <button
+                type="button"
+                class="btn admin-delete"
+                data-review-action="delete"
+                data-review-id="${review.id}"
+              >
+                Delete
+              </button>
+
+
+            </div>
+
+
+          </article>
+
+        `
+
       )
+
       .join("");
 
 
@@ -972,6 +2131,7 @@ function renderAdminReviews(
       "[data-review-action]"
     )
     .forEach(
+
       button => {
 
         button.addEventListener(
@@ -980,6 +2140,7 @@ function renderAdminReviews(
         );
 
       }
+
     );
 
 }
@@ -987,7 +2148,7 @@ function renderAdminReviews(
 
 
 // =====================================================
-// 14. HANDLE REVIEW ACTION
+// REVIEW ACTIONS
 // =====================================================
 
 async function handleReviewAction(
@@ -1010,7 +2171,9 @@ async function handleReviewAction(
     !id ||
     !action
   ) {
+
     return;
+
   }
 
 
@@ -1026,7 +2189,9 @@ async function handleReviewAction(
 
 
     if (!confirmed) {
+
       return;
+
     }
 
 
@@ -1036,41 +2201,31 @@ async function handleReviewAction(
 
 
     return;
+
   }
 
 
-  if (
+  const status =
+
     action ===
     "approve"
-  ) {
 
-    await updateReviewStatus(
-      id,
-      "approved"
-    );
+      ? "approved"
 
-    return;
-  }
+      : "rejected";
 
 
-  if (
-    action ===
-    "reject"
-  ) {
-
-    await updateReviewStatus(
-      id,
-      "rejected"
-    );
-
-  }
+  await updateReviewStatus(
+    id,
+    status
+  );
 
 }
 
 
 
 // =====================================================
-// 15. APPROVE / REJECT REVIEW
+// UPDATE REVIEW STATUS
 // =====================================================
 
 async function updateReviewStatus(
@@ -1078,22 +2233,22 @@ async function updateReviewStatus(
   status
 ) {
 
-  hideMessage(
-    actionMessage
-  );
-
-
   try {
 
     const response =
       await fetch(
+
         `${SUPABASE_URL}/rest/v1/reviews?id=eq.${encodeURIComponent(
           id
         )}`,
+
         {
-          method: "PATCH",
+
+          method:
+            "PATCH",
 
           headers: {
+
             "apikey":
               SUPABASE_ANON_KEY,
 
@@ -1105,13 +2260,18 @@ async function updateReviewStatus(
 
             "Prefer":
               "return=minimal"
+
           },
 
           body:
             JSON.stringify({
+
               status
+
             })
+
         }
+
       );
 
 
@@ -1120,18 +2280,25 @@ async function updateReviewStatus(
       throw new Error(
         await response.text()
       );
+
     }
 
 
     showMessage(
+
       actionMessage,
-      status === "approved"
-        ? "Review approved successfully."
-        : "Review rejected successfully."
+
+      status ===
+      "approved"
+
+        ? "Review approved."
+
+        : "Review rejected."
+
     );
 
 
-    await loadCounts();
+    await loadReviewCounts();
 
     await loadReviews();
 
@@ -1139,14 +2306,13 @@ async function updateReviewStatus(
   } catch (error) {
 
     console.error(
-      "Review update error:",
       error
     );
 
 
     showMessage(
       actionMessage,
-      "Unable to update this review."
+      "Unable to update review."
     );
 
   }
@@ -1156,36 +2322,39 @@ async function updateReviewStatus(
 
 
 // =====================================================
-// 16. DELETE REVIEW
+// DELETE REVIEW
 // =====================================================
 
 async function deleteReview(
   id
 ) {
 
-  hideMessage(
-    actionMessage
-  );
-
-
   try {
 
     const response =
       await fetch(
+
         `${SUPABASE_URL}/rest/v1/reviews?id=eq.${encodeURIComponent(
           id
         )}`,
+
         {
-          method: "DELETE",
+
+          method:
+            "DELETE",
 
           headers: {
+
             "apikey":
               SUPABASE_ANON_KEY,
 
             "Authorization":
               `Bearer ${accessToken}`
+
           }
+
         }
+
       );
 
 
@@ -1194,16 +2363,17 @@ async function deleteReview(
       throw new Error(
         await response.text()
       );
+
     }
 
 
     showMessage(
       actionMessage,
-      "Review deleted successfully."
+      "Review deleted."
     );
 
 
-    await loadCounts();
+    await loadReviewCounts();
 
     await loadReviews();
 
@@ -1211,14 +2381,13 @@ async function deleteReview(
   } catch (error) {
 
     console.error(
-      "Review delete error:",
       error
     );
 
 
     showMessage(
       actionMessage,
-      "Unable to delete this review."
+      "Unable to delete review."
     );
 
   }
@@ -1228,21 +2397,25 @@ async function deleteReview(
 
 
 // =====================================================
-// 17. FILTER BUTTONS
+// REVIEW FILTERS
 // =====================================================
 
-filterButtons.forEach(
+reviewFilterButtons.forEach(
+
   button => {
 
     button.addEventListener(
       "click",
       async () => {
 
-        filterButtons.forEach(
+
+        reviewFilterButtons.forEach(
+
           item =>
             item.classList.remove(
               "active"
             )
+
         );
 
 
@@ -1251,7 +2424,7 @@ filterButtons.forEach(
         );
 
 
-        currentFilter =
+        currentReviewFilter =
           button.dataset.status ||
           "pending";
 
@@ -1259,15 +2432,17 @@ filterButtons.forEach(
         await loadReviews();
 
       }
+
     );
 
   }
+
 );
 
 
 
 // =====================================================
-// 18. LOGOUT
+// LOGOUT
 // =====================================================
 
 if (logoutButton) {
@@ -1276,31 +2451,40 @@ if (logoutButton) {
     "click",
     async () => {
 
+
       try {
 
         if (accessToken) {
 
           await fetch(
+
             `${SUPABASE_URL}/auth/v1/logout`,
+
             {
-              method: "POST",
+
+              method:
+                "POST",
 
               headers: {
+
                 "apikey":
                   SUPABASE_ANON_KEY,
 
                 "Authorization":
                   `Bearer ${accessToken}`
+
               }
+
             }
+
           );
 
         }
 
+
       } catch (error) {
 
         console.warn(
-          "Supabase logout warning:",
           error
         );
 
@@ -1312,58 +2496,38 @@ if (logoutButton) {
       );
 
 
-      accessToken = null;
+      accessToken =
+        null;
 
 
-      if (dashboard) {
-
-        dashboard.style.display =
-          "none";
-
-      }
+      dashboard.style.display =
+        "none";
 
 
-      if (loginSection) {
-
-        loginSection.style.display =
-          "block";
-
-      }
+      loginSection.style.display =
+        "block";
 
 
-      if (loginForm) {
+      loginForm.reset();
 
-        loginForm.reset();
+    }
 
-      }
-
-
-      hideMessage(
-        loginMessage
-      );
-
-      hideMessage(
-        resetMessage
-      );
-
-      hideMessage(
-        actionMessage
-      );
-
-  });
+  );
 
 }
 
 
 
 // =====================================================
-// 19. CHECK TOKEN IS STILL VALID
+// TOKEN VALIDATION
 // =====================================================
 
 async function tokenIsValid() {
 
   if (!accessToken) {
+
     return false;
+
   }
 
 
@@ -1371,18 +2535,23 @@ async function tokenIsValid() {
 
     const response =
       await fetch(
+
         `${SUPABASE_URL}/auth/v1/user`,
+
         {
-          method: "GET",
 
           headers: {
+
             "apikey":
               SUPABASE_ANON_KEY,
 
             "Authorization":
               `Bearer ${accessToken}`
+
           }
+
         }
+
       );
 
 
@@ -1392,6 +2561,7 @@ async function tokenIsValid() {
   } catch {
 
     return false;
+
   }
 
 }
@@ -1399,7 +2569,7 @@ async function tokenIsValid() {
 
 
 // =====================================================
-// 20. RESTORE ADMIN SESSION
+// RESTORE SESSION
 // =====================================================
 
 async function restoreAdminSession() {
@@ -1431,9 +2601,13 @@ async function restoreAdminSession() {
       "doanaAdminToken"
     );
 
-    accessToken = null;
+
+    accessToken =
+      null;
+
 
     return;
+
   }
 
 
@@ -1447,9 +2621,13 @@ async function restoreAdminSession() {
       "doanaAdminToken"
     );
 
-    accessToken = null;
+
+    accessToken =
+      null;
+
 
     return;
+
   }
 
 
@@ -1460,7 +2638,7 @@ async function restoreAdminSession() {
 
 
 // =====================================================
-// 21. START
+// START
 // =====================================================
 
 restoreAdminSession();
