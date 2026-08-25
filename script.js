@@ -34,40 +34,142 @@ document.querySelectorAll(".nav-links a").forEach((a) => {
 
 
 // =========================
-// CONTACT FORM
+// CONTACT FORM - WEB3FORMS
 // =========================
 
-const contactForm = document.getElementById("contactForm");
+const contactForm =
+  document.getElementById("contactForm");
+
+const contactSubmit =
+  document.getElementById("contactSubmit");
+
+const contactSuccess =
+  document.getElementById("success");
+
 
 if (contactForm) {
-  contactForm.addEventListener("submit", (e) => {
-    e.preventDefault();
 
-    const data = new FormData(contactForm);
+  contactForm.addEventListener(
+    "submit",
+    async (event) => {
 
-    const subject = encodeURIComponent(
-      `Doana project inquiry — ${data.get("service")}`
-    );
+      event.preventDefault();
 
-    const body = encodeURIComponent(
-      `Name: ${data.get("name")}
-Email: ${data.get("email")}
-Service: ${data.get("service")}
 
-Project details:
-${data.get("message")}`
-    );
+      // Reset message
+      if (contactSuccess) {
+        contactSuccess.style.display = "none";
+        contactSuccess.textContent = "";
+      }
 
-    const successMessage =
-      document.getElementById("success");
 
-    if (successMessage) {
-      successMessage.style.display = "block";
+      // Disable button while sending
+      if (contactSubmit) {
+        contactSubmit.disabled = true;
+        contactSubmit.textContent = "Sending...";
+      }
+
+
+      const formData =
+        new FormData(contactForm);
+
+
+      const formObject =
+        Object.fromEntries(
+          formData.entries()
+        );
+
+
+      try {
+
+        const response =
+          await fetch(
+            "https://api.web3forms.com/submit",
+            {
+              method: "POST",
+
+              headers: {
+                "Content-Type":
+                  "application/json",
+
+                "Accept":
+                  "application/json"
+              },
+
+              body:
+                JSON.stringify(
+                  formObject
+                )
+            }
+          );
+
+
+        const result =
+          await response.json();
+
+
+        if (
+          response.ok &&
+          result.success
+        ) {
+
+          contactForm.reset();
+
+
+          if (contactSuccess) {
+
+            contactSuccess.style.display =
+              "block";
+
+            contactSuccess.textContent =
+              "Thank you! Your inquiry has been sent successfully. We'll get back to you shortly.";
+
+          }
+
+        } else {
+
+          throw new Error(
+            result.message ||
+            "Unable to send your message."
+          );
+
+        }
+
+      } catch (error) {
+
+        console.error(
+          "Web3Forms submission error:",
+          error
+        );
+
+
+        if (contactSuccess) {
+
+          contactSuccess.style.display =
+            "block";
+
+          contactSuccess.textContent =
+            "Sorry, your inquiry could not be sent. Please try again in a moment.";
+
+        }
+
+      } finally {
+
+        if (contactSubmit) {
+
+          contactSubmit.disabled =
+            false;
+
+          contactSubmit.textContent =
+            "Send Inquiry";
+
+        }
+
+      }
+
     }
+  );
 
-    window.location.href =
-      `mailto:hello@doana.design?subject=${subject}&body=${body}`;
-  });
 }
 
 
@@ -77,37 +179,64 @@ ${data.get("message")}`
 
 const starterReviews = [
   {
-    name: "jaredb85  Longwood, United States",
-    business: "Minimalist Face Graphic for PowerPoint",
+    name:
+      "jaredb85 Longwood, United States",
+
+    business:
+      "Minimalist Face Graphic for PowerPoint",
+
     rating: 5,
-    text: "Did a nice job designing an a graphic image for my power point presentation."
+
+    text:
+      "Did a nice job designing an a graphic image for my power point presentation."
   },
+
   {
-    name: "Carol M.  Erskine, Ireland",
-    business: "Colorful Product Promo Poster",
+    name:
+      "Carol M. Erskine, Ireland",
+
+    business:
+      "Colorful Product Promo Poster",
+
     rating: 5,
-    text: "Fabulous exchange.... worked well and to my specifications. Quick response. thanks"
+
+    text:
+      "Fabulous exchange.... worked well and to my specifications. Quick response. thanks"
   }
 ];
 
 
 function getReviews() {
-  try {
-    const stored = JSON.parse(
-      localStorage.getItem("doanaReviews") || "[]"
-    );
 
-    return [...stored, ...starterReviews];
+  try {
+
+    const stored =
+      JSON.parse(
+        localStorage.getItem(
+          "doanaReviews"
+        ) || "[]"
+      );
+
+
+    return [
+      ...stored,
+      ...starterReviews
+    ];
 
   } catch {
+
     return starterReviews;
+
   }
+
 }
 
 
 function escapeHtml(str) {
+
   return String(str).replace(
     /[&<>"']/g,
+
     (m) => ({
       "&": "&amp;",
       "<": "&lt;",
@@ -116,51 +245,81 @@ function escapeHtml(str) {
       "'": "&#039;"
     })[m]
   );
+
 }
 
 
-function renderReviews(targetId, max = null) {
+function renderReviews(
+  targetId,
+  max = null
+) {
 
-  const el = document.getElementById(targetId);
+  const el =
+    document.getElementById(
+      targetId
+    );
+
 
   if (!el) return;
 
-  const reviews = getReviews();
 
-  const display = max
-    ? reviews.slice(0, max)
-    : reviews;
+  const reviews =
+    getReviews();
 
-  el.innerHTML = display
-    .map(
-      (r) => `
-        <article class="review">
 
-          <div class="stars">
-            ${"★".repeat(Number(r.rating))}
-          </div>
+  const display =
+    max
+      ? reviews.slice(0, max)
+      : reviews;
 
-          <p>
-            “${escapeHtml(r.text)}”
-          </p>
 
-          <div class="client">
-            ${escapeHtml(r.name)}
-          </div>
+  el.innerHTML =
+    display
+      .map(
+        (r) => `
+          <article class="review">
 
-          <div class="meta">
-            ${escapeHtml(r.business || "Client")}
-          </div>
+            <div class="stars">
+              ${"★".repeat(
+                Number(r.rating)
+              )}
+            </div>
 
-        </article>
-      `
-    )
-    .join("");
+            <p>
+              “${escapeHtml(
+                r.text
+              )}”
+            </p>
+
+            <div class="client">
+              ${escapeHtml(
+                r.name
+              )}
+            </div>
+
+            <div class="meta">
+              ${escapeHtml(
+                r.business ||
+                "Client"
+              )}
+            </div>
+
+          </article>
+        `
+      )
+      .join("");
+
 }
 
 
-renderReviews("reviewList");
-renderReviews("homeReviews", 3);
+renderReviews(
+  "reviewList"
+);
+
+renderReviews(
+  "homeReviews",
+  3
+);
 
 
 // =========================
@@ -168,7 +327,10 @@ renderReviews("homeReviews", 3);
 // =========================
 
 const feedbackForm =
-  document.getElementById("feedbackForm");
+  document.getElementById(
+    "feedbackForm"
+  );
+
 
 if (feedbackForm) {
 
@@ -178,25 +340,38 @@ if (feedbackForm) {
 
       e.preventDefault();
 
+
       const data =
-        new FormData(feedbackForm);
+        new FormData(
+          feedbackForm
+        );
+
 
       const review = {
 
         name:
-          data.get("clientName"),
+          data.get(
+            "clientName"
+          ),
 
         business:
-          data.get("clientBusiness"),
+          data.get(
+            "clientBusiness"
+          ),
 
         rating:
-          data.get("rating"),
+          data.get(
+            "rating"
+          ),
 
         text:
-          data.get("feedbackText"),
+          data.get(
+            "feedbackText"
+          ),
 
         createdAt:
-          new Date().toISOString()
+          new Date()
+            .toISOString()
 
       };
 
@@ -209,12 +384,16 @@ if (feedbackForm) {
         );
 
 
-      existing.unshift(review);
+      existing.unshift(
+        review
+      );
 
 
       localStorage.setItem(
         "doanaReviews",
-        JSON.stringify(existing)
+        JSON.stringify(
+          existing
+        )
       );
 
 
@@ -228,14 +407,17 @@ if (feedbackForm) {
 
 
       if (success) {
+
         success.style.display =
           "block";
+
       }
 
 
       renderReviews(
         "reviewList"
       );
+
 
       renderReviews(
         "homeReviews",
@@ -244,6 +426,7 @@ if (feedbackForm) {
 
     }
   );
+
 }
 
 
@@ -256,17 +439,17 @@ const heroSlides =
     ".hero-slide"
   );
 
+
 let currentHeroSlide = 0;
 
 let heroInterval;
 
 
 // Only run if hero slides exist
-
 if (heroSlides.length > 0) {
 
-  // Make sure first image starts visible
 
+  // Make sure first image starts visible
   heroSlides.forEach(
     (slide, index) => {
 
@@ -274,17 +457,22 @@ if (heroSlides.length > 0) {
         "active"
       );
 
+
       if (index === 0) {
+
         slide.classList.add(
           "active"
         );
+
       }
 
     }
   );
 
 
-  function showHeroSlide(index) {
+  function showHeroSlide(
+    index
+  ) {
 
     heroSlides[
       currentHeroSlide
@@ -309,11 +497,15 @@ if (heroSlides.length > 0) {
   function nextHeroSlide() {
 
     const next =
-      (currentHeroSlide + 1) %
+      (
+        currentHeroSlide + 1
+      ) %
       heroSlides.length;
 
 
-    showHeroSlide(next);
+    showHeroSlide(
+      next
+    );
 
   }
 
@@ -335,7 +527,6 @@ if (heroSlides.length > 0) {
 
 
   // Start automatic slideshow
-
   startHeroSlider();
 
 }

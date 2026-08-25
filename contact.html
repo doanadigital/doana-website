@@ -1,40 +1,411 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Contact Doana Creative Studio for branding, graphic design and digital projects."><title>Contact — Doana</title><link rel="stylesheet" href="styles.css"></head><body>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta
+    name="description"
+    content="Contact Doana Creative Studio for branding, graphic design and digital projects."
+  >
+
+  <title>Contact — Doana</title>
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
 
 <header class="nav">
   <div class="container nav-inner">
+
     <a class="brand" href="index.html">
-      <img src="assets/logo.png" alt="Doana logo" onerror="this.style.display='none'">
+      <img
+        src="assets/logo.png"
+        alt="Doana logo"
+        onerror="this.style.display='none'"
+      >
       <span>Doana Digital</span>
     </a>
-    <button class="menu-btn" aria-label="Open navigation">☰</button>
+
+    <button
+      class="menu-btn"
+      aria-label="Open navigation"
+    >
+      ☰
+    </button>
+
     <nav class="nav-links">
       <a href="index.html">Home</a>
       <a href="about.html">About</a>
       <a href="feedback.html">Client Feedback</a>
       <a href="contact.html">Contact</a>
-      <a class="btn btn-primary" href="contact.html">Start a project</a>
+
+      <a
+        class="btn btn-primary"
+        href="contact.html"
+      >
+        Start a project
+      </a>
     </nav>
+
   </div>
 </header>
+
+
 <main>
-<section class="hero" style="padding-bottom:48px"><div class="container"><div class="kicker">Contact us</div><h1 style="max-width:850px">Tell us what you're building.</h1><p class="lead">Share a little about your project, timeline and goals. We'll use that information to understand how Doana can help.</p></div></section>
-<section class="section section-alt"><div class="container form-grid">
-<div><div class="kicker">Start a project</div><h2>Let's create something useful.</h2><p class="lead">Brand identity, social design, marketing materials or a new digital presence—we'd love to hear what you're working on.</p><p class="note"><strong>Email:</strong> hello@doana.design<br><strong>Response time:</strong> usually within 1–2 business days</p></div>
-<form id="contactForm">
-<label for="name">Name</label><input id="name" name="name" autocomplete="name" required placeholder="Your name">
-<label for="email">Email</label><input id="email" name="email" type="email" autocomplete="email" required placeholder="you@example.com">
-<label for="service">What do you need?</label><select id="service" name="service" required><option value="">Choose a service</option><option>Brand Identity</option><option>Graphic / Marketing Design</option><option>Social Media Design</option><option>Website / Digital Design</option><option>Something else</option></select>
-<label for="message">Project details</label><textarea id="message" name="message" required placeholder="Tell us about the business, what you need, and any timeline you have in mind."></textarea>
-<button class="btn btn-primary" type="submit">Send inquiry</button><p class="note">Demo mode: opens the visitor's email app. Connect this later to Formspree, Resend or your own backend.</p><div class="success" id="success">Your email app should open with the message prepared.</div>
-</form></div></section>
+
+  <!-- HERO -->
+  <section
+    class="hero"
+    style="padding-bottom:48px"
+  >
+    <div class="container">
+
+      <div class="kicker">
+        Contact us
+      </div>
+
+      <h1 style="max-width:850px">
+        Tell us what you're building.
+      </h1>
+
+      <p class="lead">
+        Share a little about your project, timeline and goals.
+        We'll use that information to understand how Doana can help.
+      </p>
+
+    </div>
+  </section>
+
+
+  <!-- CONTACT SECTION -->
+  <section class="section section-alt">
+
+    <div class="container form-grid">
+
+
+      <!-- LEFT SIDE -->
+      <div>
+
+        <div class="kicker">
+          Start a project
+        </div>
+
+        <h2>
+          Let's create something useful.
+        </h2>
+
+        <p class="lead">
+          Brand identity, social design, marketing materials,
+          packaging, presentations or a new digital presence —
+          we'd love to hear what you're working on.
+        </p>
+
+        <p class="note">
+          <strong>Email:</strong>
+          doanadigital@gmail.com
+          <br>
+
+          <strong>Response time:</strong>
+          usually within 1–2 business days
+        </p>
+
+      </div>
+
+
+      <!-- CONTACT FORM -->
+      <form id="contactForm">
+
+        <!-- WEB3FORMS ACCESS KEY -->
+        <input
+          type="hidden"
+          name="access_key"
+          value="5e848a56-bede-49eb-8ceb-0d179c0e2f13"
+        >
+
+
+        <!-- EMAIL SUBJECT -->
+        <input
+          type="hidden"
+          name="subject"
+          value="New Doana Digital Project Inquiry"
+        >
+
+
+        <!-- EMAIL SENDER NAME -->
+        <input
+          type="hidden"
+          name="from_name"
+          value="Doana Digital Website"
+        >
+
+
+        <!-- BASIC BOT PROTECTION -->
+        <input
+          type="checkbox"
+          name="botcheck"
+          style="display:none;"
+          tabindex="-1"
+          autocomplete="off"
+        >
+
+
+        <!-- NAME -->
+        <label for="name">
+          Name
+        </label>
+
+        <input
+          id="name"
+          name="name"
+          type="text"
+          autocomplete="name"
+          required
+          placeholder="Your name"
+        >
+
+
+        <!-- EMAIL -->
+        <label for="email">
+          Email
+        </label>
+
+        <input
+          id="email"
+          name="email"
+          type="email"
+          autocomplete="email"
+          required
+          placeholder="you@example.com"
+        >
+
+
+        <!-- PHONE -->
+        <label for="phone">
+          Phone
+        </label>
+
+        <input
+          id="phone"
+          name="phone"
+          type="tel"
+          autocomplete="tel"
+          placeholder="Optional"
+        >
+
+
+        <!-- BUSINESS -->
+        <label for="business">
+          Business / Brand
+        </label>
+
+        <input
+          id="business"
+          name="business"
+          type="text"
+          placeholder="Business or brand name"
+        >
+
+
+        <!-- SERVICE -->
+        <label for="service">
+          What do you need?
+        </label>
+
+        <select
+          id="service"
+          name="service"
+          required
+        >
+
+          <option value="">
+            Choose a service
+          </option>
+
+          <option value="Logo & Branding">
+            Logo & Branding
+          </option>
+
+          <option value="Business Cards">
+            Business Cards
+          </option>
+
+          <option value="Letterhead">
+            Letterhead
+          </option>
+
+          <option value="Social Media Graphics">
+            Social Media Graphics
+          </option>
+
+          <option value="Banners & Flyers">
+            Banners & Flyers
+          </option>
+
+          <option value="Billboards & Standees">
+            Billboards & Standees
+          </option>
+
+          <option value="Presentation Design">
+            Presentation Design
+          </option>
+
+          <option value="Packaging Design">
+            Packaging Design
+          </option>
+
+          <option value="Event Invites">
+            Event Invites
+          </option>
+
+          <option value="Website / Digital Design">
+            Website / Digital Design
+          </option>
+
+          <option value="Other">
+            Something else
+          </option>
+
+        </select>
+
+
+        <!-- BUDGET -->
+        <label for="budget">
+          Estimated Budget
+        </label>
+
+        <select
+          id="budget"
+          name="budget"
+        >
+
+          <option value="">
+            Select a budget
+          </option>
+
+          <option value="Under $100">
+            Under $100
+          </option>
+
+          <option value="$100 - $250">
+            $100 – $250
+          </option>
+
+          <option value="$250 - $500">
+            $250 – $500
+          </option>
+
+          <option value="$500 - $1000">
+            $500 – $1,000
+          </option>
+
+          <option value="$1000+">
+            $1,000+
+          </option>
+
+          <option value="Not sure yet">
+            Not sure yet
+          </option>
+
+        </select>
+
+
+        <!-- TIMELINE -->
+        <label for="timeline">
+          Preferred Timeline
+        </label>
+
+        <select
+          id="timeline"
+          name="timeline"
+        >
+
+          <option value="">
+            Choose a timeline
+          </option>
+
+          <option value="As soon as possible">
+            As soon as possible
+          </option>
+
+          <option value="Within 1 week">
+            Within 1 week
+          </option>
+
+          <option value="Within 2 weeks">
+            Within 2 weeks
+          </option>
+
+          <option value="Within 1 month">
+            Within 1 month
+          </option>
+
+          <option value="Flexible">
+            Flexible
+          </option>
+
+        </select>
+
+
+        <!-- PROJECT DETAILS -->
+        <label for="message">
+          Project details
+        </label>
+
+        <textarea
+          id="message"
+          name="message"
+          required
+          placeholder="Tell us about your business, what you need, your goals and any important project details."
+        ></textarea>
+
+
+        <!-- SUBMIT -->
+        <button
+          id="contactSubmit"
+          class="btn btn-primary"
+          type="submit"
+        >
+          Send Inquiry
+        </button>
+
+
+        <!-- STATUS MESSAGE -->
+        <div
+          class="success"
+          id="success"
+          role="status"
+          aria-live="polite"
+        ></div>
+
+      </form>
+
+    </div>
+  </section>
+
 </main>
+
+
 <footer>
+
   <div class="container footer-inner">
-    <div>© <span id="year"></span> Doana Digital Creative Studio.</div>
-    <div>Branding • Graphic Design • Digital Experiences</div>
+
+    <div>
+      © <span id="year"></span>
+      Doana Digital Creative Studio.
+    </div>
+
+    <div>
+      Branding • Graphic Design • Digital Experiences
+    </div>
+
   </div>
+
 </footer>
+
+
 <script src="script.js"></script>
-</body></html>
+
+</body>
+</html>
