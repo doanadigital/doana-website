@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Doana Digital - Admin</title>
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+<main class="section">
+
+  <div class="container">
+
+    <div id="adminLogin">
+
+      <div class="kicker">
+        Doana Digital
+      </div>
+
+      <h1>
+        Admin Login
+      </h1>
+
+      <p class="lead">
+        Sign in to manage client feedback.
+      </p>
+
+      <form id="adminLoginForm">
+
+        <label for="adminEmail">
+          Email
+        </label>
+
+        <input
+          id="adminEmail"
+          type="email"
+          required
+          placeholder="Admin email"
+        >
+
+
+        <label for="adminPassword">
+          Password
+        </label>
+
+        <input
+          id="adminPassword"
+          type="password"
+          required
+          placeholder="Password"
+        >
+
+
+        <button
+          id="adminLoginButton"
+          class="btn btn-primary"
+          type="submit"
+        >
+          Sign In
+        </button>
+
+
+        <div
+          id="adminLoginMessage"
+          class="success"
+        ></div>
+
+      </form>
+
+    </div>
+
+
+
+    <div
+      id="adminDashboard"
+      style="display:none;"
+    >
+
+      <div class="admin-header">
+
+        <div>
+
+          <div class="kicker">
+            Feedback moderation
+          </div>
+
+          <h1>
+            Client Reviews
+          </h1>
+
+        </div>
+
+
+        <button
+          id="adminLogout"
+          class="btn btn-secondary"
+          type="button"
+        >
+          Sign Out
+        </button>
+
+      </div>
+
+
+      <div class="admin-filters">
+
+        <button
+          class="btn admin-filter active"
+          data-status="pending"
+          type="button"
+        >
+          Pending
+        </button>
+
+        <button
+          class="btn admin-filter"
+          data-status="approved"
+          type="button"
+        >
+          Approved
+        </button>
+
+        <button
+          class="btn admin-filter"
+          data-status="rejected"
+          type="button"
+        >
+          Rejected
+        </button>
+
+        <button
+          class="btn admin-filter"
+          data-status="all"
+          type="button"
+        >
+          All
+        </button>
+
+      </div>
+
+
+      <div id="adminReviewList">
+
+        <p class="note">
+          Loading reviews...
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</main>
+
+
+<script src="admin.js"></script>
+
+</body>
+</html>
