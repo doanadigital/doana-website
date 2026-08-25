@@ -1923,3 +1923,72 @@ textarea {
   }
 
 }
+
+/* =====================================================
+   ADMIN WEBSITE NAVIGATION
+===================================================== */
+
+.admin-back-link {
+  display: inline-flex;
+  align-items: center;
+
+  margin-bottom: 28px;
+
+  color: var(--muted);
+  font-weight: 700;
+
+  transition:
+    color .2s ease,
+    transform .2s ease;
+}
+
+.admin-back-link:hover {
+  color: var(--text);
+  transform: translateX(-3px);
+}
+
+
+/* Logged-in admin header buttons */
+
+.admin-header-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+
+  gap: 10px;
+}
+
+
+/* Login buttons */
+
+.admin-login-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+
+  gap: 12px;
+}
+
+
+/* Mobile */
+
+@media (max-width: 700px) {
+
+  .admin-header-actions {
+    width: 100%;
+  }
+
+  .admin-header-actions .btn {
+    flex: 1;
+  }
+
+  .admin-login-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .admin-login-actions .btn {
+    width: 100%;
+  }
+
+}
