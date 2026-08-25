@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Contact Doana Creative Studio for branding, graphic design and digital projects."><title>Contact — Doana</title><link rel="stylesheet" href="styles.css"></head><body>
+
+<header class="nav">
+  <div class="container nav-inner">
+    <a class="brand" href="index.html">
+      <img src="assets/logo.png" alt="Doana logo" onerror="this.style.display='none'">
+      <span>Doana Digital</span>
+    </a>
+    <button class="menu-btn" aria-label="Open navigation">☰</button>
+    <nav class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="feedback.html">Client Feedback</a>
+      <a href="contact.html">Contact</a>
+      <a class="btn btn-primary" href="contact.html">Start a project</a>
+    </nav>
+  </div>
+</header>
+<main>
+<section class="hero" style="padding-bottom:48px"><div class="container"><div class="kicker">Contact us</div><h1 style="max-width:850px">Tell us what you're building.</h1><p class="lead">Share a little about your project, timeline and goals. We'll use that information to understand how Doana can help.</p></div></section>
+<section class="section section-alt"><div class="container form-grid">
+<div><div class="kicker">Start a project</div><h2>Let's create something useful.</h2><p class="lead">Brand identity, social design, marketing materials or a new digital presence—we'd love to hear what you're working on.</p><p class="note"><strong>Email:</strong> hello@doana.design<br><strong>Response time:</strong> usually within 1–2 business days</p></div>
+<form id="contactForm">
+<label for="name">Name</label><input id="name" name="name" autocomplete="name" required placeholder="Your name">
+<label for="email">Email</label><input id="email" name="email" type="email" autocomplete="email" required placeholder="you@example.com">
+<label for="service">What do you need?</label><select id="service" name="service" required><option value="">Choose a service</option><option>Brand Identity</option><option>Graphic / Marketing Design</option><option>Social Media Design</option><option>Website / Digital Design</option><option>Something else</option></select>
+<label for="message">Project details</label><textarea id="message" name="message" required placeholder="Tell us about the business, what you need, and any timeline you have in mind."></textarea>
+<button class="btn btn-primary" type="submit">Send inquiry</button><p class="note">Demo mode: opens the visitor's email app. Connect this later to Formspree, Resend or your own backend.</p><div class="success" id="success">Your email app should open with the message prepared.</div>
+</form></div></section>
+</main>
+<footer>
+  <div class="container footer-inner">
+    <div>© <span id="year"></span> Doana Digital Creative Studio.</div>
+    <div>Branding • Graphic Design • Digital Experiences</div>
+  </div>
+</footer>
+<script src="script.js"></script>
+</body></html>

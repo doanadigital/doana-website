@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Read client feedback and testimonials for Doana Creative Studio."><title>Client Feedback — Doana</title><link rel="stylesheet" href="styles.css"></head><body>
+
+<header class="nav">
+  <div class="container nav-inner">
+    <a class="brand" href="index.html">
+      <img src="assets/logo.png" alt="Doana logo" onerror="this.style.display='none'">
+      <span>Doana Digital</span>
+    </a>
+    <button class="menu-btn" aria-label="Open navigation">☰</button>
+    <nav class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="feedback.html">Client Feedback</a>
+      <a href="contact.html">Contact</a>
+      <a class="btn btn-primary" href="contact.html">Start a project</a>
+    </nav>
+  </div>
+</header>
+<main>
+<section class="hero" style="padding-bottom:48px"><div class="container"><div class="kicker">Client feedback</div><h1 style="max-width:900px">Real words from people we've worked with.</h1><p class="lead">Client feedback helps future customers understand what it's like to work with Doana.</p></div></section>
+
+<section class="section section-alt"><div class="container">
+<div class="section-head"><div><div class="kicker">Testimonials</div><h2>What clients say.</h2></div><p>Only publish genuine feedback. Avoid editing a client's meaning or creating testimonials yourself.</p></div>
+<div class="review-grid" id="reviewList"></div>
+</div></section>
+
+<section class="section"><div class="container review-form-wrap">
+<div>
+<div class="kicker">Leave feedback</div><h2>Worked with Doana?</h2>
+<p class="lead">Share your experience. This demo stores feedback in the browser so you can test the experience immediately.</p>
+<div class="notice">For a public production website, client-submitted feedback should go to a database and be reviewed before publishing. That prevents spam, abuse and fake testimonials.</div>
+</div>
+<form id="feedbackForm">
+<label for="clientName">Your name</label><input id="clientName" name="clientName" required placeholder="Name">
+<label for="clientBusiness">Business / brand</label><input id="clientBusiness" name="clientBusiness" placeholder="Optional">
+<label for="rating">Rating</label><select id="rating" name="rating" required><option value="">Choose rating</option><option value="5">5 — Excellent</option><option value="4">4 — Very good</option><option value="3">3 — Good</option></select>
+<label for="feedbackText">Your feedback</label><textarea id="feedbackText" name="feedbackText" required placeholder="What was your experience working with Doana?"></textarea>
+<label><input type="checkbox" id="consent" required style="width:auto;margin-right:8px"> I agree that Doana may display this feedback publicly.</label>
+<button class="btn btn-primary" type="submit">Submit feedback</button>
+<div class="success" id="feedbackSuccess">Thanks — your feedback has been added to this browser demo.</div>
+</form>
+</div></section>
+</main>
+<footer>
+  <div class="container footer-inner">
+    <div>© <span id="year"></span> Doana Digital Creative Studio.</div>
+    <div>Branding • Graphic Design • Digital Experiences</div>
+  </div>
+</footer>
+<script src="script.js"></script>
+</body></html>
