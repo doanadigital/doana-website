@@ -2,7 +2,6 @@
 
 <html lang="en">
 
-
 <head>
 
   <meta charset="utf-8">
@@ -26,10 +25,27 @@
     Start a Project — Doana Digital
   </title>
 
+
+  <!-- =====================================================
+       MAIN WEBSITE CSS
+  ====================================================== -->
+
   <link
     rel="stylesheet"
     href="styles.css"
   >
+
+
+  <!-- =====================================================
+       CLOUDFLARE TURNSTILE
+  ====================================================== -->
+
+  <script
+    src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+    async
+    defer
+  ></script>
+
 
 </head>
 
@@ -138,9 +154,7 @@
 
 
     <h1 style="max-width:850px;">
-
       Tell us what you're building.
-
     </h1>
 
 
@@ -211,9 +225,7 @@
 
           <br>
 
-          <a
-            href="mailto:doanadigital@gmail.com"
-          >
+          <a href="mailto:doanadigital@gmail.com">
             doanadigital@gmail.com
           </a>
 
@@ -298,9 +310,7 @@
 
 
 
-      <!-- =================================================
-           NAME
-      ================================================== -->
+      <!-- NAME -->
 
       <label for="name">
         Name *
@@ -320,9 +330,7 @@
 
 
 
-      <!-- =================================================
-           EMAIL
-      ================================================== -->
+      <!-- EMAIL -->
 
       <label for="email">
         Email *
@@ -341,9 +349,7 @@
 
 
 
-      <!-- =================================================
-           PHONE
-      ================================================== -->
+      <!-- PHONE -->
 
       <label for="phone">
         Phone
@@ -361,9 +367,7 @@
 
 
 
-      <!-- =================================================
-           BUSINESS
-      ================================================== -->
+      <!-- BUSINESS -->
 
       <label for="business">
         Business / Brand
@@ -381,9 +385,7 @@
 
 
 
-      <!-- =================================================
-           SERVICE
-      ================================================== -->
+      <!-- SERVICE -->
 
       <label for="service">
         What do you need? *
@@ -410,56 +412,45 @@
           Logo & Branding
         </option>
 
-
         <option value="Business Cards">
           Business Cards
         </option>
-
 
         <option value="Letterhead">
           Letterhead
         </option>
 
-
         <option value="Social Media Graphics">
           Social Media Graphics
         </option>
-
 
         <option value="Banners & Flyers">
           Banners & Flyers
         </option>
 
-
         <option value="Billboards & Standees">
           Billboards & Standees
         </option>
-
 
         <option value="Presentation Design">
           Presentation Design
         </option>
 
-
         <option value="Packaging Design">
           Packaging Design
         </option>
-
 
         <option value="Event Invites">
           Event Invites
         </option>
 
-
         <option value="Website / Digital Design">
           Website / Digital Design
         </option>
 
-
         <option value="Multiple Services">
           Multiple Services
         </option>
-
 
         <option value="Other">
           Something else
@@ -470,9 +461,7 @@
 
 
 
-      <!-- =================================================
-           BUDGET
-      ================================================== -->
+      <!-- BUDGET -->
 
       <label for="budget">
         Estimated Budget
@@ -484,36 +473,29 @@
         name="budget"
       >
 
-
         <option value="">
           Select a budget range
         </option>
-
 
         <option value="Starter">
           Starter / Small project
         </option>
 
-
         <option value="Standard">
           Standard project
         </option>
-
 
         <option value="Larger">
           Larger project
         </option>
 
-
         <option value="Custom">
           Custom / Ongoing project
         </option>
 
-
         <option value="Not sure yet">
           Not sure yet
         </option>
-
 
       </select>
 
@@ -528,9 +510,7 @@
 
 
 
-      <!-- =================================================
-           TIMELINE
-      ================================================== -->
+      <!-- TIMELINE -->
 
       <label for="timeline">
         Preferred Timeline
@@ -542,49 +522,39 @@
         name="timeline"
       >
 
-
         <option value="">
           Choose a timeline
         </option>
-
 
         <option value="As soon as possible">
           As soon as possible
         </option>
 
-
         <option value="Within 1 week">
           Within 1 week
         </option>
-
 
         <option value="Within 2 weeks">
           Within 2 weeks
         </option>
 
-
         <option value="Within 1 month">
           Within 1 month
         </option>
-
 
         <option value="1–3 months">
           1–3 months
         </option>
 
-
         <option value="Flexible">
           Flexible
         </option>
-
 
       </select>
 
 
 
-      <!-- =================================================
-           PROJECT DETAILS
-      ================================================== -->
+      <!-- PROJECT DETAILS -->
 
       <label for="message">
         Project details *
@@ -604,8 +574,22 @@
 
 
       <!-- =================================================
-           PRIVACY
+           SPAM PROTECTION
       ================================================== -->
+
+      <div class="form-security">
+
+        <div
+          class="cf-turnstile"
+          data-sitekey="0x4AAAAAAEdN9hmiMngXcBqE"
+          data-theme="auto"
+        ></div>
+
+      </div>
+
+
+
+      <!-- PRIVACY -->
 
       <p class="note">
 
@@ -623,9 +607,7 @@
 
 
 
-      <!-- =================================================
-           SUBMIT
-      ================================================== -->
+      <!-- SUBMIT -->
 
       <button
         id="contactSubmit"
@@ -637,9 +619,7 @@
 
 
 
-      <!-- =================================================
-           STATUS
-      ================================================== -->
+      <!-- STATUS -->
 
       <div
         class="success"
@@ -674,7 +654,6 @@
         <div class="kicker">
           What happens next?
         </div>
-
 
         <h2>
           Simple from here.
@@ -783,11 +762,9 @@
     <div class="footer-main">
 
 
-
       <!-- BRAND -->
 
       <div class="footer-brand">
-
 
         <img
           src="assets/logo.png"
@@ -795,14 +772,12 @@
           class="footer-logo"
         >
 
-
         <p>
 
           Creative design for brands that want to
           look established, memorable and professional.
 
         </p>
-
 
       </div>
 
@@ -812,46 +787,37 @@
 
       <div class="footer-links">
 
-
         <h4>
           Explore
         </h4>
-
 
         <a href="index.html">
           Home
         </a>
 
-
         <a href="services.html">
           Services
         </a>
-
 
         <a href="about.html">
           About
         </a>
 
-
         <a href="feedback.html">
           Feedback
         </a>
-
 
         <a href="contact.html">
           Contact
         </a>
 
-
         <a href="privacy.html">
           Privacy Policy
         </a>
 
-
         <a href="admin.html">
           Admin
         </a>
-
 
       </div>
 
@@ -861,11 +827,9 @@
 
       <div class="footer-social">
 
-
         <h4>
           Follow Doana Digital
         </h4>
-
 
         <a
           href="https://www.instagram.com/doana.digital/"
@@ -873,15 +837,9 @@
           rel="noopener noreferrer"
           aria-label="Doana Digital on Instagram"
         >
-
           Instagram
-
-          <span>
-            ↗
-          </span>
-
+          <span>↗</span>
         </a>
-
 
         <a
           href="https://www.linkedin.com/company/doanadigital"
@@ -889,15 +847,9 @@
           rel="noopener noreferrer"
           aria-label="Doana Digital on LinkedIn"
         >
-
           LinkedIn
-
-          <span>
-            ↗
-          </span>
-
+          <span>↗</span>
         </a>
-
 
       </div>
 
@@ -906,12 +858,9 @@
 
 
 
-    <!-- =================================================
-         FOOTER BOTTOM
-    ================================================== -->
+    <!-- FOOTER BOTTOM -->
 
     <div class="footer-bottom">
-
 
       <div>
 
@@ -922,24 +871,19 @@
       </div>
 
 
-
       <div class="footer-legal">
-
 
         <a href="privacy.html">
           Privacy Policy
         </a>
 
-
         <span>
           •
         </span>
 
-
         <a href="contact.html">
           Contact
         </a>
-
 
       </div>
 
@@ -957,8 +901,13 @@
      JAVASCRIPT
 ===================================================== -->
 
+<!-- General website functionality -->
 <script src="script.js"></script>
 
+<!-- Secure Contact + Feedback submission -->
+<script src="secure-forms.js"></script>
+
+<!-- Website analytics -->
 <script src="analytics.js"></script>
 
 

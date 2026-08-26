@@ -29,6 +29,17 @@
     href="styles.css"
   >
 
+
+  <!-- =====================================================
+       CLOUDFLARE TURNSTILE
+  ====================================================== -->
+
+  <script
+    src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+    async
+    defer
+  ></script>
+
 </head>
 
 
@@ -363,6 +374,26 @@
 
 
 
+        <!-- =================================================
+             SPAM PROTECTION
+        ================================================== -->
+
+        <div class="form-security">
+
+          <div
+            class="cf-turnstile"
+            data-sitekey="0x4AAAAAAEdN9hmiMngXcBqE"
+            data-theme="auto"
+          ></div>
+
+          <p class="note">
+            This form is protected against automated spam.
+          </p>
+
+        </div>
+
+
+
         <!-- PRIVACY NOTE -->
 
         <p class="note">
@@ -607,6 +638,8 @@
 ===================================================== -->
 
 <script src="script.js"></script>
+
+<script src="secure-forms.js"></script>
 
 <script src="analytics.js"></script>
 

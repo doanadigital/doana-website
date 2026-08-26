@@ -1,1239 +1,1012 @@
 (() => {
 
-
-// =====================================================
-// DOANA DIGITAL
-// PUBLIC WEBSITE JAVASCRIPT
-// =====================================================
+  "use strict";
 
 
-// =====================================================
-// SUPABASE
-// =====================================================
-
-const PUBLIC_SUPABASE_URL =
-  "https://efbmmxtteekbjayiesft.supabase.co";
-
-const PUBLIC_SUPABASE_KEY =
-  "sb_publishable_xBSJ2JvLfmitO7-e-JJHpw_Ak3R7joj";
-
-
-// =====================================================
-// YEAR
-// =====================================================
-
-const yearElement =
-  document.getElementById("year");
-
-if (yearElement) {
-
-  yearElement.textContent =
-    new Date().getFullYear();
-
-}
-
-
-// =====================================================
-// MOBILE NAVIGATION
-// =====================================================
-
-const menuButton =
-  document.querySelector(".menu-btn");
-
-const navigationLinks =
-  document.querySelector(".nav-links");
+  // =====================================================
+  // DOANA DIGITAL
+  // PUBLIC WEBSITE JAVASCRIPT
+  //
+  // Handles:
+  // - Footer year
+  // - Mobile navigation
+  // - Active navigation
+  // - Approved public reviews
+  // - Starter reviews
+  // - Contact service prefill
+  // - Hero slider
+  //
+  // IMPORTANT:
+  // Contact + Feedback submission is handled separately
+  // by secure-forms.js through:
+  //
+  // Cloudflare Turnstile
+  //        ↓
+  // Supabase Edge Function
+  //        ↓
+  // Database
+  // =====================================================
 
 
-if (
-  menuButton &&
-  navigationLinks
-) {
 
-  menuButton.addEventListener(
-    "click",
-    () => {
+  // =====================================================
+  // SUPABASE PUBLIC CONFIG
+  // =====================================================
 
-      navigationLinks.classList.toggle(
-        "open"
-      );
-
-    }
-  );
+  const PUBLIC_SUPABASE_URL =
+    "https://efbmmxtteekbjayiesft.supabase.co";
 
 
-  navigationLinks
-    .querySelectorAll("a")
-    .forEach(
-      link => {
+  const PUBLIC_SUPABASE_KEY =
+    "sb_publishable_xBSJ2JvLfmitO7-e-JJHpw_Ak3R7joj";
 
-        link.addEventListener(
-          "click",
-          () => {
 
-            navigationLinks.classList.remove(
+
+  // =====================================================
+  // YEAR
+  // =====================================================
+
+  const yearElement =
+    document.getElementById(
+      "year"
+    );
+
+
+  if (yearElement) {
+
+    yearElement.textContent =
+      new Date()
+        .getFullYear();
+
+  }
+
+
+
+  // =====================================================
+  // MOBILE NAVIGATION
+  // =====================================================
+
+  const menuButton =
+    document.querySelector(
+      ".menu-btn"
+    );
+
+
+  const navigationLinks =
+    document.querySelector(
+      ".nav-links"
+    );
+
+
+  if (
+    menuButton &&
+    navigationLinks
+  ) {
+
+    menuButton.addEventListener(
+      "click",
+      () => {
+
+        const isOpen =
+          navigationLinks
+            .classList
+            .toggle(
               "open"
             );
 
-          }
+
+        menuButton.setAttribute(
+          "aria-expanded",
+          String(
+            isOpen
+          )
         );
 
       }
     );
 
-}
 
 
-// =====================================================
-// ACTIVE NAVIGATION LINK
-// =====================================================
+    navigationLinks
+      .querySelectorAll(
+        "a"
+      )
+      .forEach(
+        link => {
 
-const currentPage =
-  window.location.pathname
-    .split("/")
-    .pop() ||
-  "index.html";
+          link.addEventListener(
+            "click",
+            () => {
 
-
-document
-  .querySelectorAll(".nav-links a")
-  .forEach(
-    link => {
-
-      const href =
-        link.getAttribute("href");
+              navigationLinks
+                .classList
+                .remove(
+                  "open"
+                );
 
 
-      if (
-        href ===
-        currentPage
-      ) {
+              menuButton.setAttribute(
+                "aria-expanded",
+                "false"
+              );
 
-        link.classList.add(
-          "active"
-        );
+            }
+          );
 
-      }
-
-    }
-  );
-
-
-// =====================================================
-// HTML ESCAPING
-// =====================================================
-
-function escapeHtml(
-  value
-) {
-
-  return String(
-    value ?? ""
-  ).replace(
-
-    /[&<>"']/g,
-
-    character => ({
-
-      "&": "&amp;",
-      "<": "&lt;",
-      ">": "&gt;",
-      '"': "&quot;",
-      "'": "&#039;"
-
-    })[character]
-
-  );
-
-}
-
-
-// =====================================================
-// STARTER REVIEWS
-// =====================================================
-//
-// These are your existing portfolio/client reviews.
-// Supabase-approved reviews are displayed first.
-// =====================================================
-
-const starterReviews = [
-
-  {
-
-    name:
-      "jaredb85 — Longwood, United States",
-
-    business:
-      "Minimalist Face Graphic for PowerPoint",
-
-    rating:
-      5,
-
-    text:
-      "Did a nice job designing an a graphic image for my power point presentation."
-
-  },
-
-  {
-
-    name:
-      "Carol M. — Erskine, Ireland",
-
-    business:
-      "Colorful Product Promo Poster",
-
-    rating:
-      5,
-
-    text:
-      "Fabulous exchange.... worked well and to my specifications. Quick response. thanks"
+        }
+      );
 
   }
 
-];
 
 
-// =====================================================
-// FETCH APPROVED REVIEWS
-// =====================================================
+  // =====================================================
+  // ACTIVE NAVIGATION LINK
+  // =====================================================
 
-async function getApprovedReviews() {
-
-  try {
-
-    const endpoint =
-
-      `${PUBLIC_SUPABASE_URL}` +
-      `/rest/v1/reviews` +
-      `?select=id,name,business,rating,text,created_at` +
-      `&status=eq.approved` +
-      `&order=created_at.desc`;
+  const currentPage =
+    window.location.pathname
+      .split("/")
+      .pop()
+      .toLowerCase()
+    ||
+    "index.html";
 
 
-    const response =
-      await fetch(
+  document
+    .querySelectorAll(
+      ".nav-links a"
+    )
+    .forEach(
+      link => {
 
-        endpoint,
+        const href =
+          String(
+            link.getAttribute(
+              "href"
+            ) || ""
+          )
+            .split("?")[0]
+            .split("#")[0]
+            .toLowerCase();
 
-        {
 
-          method: "GET",
+        if (
+          href ===
+          currentPage
+        ) {
 
-          headers: {
-
-            apikey:
-              PUBLIC_SUPABASE_KEY,
-
-            Authorization:
-              `Bearer ${PUBLIC_SUPABASE_KEY}`
-
-          }
+          link
+            .classList
+            .add(
+              "active"
+            );
 
         }
 
-      );
+      }
+    );
 
 
-    if (!response.ok) {
 
-      throw new Error(
-        await response.text()
-      );
+  // =====================================================
+  // HTML ESCAPING
+  // =====================================================
+
+  function escapeHtml(
+    value
+  ) {
+
+    return String(
+      value ?? ""
+    ).replace(
+
+      /[&<>"']/g,
+
+      character => ({
+
+        "&":
+          "&amp;",
+
+        "<":
+          "&lt;",
+
+        ">":
+          "&gt;",
+
+        '"':
+          "&quot;",
+
+        "'":
+          "&#039;"
+
+      })[character]
+
+    );
+
+  }
+
+
+
+  // =====================================================
+  // STARTER REVIEWS
+  // =====================================================
+  //
+  // These are your existing portfolio/client reviews.
+  //
+  // Approved Supabase reviews are displayed first.
+  // =====================================================
+
+  const starterReviews = [
+
+    {
+
+      name:
+        "jaredb85 — Longwood, United States",
+
+      business:
+        "Minimalist Face Graphic for PowerPoint",
+
+      rating:
+        5,
+
+      text:
+        "Did a nice job designing an a graphic image for my power point presentation."
+
+    },
+
+
+    {
+
+      name:
+        "Carol M. — Erskine, Ireland",
+
+      business:
+        "Colorful Product Promo Poster",
+
+      rating:
+        5,
+
+      text:
+        "Fabulous exchange.... worked well and to my specifications. Quick response. thanks"
 
     }
-
-
-    const reviews =
-      await response.json();
-
-
-    return Array.isArray(reviews)
-      ? reviews
-      : [];
-
-
-  } catch (error) {
-
-    console.error(
-      "Unable to load approved reviews:",
-      error
-    );
-
-    return [];
-
-  }
-
-}
-
-
-// =====================================================
-// REVIEW STARS
-// =====================================================
-
-function createStars(
-  rating
-) {
-
-  const safeRating =
-    Math.max(
-
-      1,
-
-      Math.min(
-        5,
-        Number(rating) || 5
-      )
-
-    );
-
-
-  return "★".repeat(
-    safeRating
-  );
-
-}
-
-
-// =====================================================
-// CREATE REVIEW HTML
-// =====================================================
-
-function createReviewHtml(
-  review
-) {
-
-  return `
-
-    <article class="review">
-
-      <div
-        class="stars"
-        aria-label="${escapeHtml(
-          review.rating
-        )} out of 5 stars"
-      >
-
-        ${createStars(
-          review.rating
-        )}
-
-      </div>
-
-
-      <p>
-
-        “${escapeHtml(
-          review.text
-        )}”
-
-      </p>
-
-
-      <div class="client">
-
-        ${escapeHtml(
-          review.name ||
-          "Client"
-        )}
-
-      </div>
-
-
-      <div class="meta">
-
-        ${escapeHtml(
-          review.business ||
-          "Doana Digital Client"
-        )}
-
-      </div>
-
-    </article>
-
-  `;
-
-}
-
-
-// =====================================================
-// RENDER PUBLIC REVIEWS
-// =====================================================
-
-async function renderPublicReviews(
-  targetId,
-  maximum = null
-) {
-
-  const container =
-    document.getElementById(
-      targetId
-    );
-
-
-  if (!container) {
-    return;
-  }
-
-
-  container.innerHTML = `
-
-    <p class="note">
-      Loading reviews...
-    </p>
-
-  `;
-
-
-  const approvedReviews =
-    await getApprovedReviews();
-
-
-  const allReviews = [
-
-    ...approvedReviews,
-
-    ...starterReviews
 
   ];
 
 
-  const displayedReviews =
-    maximum
 
-      ? allReviews.slice(
-          0,
-          maximum
+  // =====================================================
+  // FETCH APPROVED REVIEWS
+  // =====================================================
+
+  async function getApprovedReviews() {
+
+    try {
+
+      const endpoint =
+
+        `${PUBLIC_SUPABASE_URL}` +
+
+        `/rest/v1/reviews` +
+
+        `?select=id,name,business,rating,text,created_at` +
+
+        `&status=eq.approved` +
+
+        `&order=created_at.desc`;
+
+
+
+      const response =
+        await fetch(
+
+          endpoint,
+
+          {
+
+            method:
+              "GET",
+
+            headers: {
+
+              apikey:
+                PUBLIC_SUPABASE_KEY,
+
+              Authorization:
+                `Bearer ${PUBLIC_SUPABASE_KEY}`,
+
+              Accept:
+                "application/json"
+
+            }
+
+          }
+
+        );
+
+
+
+      if (!response.ok) {
+
+        throw new Error(
+          await response.text()
+        );
+
+      }
+
+
+
+      const reviews =
+        await response.json();
+
+
+
+      return Array.isArray(
+        reviews
+      )
+        ? reviews
+        : [];
+
+
+    } catch (error) {
+
+      console.error(
+        "Unable to load approved reviews:",
+        error
+      );
+
+
+      return [];
+
+    }
+
+  }
+
+
+
+  // =====================================================
+  // REVIEW STARS
+  // =====================================================
+
+  function createStars(
+    rating
+  ) {
+
+    const safeRating =
+      Math.max(
+
+        1,
+
+        Math.min(
+
+          5,
+
+          Number(
+            rating
+          ) || 5
+
         )
 
-      : allReviews;
+      );
 
 
-  if (
-    displayedReviews.length ===
-    0
+    return "★".repeat(
+      safeRating
+    );
+
+  }
+
+
+
+  // =====================================================
+  // CREATE REVIEW HTML
+  // =====================================================
+
+  function createReviewHtml(
+    review
   ) {
+
+    const rating =
+      Math.max(
+
+        1,
+
+        Math.min(
+
+          5,
+
+          Number(
+            review.rating
+          ) || 5
+
+        )
+
+      );
+
+
+    return `
+
+      <article class="review">
+
+
+        <div
+          class="stars"
+          aria-label="${rating} out of 5 stars"
+        >
+
+          ${createStars(
+            rating
+          )}
+
+        </div>
+
+
+
+        <p>
+
+          “${escapeHtml(
+            review.text
+          )}”
+
+        </p>
+
+
+
+        <div class="client">
+
+          ${escapeHtml(
+
+            review.name ||
+
+            "Client"
+
+          )}
+
+        </div>
+
+
+
+        <div class="meta">
+
+          ${escapeHtml(
+
+            review.business ||
+
+            "Doana Digital Client"
+
+          )}
+
+        </div>
+
+
+      </article>
+
+    `;
+
+  }
+
+
+
+  // =====================================================
+  // RENDER PUBLIC REVIEWS
+  // =====================================================
+
+  async function renderPublicReviews(
+
+    targetId,
+
+    maximum = null
+
+  ) {
+
+    const container =
+      document.getElementById(
+        targetId
+      );
+
+
+    if (!container) {
+
+      return;
+
+    }
+
+
 
     container.innerHTML = `
 
       <p class="note">
-        No reviews have been published yet.
+        Loading reviews...
       </p>
 
     `;
 
-    return;
-
-  }
 
 
-  container.innerHTML =
-    displayedReviews
-      .map(
-        createReviewHtml
-      )
-      .join("");
-
-}
+    const approvedReviews =
+      await getApprovedReviews();
 
 
-// =====================================================
-// LOAD REVIEWS
-// =====================================================
-//
-// feedback.html → reviewList
-// index.html    → homeReviews
-// =====================================================
 
-renderPublicReviews(
-  "reviewList"
-);
+    const allReviews = [
+
+      ...approvedReviews,
+
+      ...starterReviews
+
+    ];
 
 
-renderPublicReviews(
-  "homeReviews",
-  3
-);
 
+    const displayedReviews =
 
-// =====================================================
-// FEEDBACK FORM
-// =====================================================
+      maximum !== null
 
-const feedbackForm =
-  document.getElementById(
-    "feedbackForm"
-  );
-
-
-if (feedbackForm) {
-
-  feedbackForm.addEventListener(
-    "submit",
-    async event => {
-
-      event.preventDefault();
-
-
-      const formData =
-        new FormData(
-          feedbackForm
-        );
-
-
-      const name =
-        String(
-          formData.get(
-            "clientName"
-          ) || ""
-        ).trim();
-
-
-      const business =
-        String(
-          formData.get(
-            "clientBusiness"
-          ) || ""
-        ).trim();
-
-
-      const rating =
-        Number(
-          formData.get(
-            "rating"
+        ? allReviews.slice(
+            0,
+            maximum
           )
-        );
 
+        : allReviews;
 
-      const text =
-        String(
-          formData.get(
-            "feedbackText"
-          ) || ""
-        ).trim();
 
 
-      // =============================================
-      // VALIDATION
-      // =============================================
+    if (
+      displayedReviews.length ===
+      0
+    ) {
 
-      if (
-        !name ||
-        !text ||
-        rating < 1 ||
-        rating > 5
-      ) {
+      container.innerHTML = `
 
-        showFeedbackMessage(
-          "Please complete all required fields."
-        );
+        <p class="note">
+          No reviews have been published yet.
+        </p>
 
-        return;
+      `;
 
-      }
 
-
-      const review = {
-
-        name,
-
-        business:
-          business ||
-          null,
-
-        rating,
-
-        text,
-
-        status:
-          "pending"
-
-      };
-
-
-      const submitButton =
-        feedbackForm.querySelector(
-          'button[type="submit"]'
-        );
-
-
-      if (submitButton) {
-
-        submitButton.disabled =
-          true;
-
-        submitButton.textContent =
-          "Submitting...";
-
-      }
-
-
-      hideFeedbackMessage();
-
-
-      try {
-
-        const response =
-          await fetch(
-
-            `${PUBLIC_SUPABASE_URL}/rest/v1/reviews`,
-
-            {
-
-              method:
-                "POST",
-
-              headers: {
-
-                apikey:
-                  PUBLIC_SUPABASE_KEY,
-
-                Authorization:
-                  `Bearer ${PUBLIC_SUPABASE_KEY}`,
-
-                "Content-Type":
-                  "application/json",
-
-                Prefer:
-                  "return=minimal"
-
-              },
-
-              body:
-                JSON.stringify(
-                  review
-                )
-
-            }
-
-          );
-
-
-        if (!response.ok) {
-
-          throw new Error(
-            await response.text()
-          );
-
-        }
-
-
-        feedbackForm.reset();
-
-
-        showFeedbackMessage(
-
-          "Thank you! Your feedback has been submitted and will appear after it is approved."
-
-        );
-
-
-      } catch (error) {
-
-        console.error(
-          "Feedback submission error:",
-          error
-        );
-
-
-        showFeedbackMessage(
-
-          "We couldn't submit your feedback right now. Please try again."
-
-        );
-
-
-      } finally {
-
-        if (submitButton) {
-
-          submitButton.disabled =
-            false;
-
-          submitButton.textContent =
-            "Submit feedback";
-
-        }
-
-      }
+      return;
 
     }
-  );
-
-}
 
 
-// =====================================================
-// FEEDBACK MESSAGE
-// =====================================================
 
-function showFeedbackMessage(
-  message
-) {
+    container.innerHTML =
 
-  const element =
-    document.getElementById(
-      "feedbackSuccess"
-    );
+      displayedReviews
+        .map(
+          createReviewHtml
+        )
+        .join("");
 
-
-  if (!element) {
-    return;
   }
 
 
-  element.textContent =
-    message;
 
-  element.style.display =
-    "block";
+  // =====================================================
+  // LOAD PUBLIC REVIEWS
+  // =====================================================
+  //
+  // feedback.html
+  // ↓
+  // reviewList
+  //
+  // index.html
+  // ↓
+  // homeReviews
+  // =====================================================
 
-}
-
-
-function hideFeedbackMessage() {
-
-  const element =
-    document.getElementById(
-      "feedbackSuccess"
-    );
-
-
-  if (!element) {
-    return;
-  }
-
-
-  element.textContent =
-    "";
-
-  element.style.display =
-    "none";
-
-}
-
-
-// =====================================================
-// CONTACT FORM
-// =====================================================
-
-const contactForm =
-  document.getElementById(
-    "contactForm"
+  renderPublicReviews(
+    "reviewList"
   );
 
 
-// =====================================================
-// SERVICE QUERY PARAMETER
-// =====================================================
-//
-// Example:
-//
-// services.html
-//     ↓
-// contact.html?service=Business%20Cards
-//
-// This automatically selects Business Cards
-// inside the Contact form.
-// =====================================================
-
-function prefillContactService() {
-
-  if (!contactForm) {
-    return;
-  }
+  renderPublicReviews(
+    "homeReviews",
+    3
+  );
 
 
-  const params =
-    new URLSearchParams(
-      window.location.search
+
+  // =====================================================
+  // CONTACT FORM REFERENCE
+  // =====================================================
+  //
+  // We only use this here for service pre-selection.
+  //
+  // secure-forms.js handles submission.
+  // =====================================================
+
+  const contactForm =
+    document.getElementById(
+      "contactForm"
     );
 
 
-  const requestedService =
-    params.get(
-      "service"
-    );
+
+  // =====================================================
+  // SERVICE QUERY PARAMETER
+  // =====================================================
+  //
+  // Example:
+  //
+  // services.html
+  //       ↓
+  //
+  // contact.html?service=Business%20Cards
+  //
+  //       ↓
+  //
+  // Automatically selects:
+  //
+  // Business Cards
+  // =====================================================
+
+  function prefillContactService() {
+
+    if (!contactForm) {
+
+      return;
+
+    }
 
 
-  if (!requestedService) {
-    return;
-  }
 
-
-  const serviceField =
-
-    contactForm.querySelector(
-      '[name="service"]'
-    );
-
-
-  if (!serviceField) {
-    return;
-  }
-
-
-  // =============================================
-  // SELECT FIELD
-  // =============================================
-
-  if (
-    serviceField.tagName ===
-    "SELECT"
-  ) {
-
-    const options =
-      Array.from(
-        serviceField.options
+    const params =
+      new URLSearchParams(
+        window.location.search
       );
 
 
-    const normalizedRequested =
+
+    const requestedService =
+      params.get(
+        "service"
+      );
+
+
+
+    if (!requestedService) {
+
+      return;
+
+    }
+
+
+
+    const serviceField =
+      contactForm.querySelector(
+        '[name="service"]'
+      );
+
+
+
+    if (!serviceField) {
+
+      return;
+
+    }
+
+
+
+    const requestedNormalized =
       requestedService
         .trim()
         .toLowerCase();
 
 
-    const matchingOption =
-      options.find(
-        option => {
 
-          const optionValue =
-            String(
-              option.value
-            )
-              .trim()
-              .toLowerCase();
+    // =================================================
+    // SELECT
+    // =================================================
 
+    if (
+      serviceField.tagName ===
+      "SELECT"
+    ) {
 
-          const optionText =
-            String(
-              option.textContent
-            )
-              .trim()
-              .toLowerCase();
+      const options =
+        Array.from(
+          serviceField.options
+        );
 
 
-          return (
 
-            optionValue ===
-            normalizedRequested
+      const matchingOption =
+        options.find(
+          option => {
 
-            ||
-
-            optionText ===
-            normalizedRequested
-
-          );
-
-        }
-      );
+            const optionValue =
+              String(
+                option.value
+              )
+                .trim()
+                .toLowerCase();
 
 
-    if (matchingOption) {
 
-      serviceField.value =
-        matchingOption.value;
+            const optionText =
+              String(
+                option.textContent
+              )
+                .trim()
+                .toLowerCase();
+
+
+
+            return (
+
+              optionValue ===
+                requestedNormalized
+
+              ||
+
+              optionText ===
+                requestedNormalized
+
+            );
+
+          }
+        );
+
+
+
+      if (matchingOption) {
+
+        serviceField.value =
+          matchingOption.value;
+
+
+        serviceField.dispatchEvent(
+
+          new Event(
+            "change",
+            {
+              bubbles:
+                true
+            }
+          )
+
+        );
+
+      }
+
+
+      return;
 
     }
 
-  }
 
 
-  // =============================================
-  // NORMAL INPUT
-  // =============================================
-
-  else {
+    // =================================================
+    // NORMAL INPUT
+    // =================================================
 
     serviceField.value =
       requestedService;
 
   }
 
-}
 
 
-// Run prefill immediately.
+  // =====================================================
+  // RUN CONTACT PREFILL
+  // =====================================================
 
-prefillContactService();
-
-
-// =====================================================
-// CONTACT FORM SUBMISSION
-// =====================================================
-
-if (contactForm) {
-
-  contactForm.addEventListener(
-    "submit",
-    async event => {
-
-      event.preventDefault();
+  prefillContactService();
 
 
-      const formData =
-        new FormData(
-          contactForm
-        );
+
+  // =====================================================
+  // HERO IMAGE SLIDER
+  // =====================================================
+
+  const heroSlides =
+    document.querySelectorAll(
+      ".hero-slide"
+    );
 
 
-      const getValue =
-        field => {
+  let currentHeroSlide =
+    0;
 
-          const value =
-            formData.get(
-              field
+
+  let heroInterval =
+    null;
+
+
+
+  if (
+    heroSlides.length >
+    0
+  ) {
+
+
+    // =================================================
+    // INITIAL STATE
+    // =================================================
+
+    heroSlides.forEach(
+      (
+        slide,
+        index
+      ) => {
+
+        slide
+          .classList
+          .remove(
+            "active"
+          );
+
+
+        if (
+          index ===
+          0
+        ) {
+
+          slide
+            .classList
+            .add(
+              "active"
             );
 
+        }
 
-          if (
-            value === null ||
-            value === undefined
-          ) {
-
-            return null;
-
-          }
+      }
+    );
 
 
-          const cleaned =
-            String(
-              value
-            ).trim();
 
+    // =================================================
+    // SHOW SLIDE
+    // =================================================
 
-          return cleaned ||
-            null;
-
-        };
-
-
-      const inquiry = {
-
-        name:
-          getValue("name"),
-
-        email:
-          getValue("email"),
-
-        phone:
-          getValue("phone"),
-
-        business:
-          getValue("business"),
-
-        service:
-          getValue("service"),
-
-        budget:
-          getValue("budget"),
-
-        timeline:
-          getValue("timeline"),
-
-        message:
-          getValue("message"),
-
-        status:
-          "new"
-
-      };
-
+    function showHeroSlide(
+      index
+    ) {
 
       if (
-        !inquiry.name ||
-        !inquiry.email ||
-        !inquiry.message
+        !heroSlides.length
       ) {
-
-        showContactMessage(
-          "Please complete the required fields."
-        );
 
         return;
 
       }
 
 
-      const submitButton =
-        contactForm.querySelector(
-          'button[type="submit"]'
-        );
 
-
-      if (submitButton) {
-
-        submitButton.disabled =
-          true;
-
-        submitButton.textContent =
-          "Sending...";
-
-      }
-
-
-      hideContactMessage();
-
-
-      try {
-
-        const response =
-          await fetch(
-
-            `${PUBLIC_SUPABASE_URL}/rest/v1/contact_inquiries`,
-
-            {
-
-              method:
-                "POST",
-
-              headers: {
-
-                apikey:
-                  PUBLIC_SUPABASE_KEY,
-
-                Authorization:
-                  `Bearer ${PUBLIC_SUPABASE_KEY}`,
-
-                "Content-Type":
-                  "application/json",
-
-                Prefer:
-                  "return=minimal"
-
-              },
-
-              body:
-                JSON.stringify(
-                  inquiry
-                )
-
-            }
-
-          );
-
-
-        if (!response.ok) {
-
-          throw new Error(
-            await response.text()
-          );
-
-        }
-
-
-        contactForm.reset();
-
-
-        showContactMessage(
-
-          "Thank you! Your project inquiry has been sent. We'll get back to you soon."
-
-        );
-
-
-      } catch (error) {
-
-        console.error(
-          "Contact form error:",
-          error
-        );
-
-
-        showContactMessage(
-
-          "We couldn't send your inquiry right now. Please try again."
-
-        );
-
-
-      } finally {
-
-        if (submitButton) {
-
-          submitButton.disabled =
-            false;
-
-          submitButton.textContent =
-            "Send inquiry";
-
-        }
-
-      }
-
-    }
-  );
-
-}
-
-
-// =====================================================
-// CONTACT MESSAGE
-// =====================================================
-
-function showContactMessage(
-  message
-) {
-
-  const element =
-    document.getElementById(
-      "success"
-    );
-
-
-  if (!element) {
-    return;
-  }
-
-
-  element.textContent =
-    message;
-
-  element.style.display =
-    "block";
-
-}
-
-
-function hideContactMessage() {
-
-  const element =
-    document.getElementById(
-      "success"
-    );
-
-
-  if (!element) {
-    return;
-  }
-
-
-  element.textContent =
-    "";
-
-  element.style.display =
-    "none";
-
-}
-
-
-// =====================================================
-// HERO IMAGE SLIDER
-// =====================================================
-
-const heroSlides =
-  document.querySelectorAll(
-    ".hero-slide"
-  );
-
-
-let currentHeroSlide =
-  0;
-
-
-let heroInterval =
-  null;
-
-
-if (
-  heroSlides.length >
-  0
-) {
-
-
-  heroSlides.forEach(
-    (
-      slide,
-      index
-    ) => {
-
-      slide.classList.remove(
+      heroSlides[
+        currentHeroSlide
+      ]?.classList.remove(
         "active"
       );
 
 
+
+      currentHeroSlide =
+        index;
+
+
+
+      heroSlides[
+        currentHeroSlide
+      ]?.classList.add(
+        "active"
+      );
+
+    }
+
+
+
+    // =================================================
+    // NEXT SLIDE
+    // =================================================
+
+    function nextHeroSlide() {
+
+      const next =
+
+        (
+          currentHeroSlide +
+          1
+        )
+
+        %
+
+        heroSlides.length;
+
+
+
+      showHeroSlide(
+        next
+      );
+
+    }
+
+
+
+    // =================================================
+    // START SLIDER
+    // =================================================
+
+    function startHeroSlider() {
+
       if (
-        index ===
-        0
+        heroSlides.length <=
+        1
       ) {
 
-        slide.classList.add(
-          "active"
+        return;
+
+      }
+
+
+
+      if (heroInterval) {
+
+        window.clearInterval(
+          heroInterval
         );
 
       }
 
-    }
-  );
 
 
-  function showHeroSlide(
-    index
-  ) {
+      heroInterval =
+        window.setInterval(
 
-    heroSlides[
-      currentHeroSlide
-    ]?.classList.remove(
-      "active"
-    );
+          nextHeroSlide,
 
+          4000
 
-    currentHeroSlide =
-      index;
-
-
-    heroSlides[
-      currentHeroSlide
-    ]?.classList.add(
-      "active"
-    );
-
-  }
-
-
-  function nextHeroSlide() {
-
-    const next =
-
-      (
-        currentHeroSlide +
-        1
-      )
-
-      %
-
-      heroSlides.length;
-
-
-    showHeroSlide(
-      next
-    );
-
-  }
-
-
-  function startHeroSlider() {
-
-    if (heroInterval) {
-
-      clearInterval(
-        heroInterval
-      );
+        );
 
     }
 
 
-    heroInterval =
-      setInterval(
-        nextHeroSlide,
-        4000
-      );
+
+    // =================================================
+    // PAUSE WHEN PAGE IS HIDDEN
+    // =================================================
+
+    document.addEventListener(
+      "visibilitychange",
+      () => {
+
+        if (
+          document.hidden
+        ) {
+
+          if (heroInterval) {
+
+            window.clearInterval(
+              heroInterval
+            );
+
+
+            heroInterval =
+              null;
+
+          }
+
+
+          return;
+
+        }
+
+
+
+        startHeroSlider();
+
+      }
+    );
+
+
+
+    startHeroSlider();
 
   }
-
-
-  startHeroSlider();
-
-}
 
 
 })();
