@@ -16,7 +16,6 @@
     content="Private administration area for Doana Digital."
   >
 
-  <!-- Prevent search engines from indexing admin page -->
   <meta
     name="robots"
     content="noindex,nofollow"
@@ -45,9 +44,9 @@
   >
 
 
-    <!-- =================================================
+    <!-- =====================================================
          ADMIN LOGIN
-    ================================================== -->
+    ====================================================== -->
 
     <section
       id="adminLogin"
@@ -62,7 +61,7 @@
       >
 
 
-        <!-- BACK TO PUBLIC WEBSITE -->
+        <!-- BACK TO WEBSITE -->
 
         <a
           href="index.html"
@@ -83,15 +82,15 @@
 
 
         <p class="lead">
-          Sign in to manage project inquiries
-          and client feedback.
+          Sign in to manage website analytics,
+          project inquiries and client feedback.
         </p>
 
 
 
-        <!-- =============================================
+        <!-- =================================================
              LOGIN FORM
-        ============================================== -->
+        ================================================== -->
 
         <form id="adminLoginForm">
 
@@ -101,7 +100,6 @@
           <label for="adminEmail">
             Email
           </label>
-
 
           <input
             id="adminEmail"
@@ -120,7 +118,6 @@
             Password
           </label>
 
-
           <input
             id="adminPassword"
             name="password"
@@ -133,10 +130,9 @@
 
 
 
-          <!-- LOGIN BUTTONS -->
+          <!-- LOGIN ACTIONS -->
 
           <div class="admin-login-actions">
-
 
             <button
               id="adminLoginButton"
@@ -155,12 +151,11 @@
               Forgot password?
             </button>
 
-
           </div>
 
 
 
-          <!-- LOGIN STATUS -->
+          <!-- LOGIN MESSAGE -->
 
           <div
             id="adminLoginMessage"
@@ -171,7 +166,7 @@
 
 
 
-          <!-- PASSWORD RESET STATUS -->
+          <!-- PASSWORD RESET MESSAGE -->
 
           <div
             id="resetMessage"
@@ -183,16 +178,15 @@
 
         </form>
 
-
       </div>
 
     </section>
 
 
 
-    <!-- =================================================
+    <!-- =====================================================
          ADMIN DASHBOARD
-    ================================================== -->
+    ====================================================== -->
 
     <section
       id="adminDashboard"
@@ -209,8 +203,16 @@
 
         <div>
 
+          <a
+            href="index.html"
+            class="admin-back-link"
+          >
+            ← Back to website
+          </a>
+
+
           <div class="kicker">
-            Doana Administration
+            Doana administration
           </div>
 
 
@@ -220,59 +222,61 @@
 
 
           <p class="lead">
-            Manage project inquiries and
-            moderate client testimonials.
+            Monitor website activity, manage project
+            inquiries and moderate client testimonials.
           </p>
 
         </div>
 
 
 
-        <!-- DASHBOARD NAVIGATION -->
-
-        <div class="admin-header-actions">
-
-
-          <a
-            href="index.html"
-            class="btn btn-secondary"
-          >
-            ← View Website
-          </a>
-
-
-          <button
-            id="adminLogout"
-            class="btn btn-secondary"
-            type="button"
-          >
-            Sign Out
-          </button>
-
-
-        </div>
+        <button
+          id="adminLogout"
+          class="btn btn-secondary"
+          type="button"
+        >
+          Sign Out
+        </button>
 
 
       </div>
 
 
 
-      <!-- =================================================
+      <!-- =====================================================
            MAIN DASHBOARD TABS
-      ================================================== -->
+      ====================================================== -->
 
       <div class="admin-main-tabs">
 
 
+        <!-- ANALYTICS -->
+
+        <button
+          id="analyticsTab"
+          class="btn admin-main-tab active"
+          data-panel="analytics"
+          type="button"
+        >
+          Analytics
+        </button>
+
+
+
+        <!-- INQUIRIES -->
+
         <button
           id="inquiriesTab"
-          class="btn admin-main-tab active"
+          class="btn admin-main-tab"
           data-panel="inquiries"
           type="button"
         >
           Contact Inquiries
         </button>
 
+
+
+        <!-- REVIEWS -->
 
         <button
           id="reviewsTab"
@@ -288,20 +292,309 @@
 
 
 
-      <!-- =================================================
-           CONTACT INQUIRIES PANEL
-      ================================================== -->
+      <!-- =====================================================
+           ANALYTICS PANEL
+      ====================================================== -->
 
       <section
-        id="inquiriesPanel"
+        id="analyticsPanel"
         class="admin-panel"
       >
 
 
-        <!-- PANEL HEADER -->
+        <!-- ANALYTICS HEADER -->
 
         <div class="section-head">
 
+          <div>
+
+            <div class="kicker">
+              Website Activity
+            </div>
+
+
+            <h2>
+              Analytics
+            </h2>
+
+          </div>
+
+
+          <p>
+            Understand how visitors are finding
+            and using the Doana Digital website.
+          </p>
+
+        </div>
+
+
+
+        <!-- =================================================
+             ANALYTICS SUMMARY
+        ================================================== -->
+
+        <div class="analytics-summary">
+
+
+          <!-- TOTAL PAGE VIEWS -->
+
+          <div class="analytics-card">
+
+            <span class="analytics-label">
+              Total Page Views
+            </span>
+
+            <strong
+              id="totalPageViews"
+              class="analytics-number"
+            >
+              —
+            </strong>
+
+          </div>
+
+
+
+          <!-- UNIQUE VISITORS -->
+
+          <div class="analytics-card">
+
+            <span class="analytics-label">
+              Unique Visitors
+            </span>
+
+            <strong
+              id="uniqueVisitors"
+              class="analytics-number"
+            >
+              —
+            </strong>
+
+          </div>
+
+
+
+          <!-- TODAY -->
+
+          <div class="analytics-card">
+
+            <span class="analytics-label">
+              Today
+            </span>
+
+            <strong
+              id="todayViews"
+              class="analytics-number"
+            >
+              —
+            </strong>
+
+          </div>
+
+
+
+          <!-- LAST 7 DAYS -->
+
+          <div class="analytics-card">
+
+            <span class="analytics-label">
+              Last 7 Days
+            </span>
+
+            <strong
+              id="weekViews"
+              class="analytics-number"
+            >
+              —
+            </strong>
+
+          </div>
+
+
+        </div>
+
+
+
+        <!-- =================================================
+             ANALYTICS DETAILS
+        ================================================== -->
+
+        <div class="analytics-grid">
+
+
+
+          <!-- =================================================
+               TOP PAGES
+          ================================================== -->
+
+          <section class="analytics-panel-card">
+
+
+            <div class="analytics-panel-header">
+
+              <div>
+
+                <span class="analytics-small-label">
+                  Content
+                </span>
+
+                <h3>
+                  Top Pages
+                </h3>
+
+              </div>
+
+            </div>
+
+
+
+            <div id="topPages">
+
+              <p class="note">
+                Loading page activity...
+              </p>
+
+            </div>
+
+
+          </section>
+
+
+
+          <!-- =================================================
+               VISITORS BY COUNTRY
+          ================================================== -->
+
+          <section class="analytics-panel-card">
+
+
+            <div class="analytics-panel-header">
+
+              <div>
+
+                <span class="analytics-small-label">
+                  Location
+                </span>
+
+                <h3>
+                  Visitors by Country
+                </h3>
+
+              </div>
+
+            </div>
+
+
+
+            <div id="countryAnalytics">
+
+              <p class="note">
+                Loading country data...
+              </p>
+
+            </div>
+
+
+          </section>
+
+
+
+          <!-- =================================================
+               TRAFFIC SOURCES
+          ================================================== -->
+
+          <section class="analytics-panel-card">
+
+
+            <div class="analytics-panel-header">
+
+              <div>
+
+                <span class="analytics-small-label">
+                  Acquisition
+                </span>
+
+                <h3>
+                  Traffic Sources
+                </h3>
+
+              </div>
+
+            </div>
+
+
+
+            <div id="trafficSources">
+
+              <p class="note">
+                Loading traffic sources...
+              </p>
+
+            </div>
+
+
+          </section>
+
+
+
+          <!-- =================================================
+               RECENT VISITS
+          ================================================== -->
+
+          <section class="analytics-panel-card">
+
+
+            <div class="analytics-panel-header">
+
+              <div>
+
+                <span class="analytics-small-label">
+                  Activity
+                </span>
+
+                <h3>
+                  Recent Visits
+                </h3>
+
+              </div>
+
+            </div>
+
+
+
+            <div id="recentVisits">
+
+              <p class="note">
+                Loading recent activity...
+              </p>
+
+            </div>
+
+
+          </section>
+
+
+        </div>
+
+
+      </section>
+
+
+
+      <!-- =====================================================
+           CONTACT INQUIRIES PANEL
+      ====================================================== -->
+
+      <section
+        id="inquiriesPanel"
+        class="admin-panel"
+        style="display:none;"
+      >
+
+
+        <!-- INQUIRY HEADER -->
+
+        <div class="section-head">
 
           <div>
 
@@ -322,7 +615,6 @@
             clients and track each inquiry.
           </p>
 
-
         </div>
 
 
@@ -341,7 +633,6 @@
             <span class="admin-summary-label">
               New
             </span>
-
 
             <strong
               id="newInquiryCount"
@@ -362,7 +653,6 @@
               Contacted
             </span>
 
-
             <strong
               id="contactedInquiryCount"
               class="admin-summary-number"
@@ -381,7 +671,6 @@
             <span class="admin-summary-label">
               Closed
             </span>
-
 
             <strong
               id="closedInquiryCount"
@@ -458,9 +747,7 @@
 
 
 
-        <!-- =================================================
-             INQUIRY LIST
-        ================================================== -->
+        <!-- INQUIRY LIST -->
 
         <div id="adminInquiryList">
 
@@ -475,9 +762,9 @@
 
 
 
-      <!-- =================================================
+      <!-- =====================================================
            CLIENT REVIEWS PANEL
-      ================================================== -->
+      ====================================================== -->
 
       <section
         id="reviewsPanel"
@@ -486,10 +773,9 @@
       >
 
 
-        <!-- PANEL HEADER -->
+        <!-- REVIEWS HEADER -->
 
         <div class="section-head">
-
 
           <div>
 
@@ -506,10 +792,9 @@
 
 
           <p>
-            Approve genuine client feedback before
-            displaying it publicly on the website.
+            Review submitted testimonials before
+            they appear publicly on the website.
           </p>
-
 
         </div>
 
@@ -530,7 +815,6 @@
               Pending
             </span>
 
-
             <strong
               id="pendingCount"
               class="admin-summary-number"
@@ -550,7 +834,6 @@
               Approved
             </span>
 
-
             <strong
               id="approvedCount"
               class="admin-summary-number"
@@ -569,7 +852,6 @@
             <span class="admin-summary-label">
               Rejected
             </span>
-
 
             <strong
               id="rejectedCount"
@@ -646,9 +928,7 @@
 
 
 
-        <!-- =================================================
-             REVIEW LIST
-        ================================================== -->
+        <!-- REVIEW LIST -->
 
         <div id="adminReviewList">
 
@@ -671,9 +951,9 @@
 
 
 
-<!-- =================================================
+<!-- =====================================================
      ADMIN JAVASCRIPT
-================================================== -->
+====================================================== -->
 
 <script src="admin.js"></script>
 

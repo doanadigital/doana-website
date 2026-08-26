@@ -4,7 +4,6 @@
 // =====================================================
 
 
-
 // =====================================================
 // SUPABASE
 // =====================================================
@@ -12,11 +11,8 @@
 const SUPABASE_URL =
   "https://efbmmxtteekbjayiesft.supabase.co";
 
-
 const SUPABASE_ANON_KEY =
   "sb_publishable_xBSJ2JvLfmitO7-e-JJHpw_Ak3R7joj";
-
-
 
 const PASSWORD_RESET_URL =
   new URL(
@@ -25,87 +21,85 @@ const PASSWORD_RESET_URL =
   ).href;
 
 
-
 // =====================================================
 // DOM ELEMENTS
 // =====================================================
 
 const loginSection =
-  document.getElementById(
-    "adminLogin"
-  );
-
+  document.getElementById("adminLogin");
 
 const dashboard =
-  document.getElementById(
-    "adminDashboard"
-  );
-
+  document.getElementById("adminDashboard");
 
 const loginForm =
-  document.getElementById(
-    "adminLoginForm"
-  );
-
+  document.getElementById("adminLoginForm");
 
 const loginButton =
-  document.getElementById(
-    "adminLoginButton"
-  );
-
+  document.getElementById("adminLoginButton");
 
 const loginMessage =
-  document.getElementById(
-    "adminLoginMessage"
-  );
-
+  document.getElementById("adminLoginMessage");
 
 const forgotPasswordButton =
-  document.getElementById(
-    "forgotPassword"
-  );
-
+  document.getElementById("forgotPassword");
 
 const resetMessage =
-  document.getElementById(
-    "resetMessage"
-  );
-
+  document.getElementById("resetMessage");
 
 const logoutButton =
-  document.getElementById(
-    "adminLogout"
-  );
-
+  document.getElementById("adminLogout");
 
 
 // =====================================================
 // MAIN TABS
 // =====================================================
 
-const inquiriesTab =
-  document.getElementById(
-    "inquiriesTab"
-  );
+const analyticsTab =
+  document.getElementById("analyticsTab");
 
+const inquiriesTab =
+  document.getElementById("inquiriesTab");
 
 const reviewsTab =
-  document.getElementById(
-    "reviewsTab"
-  );
+  document.getElementById("reviewsTab");
 
+const analyticsPanel =
+  document.getElementById("analyticsPanel");
 
 const inquiriesPanel =
-  document.getElementById(
-    "inquiriesPanel"
-  );
-
+  document.getElementById("inquiriesPanel");
 
 const reviewsPanel =
-  document.getElementById(
-    "reviewsPanel"
-  );
+  document.getElementById("reviewsPanel");
 
+
+// =====================================================
+// ANALYTICS ELEMENTS
+// =====================================================
+
+const totalPageViews =
+  document.getElementById("totalPageViews");
+
+const uniqueVisitors =
+  document.getElementById("uniqueVisitors");
+
+const todayViews =
+  document.getElementById("todayViews");
+
+const weekViews =
+  document.getElementById("weekViews");
+
+const topPages =
+  document.getElementById("topPages");
+
+const countryAnalytics =
+  document.getElementById("countryAnalytics");
+
+const trafficSources =
+  document.getElementById("trafficSources");
+
+const recentVisits =
+  document.getElementById("recentVisits");
 
 
 // =====================================================
@@ -113,40 +107,22 @@ const reviewsPanel =
 // =====================================================
 
 const inquiryList =
-  document.getElementById(
-    "adminInquiryList"
-  );
-
+  document.getElementById("adminInquiryList");
 
 const inquiryActionMessage =
-  document.getElementById(
-    "inquiryActionMessage"
-  );
-
+  document.getElementById("inquiryActionMessage");
 
 const newInquiryCount =
-  document.getElementById(
-    "newInquiryCount"
-  );
-
+  document.getElementById("newInquiryCount");
 
 const contactedInquiryCount =
-  document.getElementById(
-    "contactedInquiryCount"
-  );
-
+  document.getElementById("contactedInquiryCount");
 
 const closedInquiryCount =
-  document.getElementById(
-    "closedInquiryCount"
-  );
-
+  document.getElementById("closedInquiryCount");
 
 const inquiryFilterButtons =
-  document.querySelectorAll(
-    ".inquiry-filter"
-  );
-
+  document.querySelectorAll(".inquiry-filter");
 
 
 // =====================================================
@@ -154,57 +130,33 @@ const inquiryFilterButtons =
 // =====================================================
 
 const reviewList =
-  document.getElementById(
-    "adminReviewList"
-  );
-
+  document.getElementById("adminReviewList");
 
 const actionMessage =
-  document.getElementById(
-    "adminActionMessage"
-  );
-
+  document.getElementById("adminActionMessage");
 
 const pendingCount =
-  document.getElementById(
-    "pendingCount"
-  );
-
+  document.getElementById("pendingCount");
 
 const approvedCount =
-  document.getElementById(
-    "approvedCount"
-  );
-
+  document.getElementById("approvedCount");
 
 const rejectedCount =
-  document.getElementById(
-    "rejectedCount"
-  );
-
+  document.getElementById("rejectedCount");
 
 const reviewFilterButtons =
-  document.querySelectorAll(
-    ".admin-filter"
-  );
-
+  document.querySelectorAll(".admin-filter");
 
 
 // =====================================================
 // STATE
 // =====================================================
 
-let accessToken =
-  null;
+let accessToken = null;
 
+let currentReviewFilter = "pending";
 
-let currentReviewFilter =
-  "pending";
-
-
-let currentInquiryFilter =
-  "new";
-
+let currentInquiryFilter = "new";
 
 
 // =====================================================
@@ -216,40 +168,28 @@ function showMessage(
   message
 ) {
 
-  if (!element) {
-    return;
-  }
-
+  if (!element) return;
 
   element.textContent =
     message;
 
-
   element.style.display =
     "block";
-
 }
-
 
 
 function hideMessage(
   element
 ) {
 
-  if (!element) {
-    return;
-  }
-
+  if (!element) return;
 
   element.textContent =
     "";
 
-
   element.style.display =
     "none";
-
 }
-
 
 
 function escapeHtml(
@@ -259,57 +199,37 @@ function escapeHtml(
   return String(
     value ?? ""
   ).replace(
-
     /[&<>"']/g,
-
     character => ({
-
       "&": "&amp;",
-
       "<": "&lt;",
-
       ">": "&gt;",
-
       '"': "&quot;",
-
       "'": "&#039;"
-
     })[character]
-
   );
-
 }
-
 
 
 function formatDate(
   value
 ) {
 
-  if (!value) {
-    return "";
-  }
-
+  if (!value) return "";
 
   const date =
     new Date(value);
-
 
   if (
     Number.isNaN(
       date.getTime()
     )
   ) {
-
     return "";
-
   }
 
-
   return date.toLocaleString();
-
 }
-
 
 
 // =====================================================
@@ -324,33 +244,24 @@ if (loginForm) {
 
       event.preventDefault();
 
-
       hideMessage(
         loginMessage
       );
-
 
       hideMessage(
         resetMessage
       );
 
-
       const email =
         document
-          .getElementById(
-            "adminEmail"
-          )
+          .getElementById("adminEmail")
           .value
           .trim();
 
-
       const password =
         document
-          .getElementById(
-            "adminPassword"
-          )
+          .getElementById("adminPassword")
           .value;
-
 
       if (
         !email ||
@@ -363,17 +274,13 @@ if (loginForm) {
         );
 
         return;
-
       }
-
 
       loginButton.disabled =
         true;
 
-
       loginButton.textContent =
         "Signing in...";
-
 
       try {
 
@@ -383,36 +290,27 @@ if (loginForm) {
             `${SUPABASE_URL}/auth/v1/token?grant_type=password`,
 
             {
-
-              method:
-                "POST",
+              method: "POST",
 
               headers: {
-
-                "apikey":
+                apikey:
                   SUPABASE_ANON_KEY,
 
                 "Content-Type":
                   "application/json"
-
               },
 
               body:
                 JSON.stringify({
-
                   email,
                   password
-
                 })
-
             }
 
           );
 
-
         const result =
           await response.json();
-
 
         if (
           !response.ok ||
@@ -422,39 +320,29 @@ if (loginForm) {
           throw new Error(
             "LOGIN_FAILED"
           );
-
         }
-
 
         accessToken =
           result.access_token;
 
-
         const isAdmin =
           await verifyAdmin();
 
-
         if (!isAdmin) {
 
-          accessToken =
-            null;
-
+          accessToken = null;
 
           throw new Error(
             "NOT_ADMIN"
           );
-
         }
-
 
         sessionStorage.setItem(
           "doanaAdminToken",
           accessToken
         );
 
-
         await showDashboard();
-
 
       } catch (error) {
 
@@ -462,7 +350,6 @@ if (loginForm) {
           "Admin login error:",
           error
         );
-
 
         if (
           error.message ===
@@ -483,24 +370,18 @@ if (loginForm) {
 
         }
 
-
       } finally {
 
         loginButton.disabled =
           false;
 
-
         loginButton.textContent =
           "Sign In";
-
       }
 
     }
-
   );
-
 }
-
 
 
 // =====================================================
@@ -510,11 +391,8 @@ if (loginForm) {
 async function verifyAdmin() {
 
   if (!accessToken) {
-
     return false;
-
   }
-
 
   try {
 
@@ -524,38 +402,28 @@ async function verifyAdmin() {
         `${SUPABASE_URL}/rest/v1/admin_users?select=user_id`,
 
         {
-
           headers: {
-
-            "apikey":
+            apikey:
               SUPABASE_ANON_KEY,
 
-            "Authorization":
+            Authorization:
               `Bearer ${accessToken}`
-
           }
-
         }
 
       );
 
-
     if (!response.ok) {
-
       return false;
-
     }
-
 
     const admins =
       await response.json();
-
 
     return (
       Array.isArray(admins) &&
       admins.length > 0
     );
-
 
   } catch (error) {
 
@@ -564,13 +432,9 @@ async function verifyAdmin() {
       error
     );
 
-
     return false;
-
   }
-
 }
-
 
 
 // =====================================================
@@ -589,20 +453,15 @@ if (
         loginMessage
       );
 
-
       hideMessage(
         resetMessage
       );
 
-
       const email =
         document
-          .getElementById(
-            "adminEmail"
-          )
+          .getElementById("adminEmail")
           .value
           .trim();
-
 
       if (!email) {
 
@@ -612,17 +471,13 @@ if (
         );
 
         return;
-
       }
-
 
       forgotPasswordButton.disabled =
         true;
 
-
       forgotPasswordButton.textContent =
         "Sending...";
-
 
       try {
 
@@ -632,49 +487,37 @@ if (
             `${SUPABASE_URL}/auth/v1/recover`,
 
             {
-
-              method:
-                "POST",
+              method: "POST",
 
               headers: {
-
-                "apikey":
+                apikey:
                   SUPABASE_ANON_KEY,
 
                 "Content-Type":
                   "application/json"
-
               },
 
               body:
                 JSON.stringify({
-
                   email,
-
                   redirect_to:
                     PASSWORD_RESET_URL
-
                 })
-
             }
 
           );
-
 
         if (!response.ok) {
 
           throw new Error(
             "RESET_FAILED"
           );
-
         }
-
 
         showMessage(
           resetMessage,
           "If this email belongs to the admin account, a password reset link has been sent."
         );
-
 
       } catch (error) {
 
@@ -683,30 +526,23 @@ if (
           error
         );
 
-
         showMessage(
           resetMessage,
           "Unable to send the password reset email."
         );
-
 
       } finally {
 
         forgotPasswordButton.disabled =
           false;
 
-
         forgotPasswordButton.textContent =
           "Forgot password?";
-
       }
 
     }
-
   );
-
 }
-
 
 
 // =====================================================
@@ -716,42 +552,31 @@ if (
 async function showDashboard() {
 
   if (loginSection) {
-
     loginSection.style.display =
       "none";
-
   }
-
 
   if (dashboard) {
-
     dashboard.style.display =
       "block";
-
   }
-
 
   hideMessage(
     actionMessage
   );
 
-
   hideMessage(
     inquiryActionMessage
   );
-
 
   await loadInquiryCounts();
 
   await loadReviewCounts();
 
-
   showAdminPanel(
-    "inquiries"
+    "analytics"
   );
-
 }
-
 
 
 // =====================================================
@@ -762,57 +587,111 @@ function showAdminPanel(
   panel
 ) {
 
+  if (analyticsPanel) {
+    analyticsPanel.style.display =
+      "none";
+  }
+
+  if (inquiriesPanel) {
+    inquiriesPanel.style.display =
+      "none";
+  }
+
+  if (reviewsPanel) {
+    reviewsPanel.style.display =
+      "none";
+  }
+
+  if (analyticsTab) {
+    analyticsTab.classList.remove(
+      "active"
+    );
+  }
+
+  if (inquiriesTab) {
+    inquiriesTab.classList.remove(
+      "active"
+    );
+  }
+
+  if (reviewsTab) {
+    reviewsTab.classList.remove(
+      "active"
+    );
+  }
+
   if (
+    panel ===
+    "analytics"
+  ) {
+
+    if (analyticsPanel) {
+      analyticsPanel.style.display =
+        "block";
+    }
+
+    if (analyticsTab) {
+      analyticsTab.classList.add(
+        "active"
+      );
+    }
+
+    loadAnalytics();
+  }
+
+  else if (
     panel ===
     "inquiries"
   ) {
 
-    inquiriesPanel.style.display =
-      "block";
+    if (inquiriesPanel) {
+      inquiriesPanel.style.display =
+        "block";
+    }
 
-
-    reviewsPanel.style.display =
-      "none";
-
-
-    inquiriesTab.classList.add(
-      "active"
-    );
-
-
-    reviewsTab.classList.remove(
-      "active"
-    );
-
+    if (inquiriesTab) {
+      inquiriesTab.classList.add(
+        "active"
+      );
+    }
 
     loadInquiries();
-
-  } else {
-
-    inquiriesPanel.style.display =
-      "none";
-
-
-    reviewsPanel.style.display =
-      "block";
-
-
-    inquiriesTab.classList.remove(
-      "active"
-    );
-
-
-    reviewsTab.classList.add(
-      "active"
-    );
-
-
-    loadReviews();
-
   }
 
+  else if (
+    panel ===
+    "reviews"
+  ) {
+
+    if (reviewsPanel) {
+      reviewsPanel.style.display =
+        "block";
+    }
+
+    if (reviewsTab) {
+      reviewsTab.classList.add(
+        "active"
+      );
+    }
+
+    loadReviews();
+  }
 }
 
+
+if (analyticsTab) {
+
+  analyticsTab.addEventListener(
+    "click",
+    () => {
+
+      showAdminPanel(
+        "analytics"
+      );
+
+    }
+  );
+}
 
 
 if (inquiriesTab) {
@@ -827,9 +706,7 @@ if (inquiriesTab) {
 
     }
   );
-
 }
-
 
 
 if (reviewsTab) {
@@ -844,9 +721,7 @@ if (reviewsTab) {
 
     }
   );
-
 }
-
 
 
 // =====================================================
@@ -859,7 +734,6 @@ async function loadInquiryCounts() {
     return;
   }
 
-
   try {
 
     const response =
@@ -868,88 +742,59 @@ async function loadInquiryCounts() {
         `${SUPABASE_URL}/rest/v1/contact_inquiries?select=id,status`,
 
         {
-
           headers: {
-
-            "apikey":
+            apikey:
               SUPABASE_ANON_KEY,
 
-            "Authorization":
+            Authorization:
               `Bearer ${accessToken}`
-
           }
-
         }
 
       );
-
 
     if (!response.ok) {
 
       throw new Error(
         await response.text()
       );
-
     }
-
 
     const inquiries =
       await response.json();
 
-
     const newCount =
       inquiries.filter(
-
         inquiry =>
-          inquiry.status ===
-          "new"
-
+          inquiry.status === "new"
       ).length;
-
 
     const contactedCount =
       inquiries.filter(
-
         inquiry =>
-          inquiry.status ===
-          "contacted"
-
+          inquiry.status === "contacted"
       ).length;
-
 
     const closedCount =
       inquiries.filter(
-
         inquiry =>
-          inquiry.status ===
-          "closed"
-
+          inquiry.status === "closed"
       ).length;
 
-
     if (newInquiryCount) {
-
       newInquiryCount.textContent =
         newCount;
-
     }
-
 
     if (contactedInquiryCount) {
-
       contactedInquiryCount.textContent =
         contactedCount;
-
     }
-
 
     if (closedInquiryCount) {
-
       closedInquiryCount.textContent =
         closedCount;
-
     }
-
 
   } catch (error) {
 
@@ -957,11 +802,8 @@ async function loadInquiryCounts() {
       "Inquiry count error:",
       error
     );
-
   }
-
 }
-
 
 
 // =====================================================
@@ -974,29 +816,19 @@ async function loadInquiries() {
     !accessToken ||
     !inquiryList
   ) {
-
     return;
-
   }
 
-
   inquiryList.innerHTML = `
-
     <p class="note">
       Loading inquiries...
     </p>
-
   `;
 
-
   let endpoint =
-
     `${SUPABASE_URL}/rest/v1/contact_inquiries` +
-
     `?select=id,name,email,phone,business,service,budget,timeline,message,status,created_at` +
-
     `&order=created_at.desc`;
-
 
   if (
     currentInquiryFilter !==
@@ -1004,55 +836,40 @@ async function loadInquiries() {
   ) {
 
     endpoint +=
-
       `&status=eq.${encodeURIComponent(
         currentInquiryFilter
       )}`;
-
   }
-
 
   try {
 
     const response =
       await fetch(
-
         endpoint,
-
         {
-
           headers: {
-
-            "apikey":
+            apikey:
               SUPABASE_ANON_KEY,
 
-            "Authorization":
+            Authorization:
               `Bearer ${accessToken}`
-
           }
-
         }
-
       );
-
 
     if (!response.ok) {
 
       throw new Error(
         await response.text()
       );
-
     }
-
 
     const inquiries =
       await response.json();
 
-
     renderInquiries(
       inquiries
     );
-
 
   } catch (error) {
 
@@ -1061,19 +878,13 @@ async function loadInquiries() {
       error
     );
 
-
     inquiryList.innerHTML = `
-
       <p class="note">
         Unable to load inquiries.
       </p>
-
     `;
-
   }
-
 }
-
 
 
 // =====================================================
@@ -1085,11 +896,8 @@ function renderInquiries(
 ) {
 
   if (!inquiryList) {
-
     return;
-
   }
-
 
   if (
     !Array.isArray(inquiries) ||
@@ -1097,32 +905,24 @@ function renderInquiries(
   ) {
 
     inquiryList.innerHTML = `
-
       <p class="note">
         No ${escapeHtml(
           currentInquiryFilter
         )} inquiries found.
       </p>
-
     `;
 
     return;
-
   }
 
-
   inquiryList.innerHTML =
-
     inquiries
-
       .map(
-
         inquiry => `
 
           <article
             class="admin-inquiry-card"
           >
-
 
             <div
               class="admin-inquiry-top"
@@ -1136,7 +936,6 @@ function renderInquiries(
                   )}
                 </h3>
 
-
                 <a
                   class="inquiry-email"
                   href="mailto:${escapeHtml(
@@ -1149,7 +948,6 @@ function renderInquiries(
                 </a>
 
               </div>
-
 
               <span
                 class="
@@ -1167,16 +965,13 @@ function renderInquiries(
             </div>
 
 
-
             <div
               class="admin-inquiry-details"
             >
 
-
               <div
                 class="admin-inquiry-field"
               >
-
                 <strong>
                   Business
                 </strong>
@@ -1185,24 +980,19 @@ function renderInquiries(
                   inquiry.business ||
                   "—"
                 )}
-
               </div>
-
 
 
               <div
                 class="admin-inquiry-field"
               >
-
                 <strong>
                   Phone
                 </strong>
 
                 ${
                   inquiry.phone
-
                     ? `
-
                       <a
                         href="tel:${escapeHtml(
                           inquiry.phone
@@ -1212,20 +1002,15 @@ function renderInquiries(
                           inquiry.phone
                         )}
                       </a>
-
                     `
-
                     : "—"
                 }
-
               </div>
-
 
 
               <div
                 class="admin-inquiry-field"
               >
-
                 <strong>
                   Service
                 </strong>
@@ -1234,15 +1019,12 @@ function renderInquiries(
                   inquiry.service ||
                   "—"
                 )}
-
               </div>
-
 
 
               <div
                 class="admin-inquiry-field"
               >
-
                 <strong>
                   Budget
                 </strong>
@@ -1251,15 +1033,12 @@ function renderInquiries(
                   inquiry.budget ||
                   "—"
                 )}
-
               </div>
-
 
 
               <div
                 class="admin-inquiry-field"
               >
-
                 <strong>
                   Timeline
                 </strong>
@@ -1268,15 +1047,12 @@ function renderInquiries(
                   inquiry.timeline ||
                   "—"
                 )}
-
               </div>
-
 
 
               <div
                 class="admin-inquiry-field"
               >
-
                 <strong>
                   Submitted
                 </strong>
@@ -1286,12 +1062,9 @@ function renderInquiries(
                     inquiry.created_at
                   )
                 )}
-
               </div>
 
-
             </div>
-
 
 
             <div
@@ -1302,7 +1075,6 @@ function renderInquiries(
                 Project details
               </strong>
 
-
               <p>
                 ${escapeHtml(
                   inquiry.message
@@ -1312,18 +1084,14 @@ function renderInquiries(
             </div>
 
 
-
             <div
               class="admin-actions"
             >
 
-
               ${
                 inquiry.status !==
                 "contacted"
-
                   ? `
-
                     <button
                       class="btn"
                       type="button"
@@ -1332,9 +1100,7 @@ function renderInquiries(
                     >
                       Mark Contacted
                     </button>
-
                   `
-
                   : ""
               }
 
@@ -1342,9 +1108,7 @@ function renderInquiries(
               ${
                 inquiry.status !==
                 "closed"
-
                   ? `
-
                     <button
                       class="btn"
                       type="button"
@@ -1353,9 +1117,7 @@ function renderInquiries(
                     >
                       Close
                     </button>
-
                   `
-
                   : ""
               }
 
@@ -1365,7 +1127,10 @@ function renderInquiries(
                 href="mailto:${escapeHtml(
                   inquiry.email
                 )}?subject=${encodeURIComponent(
-                  `Re: Your Doana Digital ${inquiry.service || "project"} inquiry`
+                  `Re: Your Doana Digital ${
+                    inquiry.service ||
+                    "project"
+                  } inquiry`
                 )}"
               >
                 Email Client
@@ -1381,25 +1146,18 @@ function renderInquiries(
                 Delete
               </button>
 
-
             </div>
 
-
           </article>
-
         `
-
       )
-
       .join("");
-
 
   document
     .querySelectorAll(
       "[data-inquiry-action]"
     )
     .forEach(
-
       button => {
 
         button.addEventListener(
@@ -1408,11 +1166,8 @@ function renderInquiries(
         );
 
       }
-
     );
-
 }
-
 
 
 // =====================================================
@@ -1426,24 +1181,18 @@ async function handleInquiryAction(
   const button =
     event.currentTarget;
 
-
   const id =
     button.dataset.inquiryId;
 
-
   const action =
     button.dataset.inquiryAction;
-
 
   if (
     !id ||
     !action
   ) {
-
     return;
-
   }
-
 
   if (
     action ===
@@ -1455,31 +1204,22 @@ async function handleInquiryAction(
         "Delete this inquiry permanently?"
       );
 
-
     if (!confirmed) {
-
       return;
-
     }
-
 
     await deleteInquiry(
       id
     );
 
-
     return;
-
   }
-
 
   await updateInquiryStatus(
     id,
     action
   );
-
 }
-
 
 
 // =====================================================
@@ -1495,7 +1235,6 @@ async function updateInquiryStatus(
     inquiryActionMessage
   );
 
-
   try {
 
     const response =
@@ -1506,65 +1245,47 @@ async function updateInquiryStatus(
         )}`,
 
         {
-
-          method:
-            "PATCH",
+          method: "PATCH",
 
           headers: {
-
-            "apikey":
+            apikey:
               SUPABASE_ANON_KEY,
 
-            "Authorization":
+            Authorization:
               `Bearer ${accessToken}`,
 
             "Content-Type":
               "application/json",
 
-            "Prefer":
+            Prefer:
               "return=minimal"
-
           },
 
           body:
             JSON.stringify({
-
               status
-
             })
-
         }
 
       );
-
 
     if (!response.ok) {
 
       throw new Error(
         await response.text()
       );
-
     }
 
-
     showMessage(
-
       inquiryActionMessage,
-
-      status ===
-      "contacted"
-
+      status === "contacted"
         ? "Inquiry marked as contacted."
-
         : "Inquiry closed."
-
     );
-
 
     await loadInquiryCounts();
 
     await loadInquiries();
-
 
   } catch (error) {
 
@@ -1573,16 +1294,12 @@ async function updateInquiryStatus(
       error
     );
 
-
     showMessage(
       inquiryActionMessage,
       "Unable to update this inquiry."
     );
-
   }
-
 }
-
 
 
 // =====================================================
@@ -1603,44 +1320,34 @@ async function deleteInquiry(
         )}`,
 
         {
-
-          method:
-            "DELETE",
+          method: "DELETE",
 
           headers: {
-
-            "apikey":
+            apikey:
               SUPABASE_ANON_KEY,
 
-            "Authorization":
+            Authorization:
               `Bearer ${accessToken}`
-
           }
-
         }
 
       );
-
 
     if (!response.ok) {
 
       throw new Error(
         await response.text()
       );
-
     }
-
 
     showMessage(
       inquiryActionMessage,
       "Inquiry deleted."
     );
 
-
     await loadInquiryCounts();
 
     await loadInquiries();
-
 
   } catch (error) {
 
@@ -1649,16 +1356,12 @@ async function deleteInquiry(
       error
     );
 
-
     showMessage(
       inquiryActionMessage,
       "Unable to delete this inquiry."
     );
-
   }
-
 }
-
 
 
 // =====================================================
@@ -1666,44 +1369,33 @@ async function deleteInquiry(
 // =====================================================
 
 inquiryFilterButtons.forEach(
-
   button => {
 
     button.addEventListener(
       "click",
       async () => {
 
-
         inquiryFilterButtons.forEach(
-
           item =>
             item.classList.remove(
               "active"
             )
-
         );
-
 
         button.classList.add(
           "active"
         );
 
-
         currentInquiryFilter =
           button.dataset.inquiryStatus ||
           "new";
 
-
         await loadInquiries();
-
       }
-
     );
 
   }
-
 );
-
 
 
 // =====================================================
@@ -1713,11 +1405,8 @@ inquiryFilterButtons.forEach(
 async function loadReviewCounts() {
 
   if (!accessToken) {
-
     return;
-
   }
-
 
   try {
 
@@ -1727,79 +1416,53 @@ async function loadReviewCounts() {
         `${SUPABASE_URL}/rest/v1/reviews?select=id,status`,
 
         {
-
           headers: {
-
-            "apikey":
+            apikey:
               SUPABASE_ANON_KEY,
 
-            "Authorization":
+            Authorization:
               `Bearer ${accessToken}`
-
           }
-
         }
 
       );
-
 
     if (!response.ok) {
 
       throw new Error(
         await response.text()
       );
-
     }
-
 
     const reviews =
       await response.json();
 
-
     if (pendingCount) {
-
       pendingCount.textContent =
-
         reviews.filter(
-
           review =>
             review.status ===
             "pending"
-
         ).length;
-
     }
 
-
     if (approvedCount) {
-
       approvedCount.textContent =
-
         reviews.filter(
-
           review =>
             review.status ===
             "approved"
-
         ).length;
-
     }
 
-
     if (rejectedCount) {
-
       rejectedCount.textContent =
-
         reviews.filter(
-
           review =>
             review.status ===
             "rejected"
-
         ).length;
-
     }
-
 
   } catch (error) {
 
@@ -1807,11 +1470,8 @@ async function loadReviewCounts() {
       "Review count error:",
       error
     );
-
   }
-
 }
-
 
 
 // =====================================================
@@ -1824,29 +1484,19 @@ async function loadReviews() {
     !accessToken ||
     !reviewList
   ) {
-
     return;
-
   }
 
-
   reviewList.innerHTML = `
-
     <p class="note">
       Loading reviews...
     </p>
-
   `;
 
-
   let endpoint =
-
     `${SUPABASE_URL}/rest/v1/reviews` +
-
     `?select=id,name,business,rating,text,status,created_at` +
-
     `&order=created_at.desc`;
-
 
   if (
     currentReviewFilter !==
@@ -1854,55 +1504,40 @@ async function loadReviews() {
   ) {
 
     endpoint +=
-
       `&status=eq.${encodeURIComponent(
         currentReviewFilter
       )}`;
-
   }
-
 
   try {
 
     const response =
       await fetch(
-
         endpoint,
-
         {
-
           headers: {
-
-            "apikey":
+            apikey:
               SUPABASE_ANON_KEY,
 
-            "Authorization":
+            Authorization:
               `Bearer ${accessToken}`
-
           }
-
         }
-
       );
-
 
     if (!response.ok) {
 
       throw new Error(
         await response.text()
       );
-
     }
-
 
     const reviews =
       await response.json();
 
-
     renderReviews(
       reviews
     );
-
 
   } catch (error) {
 
@@ -1911,19 +1546,13 @@ async function loadReviews() {
       error
     );
 
-
     reviewList.innerHTML = `
-
       <p class="note">
         Unable to load reviews.
       </p>
-
     `;
-
   }
-
 }
-
 
 
 // =====================================================
@@ -1935,11 +1564,8 @@ function renderReviews(
 ) {
 
   if (!reviewList) {
-
     return;
-
   }
-
 
   if (
     !Array.isArray(reviews) ||
@@ -1947,33 +1573,24 @@ function renderReviews(
   ) {
 
     reviewList.innerHTML = `
-
       <p class="note">
         No ${escapeHtml(
           currentReviewFilter
         )} reviews found.
       </p>
-
     `;
 
     return;
-
   }
 
-
   reviewList.innerHTML =
-
     reviews
-
       .map(
-
         review => `
-
 
           <article
             class="admin-review-card"
           >
-
 
             <div
               class="admin-review-top"
@@ -1982,9 +1599,7 @@ function renderReviews(
               <div>
 
                 <div class="stars">
-
                   ${"★".repeat(
-
                     Math.max(
                       1,
                       Math.min(
@@ -1994,18 +1609,14 @@ function renderReviews(
                         )
                       )
                     )
-
                   )}
-
                 </div>
-
 
                 <h3>
                   ${escapeHtml(
                     review.name
                   )}
                 </h3>
-
 
                 <p class="note">
                   ${escapeHtml(
@@ -2034,26 +1645,19 @@ function renderReviews(
 
 
             <p>
-
               “${escapeHtml(
                 review.text
               )}”
-
             </p>
 
 
             <p class="note">
-
               Submitted:
-
               ${escapeHtml(
-
                 formatDate(
                   review.created_at
                 )
-
               )}
-
             </p>
 
 
@@ -2061,13 +1665,10 @@ function renderReviews(
               class="admin-actions"
             >
 
-
               ${
                 review.status !==
                 "approved"
-
                   ? `
-
                     <button
                       type="button"
                       class="btn"
@@ -2076,9 +1677,7 @@ function renderReviews(
                     >
                       Approve
                     </button>
-
                   `
-
                   : ""
               }
 
@@ -2086,9 +1685,7 @@ function renderReviews(
               ${
                 review.status !==
                 "rejected"
-
                   ? `
-
                     <button
                       type="button"
                       class="btn"
@@ -2097,9 +1694,7 @@ function renderReviews(
                     >
                       Reject
                     </button>
-
                   `
-
                   : ""
               }
 
@@ -2113,25 +1708,18 @@ function renderReviews(
                 Delete
               </button>
 
-
             </div>
 
-
           </article>
-
         `
-
       )
-
       .join("");
-
 
   document
     .querySelectorAll(
       "[data-review-action]"
     )
     .forEach(
-
       button => {
 
         button.addEventListener(
@@ -2140,11 +1728,8 @@ function renderReviews(
         );
 
       }
-
     );
-
 }
-
 
 
 // =====================================================
@@ -2158,24 +1743,18 @@ async function handleReviewAction(
   const button =
     event.currentTarget;
 
-
   const id =
     button.dataset.reviewId;
 
-
   const action =
     button.dataset.reviewAction;
-
 
   if (
     !id ||
     !action
   ) {
-
     return;
-
   }
-
 
   if (
     action ===
@@ -2187,41 +1766,27 @@ async function handleReviewAction(
         "Delete this review permanently?"
       );
 
-
     if (!confirmed) {
-
       return;
-
     }
-
 
     await deleteReview(
       id
     );
 
-
     return;
-
   }
 
-
   const status =
-
-    action ===
-    "approve"
-
+    action === "approve"
       ? "approved"
-
       : "rejected";
-
 
   await updateReviewStatus(
     id,
     status
   );
-
 }
-
 
 
 // =====================================================
@@ -2243,65 +1808,47 @@ async function updateReviewStatus(
         )}`,
 
         {
-
-          method:
-            "PATCH",
+          method: "PATCH",
 
           headers: {
-
-            "apikey":
+            apikey:
               SUPABASE_ANON_KEY,
 
-            "Authorization":
+            Authorization:
               `Bearer ${accessToken}`,
 
             "Content-Type":
               "application/json",
 
-            "Prefer":
+            Prefer:
               "return=minimal"
-
           },
 
           body:
             JSON.stringify({
-
               status
-
             })
-
         }
 
       );
-
 
     if (!response.ok) {
 
       throw new Error(
         await response.text()
       );
-
     }
 
-
     showMessage(
-
       actionMessage,
-
-      status ===
-      "approved"
-
+      status === "approved"
         ? "Review approved."
-
         : "Review rejected."
-
     );
-
 
     await loadReviewCounts();
 
     await loadReviews();
-
 
   } catch (error) {
 
@@ -2309,16 +1856,12 @@ async function updateReviewStatus(
       error
     );
 
-
     showMessage(
       actionMessage,
       "Unable to update review."
     );
-
   }
-
 }
-
 
 
 // =====================================================
@@ -2339,44 +1882,34 @@ async function deleteReview(
         )}`,
 
         {
-
-          method:
-            "DELETE",
+          method: "DELETE",
 
           headers: {
-
-            "apikey":
+            apikey:
               SUPABASE_ANON_KEY,
 
-            "Authorization":
+            Authorization:
               `Bearer ${accessToken}`
-
           }
-
         }
 
       );
-
 
     if (!response.ok) {
 
       throw new Error(
         await response.text()
       );
-
     }
-
 
     showMessage(
       actionMessage,
       "Review deleted."
     );
 
-
     await loadReviewCounts();
 
     await loadReviews();
-
 
   } catch (error) {
 
@@ -2384,16 +1917,12 @@ async function deleteReview(
       error
     );
 
-
     showMessage(
       actionMessage,
       "Unable to delete review."
     );
-
   }
-
 }
-
 
 
 // =====================================================
@@ -2401,44 +1930,571 @@ async function deleteReview(
 // =====================================================
 
 reviewFilterButtons.forEach(
-
   button => {
 
     button.addEventListener(
       "click",
       async () => {
 
-
         reviewFilterButtons.forEach(
-
           item =>
             item.classList.remove(
               "active"
             )
-
         );
-
 
         button.classList.add(
           "active"
         );
 
-
         currentReviewFilter =
           button.dataset.status ||
           "pending";
 
-
         await loadReviews();
-
       }
-
     );
 
   }
-
 );
 
+
+// =====================================================
+// WEBSITE ANALYTICS
+// =====================================================
+
+async function loadAnalytics() {
+
+  if (!accessToken) {
+    return;
+  }
+
+  try {
+
+    const response =
+      await fetch(
+
+        `${SUPABASE_URL}/rest/v1/page_views?select=id,visitor_id,page,path,country_code,country_name,referrer,source,created_at&order=created_at.desc`,
+
+        {
+          headers: {
+            apikey:
+              SUPABASE_ANON_KEY,
+
+            Authorization:
+              `Bearer ${accessToken}`
+          }
+        }
+
+      );
+
+    if (!response.ok) {
+
+      throw new Error(
+        await response.text()
+      );
+    }
+
+    const views =
+      await response.json();
+
+    renderAnalytics(
+      views
+    );
+
+  } catch (error) {
+
+    console.error(
+      "Analytics loading error:",
+      error
+    );
+
+    if (topPages) {
+
+      topPages.innerHTML = `
+        <p class="note">
+          Unable to load analytics.
+        </p>
+      `;
+    }
+  }
+}
+
+
+// =====================================================
+// ANALYTICS CALCULATIONS
+// =====================================================
+
+function renderAnalytics(
+  views
+) {
+
+  if (!Array.isArray(views)) {
+    return;
+  }
+
+  if (totalPageViews) {
+    totalPageViews.textContent =
+      views.length;
+  }
+
+  const visitors =
+    new Set(
+      views.map(
+        view =>
+          view.visitor_id
+      )
+    );
+
+  if (uniqueVisitors) {
+    uniqueVisitors.textContent =
+      visitors.size;
+  }
+
+  const now =
+    new Date();
+
+  const todayStart =
+    new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      now.getDate()
+    );
+
+  const todaysViews =
+    views.filter(
+      view =>
+        new Date(
+          view.created_at
+        ) >= todayStart
+    );
+
+  if (todayViews) {
+    todayViews.textContent =
+      todaysViews.length;
+  }
+
+  const sevenDaysAgo =
+    new Date();
+
+  sevenDaysAgo.setDate(
+    sevenDaysAgo.getDate() - 7
+  );
+
+  const weeklyViews =
+    views.filter(
+      view =>
+        new Date(
+          view.created_at
+        ) >= sevenDaysAgo
+    );
+
+  if (weekViews) {
+    weekViews.textContent =
+      weeklyViews.length;
+  }
+
+  renderTopPages(
+    views
+  );
+
+  renderCountries(
+    views
+  );
+
+  renderTrafficSources(
+    views
+  );
+
+  renderRecentVisits(
+    views
+  );
+}
+
+
+// =====================================================
+// TOP PAGES
+// =====================================================
+
+function renderTopPages(
+  views
+) {
+
+  if (!topPages) {
+    return;
+  }
+
+  const counts = {};
+
+  views.forEach(
+    view => {
+
+      const page =
+        view.page ||
+        "Unknown";
+
+      counts[page] =
+        (
+          counts[page] ||
+          0
+        ) + 1;
+    }
+  );
+
+  const sorted =
+    Object.entries(
+      counts
+    )
+      .sort(
+        (a,b) =>
+          b[1] - a[1]
+      )
+      .slice(
+        0,
+        8
+      );
+
+  if (
+    sorted.length ===
+    0
+  ) {
+
+    topPages.innerHTML = `
+      <p class="note">
+        No page activity yet.
+      </p>
+    `;
+
+    return;
+  }
+
+  topPages.innerHTML =
+    sorted.map(
+      ([page,count]) => `
+
+        <div class="analytics-row">
+
+          <span>
+            ${escapeHtml(page)}
+          </span>
+
+          <strong>
+            ${count}
+          </strong>
+
+        </div>
+
+      `
+    ).join("");
+}
+
+
+// =====================================================
+// COUNTRIES
+// =====================================================
+
+function renderCountries(
+  views
+) {
+
+  if (!countryAnalytics) {
+    return;
+  }
+
+  const counts = {};
+
+  views.forEach(
+    view => {
+
+      const country =
+        view.country_name ||
+        "Unknown";
+
+      if (
+        !counts[country]
+      ) {
+
+        counts[country] = {
+          count: 0,
+          code:
+            view.country_code ||
+            ""
+        };
+      }
+
+      counts[country].count +=
+        1;
+    }
+  );
+
+  const sorted =
+    Object.entries(
+      counts
+    )
+      .sort(
+        (a,b) =>
+          b[1].count -
+          a[1].count
+      )
+      .slice(
+        0,
+        10
+      );
+
+  const total =
+    views.length ||
+    1;
+
+  if (
+    sorted.length ===
+    0
+  ) {
+
+    countryAnalytics.innerHTML = `
+      <p class="note">
+        No country data yet.
+      </p>
+    `;
+
+    return;
+  }
+
+  countryAnalytics.innerHTML =
+    sorted.map(
+      ([country,data]) => {
+
+        const percentage =
+          Math.round(
+            (
+              data.count /
+              total
+            ) *
+            100
+          );
+
+        return `
+
+          <div class="analytics-country">
+
+            <div class="analytics-country-top">
+
+              <span>
+                ${countryFlag(
+                  data.code
+                )}
+
+                ${escapeHtml(
+                  country
+                )}
+              </span>
+
+              <strong>
+                ${data.count}
+
+                <small>
+                  ${percentage}%
+                </small>
+              </strong>
+
+            </div>
+
+            <div class="analytics-bar">
+
+              <span
+                style="
+                  width:${percentage}%;
+                "
+              ></span>
+
+            </div>
+
+          </div>
+
+        `;
+      }
+    ).join("");
+}
+
+
+// =====================================================
+// COUNTRY FLAG
+// =====================================================
+
+function countryFlag(
+  code
+) {
+
+  if (
+    !code ||
+    code.length !==
+    2
+  ) {
+    return "🌎";
+  }
+
+  return code
+    .toUpperCase()
+    .replace(
+      /./g,
+      character =>
+        String.fromCodePoint(
+          127397 +
+          character.charCodeAt()
+        )
+    );
+}
+
+
+// =====================================================
+// TRAFFIC SOURCES
+// =====================================================
+
+function renderTrafficSources(
+  views
+) {
+
+  if (!trafficSources) {
+    return;
+  }
+
+  const counts = {};
+
+  views.forEach(
+    view => {
+
+      const source =
+        view.source ||
+        "Other";
+
+      counts[source] =
+        (
+          counts[source] ||
+          0
+        ) + 1;
+    }
+  );
+
+  const sorted =
+    Object.entries(
+      counts
+    )
+      .sort(
+        (a,b) =>
+          b[1] - a[1]
+      )
+      .slice(
+        0,
+        8
+      );
+
+  if (
+    sorted.length ===
+    0
+  ) {
+
+    trafficSources.innerHTML = `
+      <p class="note">
+        No traffic source data yet.
+      </p>
+    `;
+
+    return;
+  }
+
+  trafficSources.innerHTML =
+    sorted.map(
+      ([source,count]) => `
+
+        <div class="analytics-row">
+
+          <span>
+            ${escapeHtml(source)}
+          </span>
+
+          <strong>
+            ${count}
+          </strong>
+
+        </div>
+
+      `
+    ).join("");
+}
+
+
+// =====================================================
+// RECENT VISITS
+// =====================================================
+
+function renderRecentVisits(
+  views
+) {
+
+  if (!recentVisits) {
+    return;
+  }
+
+  const recent =
+    views.slice(
+      0,
+      8
+    );
+
+  if (
+    recent.length ===
+    0
+  ) {
+
+    recentVisits.innerHTML = `
+      <p class="note">
+        No visits yet.
+      </p>
+    `;
+
+    return;
+  }
+
+  recentVisits.innerHTML =
+    recent.map(
+      view => `
+
+        <div class="analytics-visit">
+
+          <div>
+
+            <strong>
+              ${escapeHtml(
+                view.page ||
+                "Unknown"
+              )}
+            </strong>
+
+            <span>
+              ${countryFlag(
+                view.country_code
+              )}
+
+              ${escapeHtml(
+                view.country_name ||
+                "Unknown"
+              )}
+            </span>
+
+          </div>
+
+          <small>
+            ${escapeHtml(
+              formatDate(
+                view.created_at
+              )
+            )}
+          </small>
+
+        </div>
+
+      `
+    ).join("");
+}
 
 
 // =====================================================
@@ -2451,7 +2507,6 @@ if (logoutButton) {
     "click",
     async () => {
 
-
       try {
 
         if (accessToken) {
@@ -2461,61 +2516,50 @@ if (logoutButton) {
             `${SUPABASE_URL}/auth/v1/logout`,
 
             {
-
-              method:
-                "POST",
+              method: "POST",
 
               headers: {
-
-                "apikey":
+                apikey:
                   SUPABASE_ANON_KEY,
 
-                "Authorization":
+                Authorization:
                   `Bearer ${accessToken}`
-
               }
-
             }
 
           );
-
         }
-
 
       } catch (error) {
 
         console.warn(
           error
         );
-
       }
-
 
       sessionStorage.removeItem(
         "doanaAdminToken"
       );
 
-
       accessToken =
         null;
 
+      if (dashboard) {
+        dashboard.style.display =
+          "none";
+      }
 
-      dashboard.style.display =
-        "none";
+      if (loginSection) {
+        loginSection.style.display =
+          "block";
+      }
 
-
-      loginSection.style.display =
-        "block";
-
-
-      loginForm.reset();
-
+      if (loginForm) {
+        loginForm.reset();
+      }
     }
-
   );
-
 }
-
 
 
 // =====================================================
@@ -2525,11 +2569,8 @@ if (logoutButton) {
 async function tokenIsValid() {
 
   if (!accessToken) {
-
     return false;
-
   }
-
 
   try {
 
@@ -2539,33 +2580,24 @@ async function tokenIsValid() {
         `${SUPABASE_URL}/auth/v1/user`,
 
         {
-
           headers: {
-
-            "apikey":
+            apikey:
               SUPABASE_ANON_KEY,
 
-            "Authorization":
+            Authorization:
               `Bearer ${accessToken}`
-
           }
-
         }
 
       );
 
-
     return response.ok;
-
 
   } catch {
 
     return false;
-
   }
-
 }
-
 
 
 // =====================================================
@@ -2579,21 +2611,15 @@ async function restoreAdminSession() {
       "doanaAdminToken"
     );
 
-
   if (!storedToken) {
-
     return;
-
   }
-
 
   accessToken =
     storedToken;
 
-
   const validToken =
     await tokenIsValid();
-
 
   if (!validToken) {
 
@@ -2601,19 +2627,14 @@ async function restoreAdminSession() {
       "doanaAdminToken"
     );
 
-
     accessToken =
       null;
 
-
     return;
-
   }
-
 
   const isAdmin =
     await verifyAdmin();
-
 
   if (!isAdmin) {
 
@@ -2621,20 +2642,14 @@ async function restoreAdminSession() {
       "doanaAdminToken"
     );
 
-
     accessToken =
       null;
 
-
     return;
-
   }
 
-
   await showDashboard();
-
 }
-
 
 
 // =====================================================

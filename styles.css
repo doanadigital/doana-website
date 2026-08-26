@@ -2594,3 +2594,353 @@ textarea {
   }
 
 }
+
+/* =====================================================
+   ADMIN ANALYTICS
+===================================================== */
+
+.analytics-summary {
+  display: grid;
+
+  grid-template-columns:
+    repeat(4,minmax(0,1fr));
+
+  gap: 16px;
+
+  margin-bottom:
+    28px;
+}
+
+
+.analytics-card {
+  padding: 24px;
+
+  background:
+    var(--panel);
+
+  border:
+    1px solid rgba(255,255,255,.08);
+
+  border-radius:
+    22px;
+}
+
+
+.analytics-label {
+  display: block;
+
+  color:
+    var(--muted);
+
+  font-size:
+    .8rem;
+
+  font-weight:
+    750;
+
+  text-transform:
+    uppercase;
+
+  letter-spacing:
+    .08em;
+}
+
+
+.analytics-number {
+  display: block;
+
+  margin-top:
+    10px;
+
+  font-size:
+    clamp(2rem,4vw,3rem);
+
+  line-height:
+    1;
+
+  color:
+    var(--text);
+}
+
+
+
+/* ==========================================
+   ANALYTICS GRID
+========================================== */
+
+.analytics-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2,minmax(0,1fr));
+
+  gap: 18px;
+}
+
+
+.analytics-panel-card {
+  padding: 24px;
+
+  background:
+    var(--panel);
+
+  border:
+    1px solid rgba(255,255,255,.08);
+
+  border-radius:
+    22px;
+}
+
+
+.analytics-panel-header {
+  margin-bottom:
+    22px;
+}
+
+
+.analytics-panel-header h3 {
+  margin:
+    4px 0 0;
+
+  font-size:
+    1.35rem;
+}
+
+
+.analytics-small-label {
+  color:
+    var(--accent2);
+
+  font-size:
+    .72rem;
+
+  font-weight:
+    800;
+
+  text-transform:
+    uppercase;
+
+  letter-spacing:
+    .1em;
+}
+
+
+
+/* ==========================================
+   ANALYTICS ROW
+========================================== */
+
+.analytics-row {
+  display: flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    space-between;
+
+  gap: 20px;
+
+  padding:
+    13px 0;
+
+  border-bottom:
+    1px solid rgba(255,255,255,.06);
+}
+
+
+.analytics-row:last-child {
+  border-bottom:
+    0;
+}
+
+
+.analytics-row span {
+  color:
+    var(--muted);
+}
+
+
+.analytics-row strong {
+  color:
+    var(--text);
+}
+
+
+
+/* ==========================================
+   COUNTRY ANALYTICS
+========================================== */
+
+.analytics-country {
+  margin-bottom:
+    18px;
+}
+
+
+.analytics-country:last-child {
+  margin-bottom:
+    0;
+}
+
+
+.analytics-country-top {
+  display: flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    space-between;
+
+  gap: 20px;
+
+  margin-bottom:
+    8px;
+}
+
+
+.analytics-country-top span {
+  color:
+    var(--muted);
+}
+
+
+.analytics-country-top strong {
+  display:
+    flex;
+
+  gap:
+    8px;
+
+  align-items:
+    baseline;
+}
+
+
+.analytics-country-top small {
+  color:
+    var(--muted);
+
+  font-weight:
+    500;
+}
+
+
+.analytics-bar {
+  width:
+    100%;
+
+  height:
+    7px;
+
+  overflow:
+    hidden;
+
+  background:
+    rgba(255,255,255,.07);
+
+  border-radius:
+    999px;
+}
+
+
+.analytics-bar span {
+  display:
+    block;
+
+  height:
+    100%;
+
+  border-radius:
+    inherit;
+
+  background:
+    linear-gradient(
+      90deg,
+      var(--accent),
+      var(--accent2)
+    );
+}
+
+
+
+/* ==========================================
+   RECENT VISITS
+========================================== */
+
+.analytics-visit {
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    space-between;
+
+  gap:
+    20px;
+
+  padding:
+    13px 0;
+
+  border-bottom:
+    1px solid rgba(255,255,255,.06);
+}
+
+
+.analytics-visit:last-child {
+  border-bottom:
+    0;
+}
+
+
+.analytics-visit > div {
+  display:
+    flex;
+
+  flex-direction:
+    column;
+}
+
+
+.analytics-visit span,
+.analytics-visit small {
+  color:
+    var(--muted);
+
+  font-size:
+    .82rem;
+}
+
+
+
+/* ==========================================
+   MOBILE
+========================================== */
+
+@media (max-width:900px) {
+
+  .analytics-summary {
+    grid-template-columns:
+      repeat(2,1fr);
+  }
+
+
+  .analytics-grid {
+    grid-template-columns:
+      1fr;
+  }
+
+}
+
+
+@media (max-width:520px) {
+
+  .analytics-summary {
+    grid-template-columns:
+      1fr;
+  }
+
+}
