@@ -1,74 +1,109 @@
-# Doana 2.0 Advanced Website
+# Doana Digital 2.0
 
-## Pages
-- index.html — Home
-- about.html — About
-- feedback.html — Client testimonials + feedback form
-- contact.html — Contact
+A responsive creative studio website for Doana Digital with dynamic services, client feedback moderation, contact inquiry management, website analytics, country-based pricing and a secure administration dashboard.
 
-## Add your real logo
-Put your logo in:
-assets/logo.png
+---
 
-Recommended:
-- PNG with transparent background
-- Square or horizontal mark
-- At least 300px wide
+## Website Overview
 
-## Add your real images
-Replace these files inside /assets:
-- hero.jpg
-- service-branding.jpg
-- service-marketing.jpg
-- service-digital.jpg
-- project-1.jpg
-- project-2.jpg
-- gallery-1.jpg
-- gallery-2.jpg
-- gallery-3.jpg
-- gallery-4.jpg
+Doana Digital is a creative design studio website built with:
 
-Recommended image size:
-- Hero: 1600×1200 or similar
-- Service cards: 1200×800
-- Portfolio: 1400×1000
-- Gallery: 1000×1000
+- HTML
+- CSS
+- Vanilla JavaScript
+- Supabase
+- GitHub Pages
 
-## Feedback system
-The current version is a working browser demo:
-- A client can submit feedback.
-- It is stored in localStorage.
-- It appears immediately on the feedback page.
-- It appears on the homepage too.
+The website includes a public-facing creative portfolio and service experience along with a private admin dashboard for managing website data.
 
-IMPORTANT:
-localStorage is only visible on that browser/device. It is NOT a real shared database.
+---
 
-For a public site, use:
-- Supabase / Firebase / PostgreSQL for reviews
-- moderation / approval status before publishing
-- spam protection such as Cloudflare Turnstile or reCAPTCHA
-- server-side form validation
+# Pages
 
-Recommended production review flow:
-1. Client submits feedback.
-2. Database stores it as `pending`.
-3. You review it in an admin page.
-4. You approve it.
-5. Only approved reviews appear publicly.
+## Public Pages
 
-This is safer and more trustworthy than publishing anything immediately.
+- `index.html` — Home
+- `services.html` — Services and dynamic pricing
+- `about.html` — About Doana Digital
+- `feedback.html` — Client testimonials and feedback submission
+- `contact.html` — Project inquiry form
+- `privacy.html` — Privacy Policy
+- `404.html` — Custom Page Not Found page
 
-## Contact form
-Current demo opens the visitor's email app.
-For production connect it to:
-- Formspree
-- Resend
-- EmailJS
-- your own API/backend
+## Administration Pages
 
-## Run locally
-Open index.html or use VS Code Live Server.
+- `admin.html` — Private administration dashboard
+- `reset-password.html` — Administrator password reset page
 
-## Hosting
-This static version works on Hostinger, Netlify, Vercel, GitHub Pages, and similar hosts.
+---
+
+# Main JavaScript Files
+
+- `script.js` — Main public website functionality
+- `analytics.js` — Lightweight website analytics
+- `pricing.js` — Country-aware public pricing
+- `admin.js` — Admin dashboard functionality
+- `reset-password.js` — Administrator password reset functionality
+
+---
+
+# Styles
+
+The website uses a shared stylesheet:
+
+`styles.css`
+
+It contains styles for:
+
+- Navigation
+- Hero sections
+- Service cards
+- Portfolio sections
+- Testimonials
+- Contact forms
+- Feedback forms
+- Admin dashboard
+- Analytics dashboard
+- Pricing management
+- Privacy page
+- 404 page
+- Responsive layouts
+- Mobile navigation
+
+---
+
+# Assets
+
+Website images are stored inside:
+
+`/assets`
+
+Example structure:
+
+```text
+assets/
+│
+├── logo.png
+│
+├── BrandIdentity.png
+├── MarketingDesign.png
+├── DigitalExperiences.png
+│
+├── project-1.jpg
+├── project-2.jpg
+│
+├── gallery-1.jpg
+├── gallery-2.jpg
+├── gallery-3.jpg
+├── gallery-4.jpg
+│
+├── hero/
+│   ├── branding.png
+│   ├── business-cards.png
+│   ├── billboards-standees.png
+│   └── social-media.png
+│
+└── services/
+    ├── Logo&BrandingKit.png
+    ├── BusinessCards.png
+    └── Letterhead.png

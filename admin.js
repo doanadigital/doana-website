@@ -14,7 +14,6 @@ const SUPABASE_URL =
 const SUPABASE_PUBLISHABLE_KEY =
   "sb_publishable_xBSJ2JvLfmitO7-e-JJHpw_Ak3R7joj";
 
-
 const PASSWORD_RESET_URL =
   new URL(
     "reset-password.html",
@@ -64,6 +63,9 @@ const inquiriesTab =
 const reviewsTab =
   document.getElementById("reviewsTab");
 
+const pricingTab =
+  document.getElementById("pricingTab");
+
 
 const analyticsPanel =
   document.getElementById("analyticsPanel");
@@ -73,6 +75,9 @@ const inquiriesPanel =
 
 const reviewsPanel =
   document.getElementById("reviewsPanel");
+
+const pricingPanel =
+  document.getElementById("pricingPanel");
 
 
 // =====================================================
@@ -105,7 +110,7 @@ const recentVisits =
 
 
 // =====================================================
-// INQUIRY DOM
+// INQUIRIES DOM
 // =====================================================
 
 const inquiryList =
@@ -128,7 +133,7 @@ const inquiryFilterButtons =
 
 
 // =====================================================
-// REVIEW DOM
+// REVIEWS DOM
 // =====================================================
 
 const reviewList =
@@ -151,6 +156,35 @@ const reviewFilterButtons =
 
 
 // =====================================================
+// PRICING DOM
+// =====================================================
+
+const adminServicePricing =
+  document.getElementById("adminServicePricing");
+
+const adminRegionPricing =
+  document.getElementById("adminRegionPricing");
+
+const adminPricingOverrides =
+  document.getElementById("adminPricingOverrides");
+
+const pricingAdminMessage =
+  document.getElementById("pricingAdminMessage");
+
+const overrideService =
+  document.getElementById("overrideService");
+
+const overrideCountry =
+  document.getElementById("overrideCountry");
+
+const overridePrice =
+  document.getElementById("overridePrice");
+
+const saveOverrideButton =
+  document.getElementById("saveOverride");
+
+
+// =====================================================
 // STATE
 // =====================================================
 
@@ -161,6 +195,12 @@ let currentInquiryFilter =
 
 let currentReviewFilter =
   "pending";
+
+let adminPricingServices =
+  [];
+
+let adminPricingRegions =
+  [];
 
 
 // =====================================================
@@ -188,7 +228,8 @@ function hideMessage(
 
   if (!element) return;
 
-  element.textContent = "";
+  element.textContent =
+    "";
 
   element.style.display =
     "none";
@@ -202,19 +243,14 @@ function escapeHtml(
   return String(
     value ?? ""
   ).replace(
-
     /[&<>"']/g,
-
     character => ({
-
       "&": "&amp;",
       "<": "&lt;",
       ">": "&gt;",
       '"': "&quot;",
       "'": "&#039;"
-
     })[character]
-
   );
 }
 
@@ -223,7 +259,9 @@ function formatDate(
   value
 ) {
 
-  if (!value) return "";
+  if (!value) {
+    return "";
+  }
 
   const date =
     new Date(value);
@@ -263,18 +301,14 @@ if (loginForm) {
 
       const email =
         document
-          .getElementById(
-            "adminEmail"
-          )
+          .getElementById("adminEmail")
           .value
           .trim();
 
 
       const password =
         document
-          .getElementById(
-            "adminPassword"
-          )
+          .getElementById("adminPassword")
           .value;
 
 
@@ -307,18 +341,14 @@ if (loginForm) {
             `${SUPABASE_URL}/auth/v1/token?grant_type=password`,
 
             {
-
-              method:
-                "POST",
+              method: "POST",
 
               headers: {
-
                 apikey:
                   SUPABASE_PUBLISHABLE_KEY,
 
                 "Content-Type":
                   "application/json"
-
               },
 
               body:
@@ -326,7 +356,6 @@ if (loginForm) {
                   email,
                   password
                 })
-
             }
 
           );
@@ -357,7 +386,8 @@ if (loginForm) {
 
         if (!isAdmin) {
 
-          accessToken = null;
+          accessToken =
+            null;
 
           throw new Error(
             "NOT_ADMIN"
@@ -409,7 +439,6 @@ if (loginForm) {
 
         loginButton.textContent =
           "Sign In";
-
       }
 
     }
@@ -436,7 +465,6 @@ async function verifyAdmin() {
         `${SUPABASE_URL}/rest/v1/admin_users?select=user_id`,
 
         {
-
           headers: {
 
             apikey:
@@ -446,7 +474,6 @@ async function verifyAdmin() {
               `Bearer ${accessToken}`
 
           }
-
         }
 
       );
@@ -483,7 +510,9 @@ async function verifyAdmin() {
 // FORGOT PASSWORD
 // =====================================================
 
-if (forgotPasswordButton) {
+if (
+  forgotPasswordButton
+) {
 
   forgotPasswordButton.addEventListener(
     "click",
@@ -500,9 +529,7 @@ if (forgotPasswordButton) {
 
       const email =
         document
-          .getElementById(
-            "adminEmail"
-          )
+          .getElementById("adminEmail")
           .value
           .trim();
 
@@ -533,9 +560,7 @@ if (forgotPasswordButton) {
             `${SUPABASE_URL}/auth/v1/recover`,
 
             {
-
-              method:
-                "POST",
+              method: "POST",
 
               headers: {
 
@@ -556,7 +581,6 @@ if (forgotPasswordButton) {
                     PASSWORD_RESET_URL
 
                 })
-
             }
 
           );
@@ -597,7 +621,6 @@ if (forgotPasswordButton) {
 
         forgotPasswordButton.textContent =
           "Forgot password?";
-
       }
 
     }
@@ -612,12 +635,14 @@ if (forgotPasswordButton) {
 async function showDashboard() {
 
   if (loginSection) {
+
     loginSection.style.display =
       "none";
   }
 
 
   if (dashboard) {
+
     dashboard.style.display =
       "block";
   }
@@ -631,10 +656,17 @@ async function showDashboard() {
     inquiryActionMessage
   );
 
+  hideMessage(
+    pricingAdminMessage
+  );
+
 
   await Promise.allSettled([
+
     loadInquiryCounts(),
+
     loadReviewCounts()
+
   ]);
 
 
@@ -645,7 +677,7 @@ async function showDashboard() {
 
 
 // =====================================================
-// MAIN TAB SYSTEM
+// MAIN PANEL SYSTEM
 // =====================================================
 
 function showAdminPanel(
@@ -653,23 +685,31 @@ function showAdminPanel(
 ) {
 
   const tabs = [
+
     analyticsTab,
     inquiriesTab,
-    reviewsTab
+    reviewsTab,
+    pricingTab
+
   ];
 
 
   const panels = [
+
     analyticsPanel,
     inquiriesPanel,
-    reviewsPanel
+    reviewsPanel,
+    pricingPanel
+
   ];
 
 
+  // Remove active tab
   tabs.forEach(
     tab => {
 
       if (tab) {
+
         tab.classList.remove(
           "active"
         );
@@ -679,10 +719,12 @@ function showAdminPanel(
   );
 
 
+  // Hide all panels
   panels.forEach(
     panel => {
 
       if (panel) {
+
         panel.style.display =
           "none";
       }
@@ -691,21 +733,26 @@ function showAdminPanel(
   );
 
 
+  // ANALYTICS
+
   if (
     selectedPanel ===
     "analytics"
   ) {
 
-    analyticsTab?.classList.add(
-      "active"
-    );
+    analyticsTab
+      ?.classList
+      .add(
+        "active"
+      );
+
 
     if (analyticsPanel) {
 
       analyticsPanel.style.display =
         "block";
-
     }
+
 
     loadAnalytics();
 
@@ -713,21 +760,26 @@ function showAdminPanel(
   }
 
 
+  // INQUIRIES
+
   if (
     selectedPanel ===
     "inquiries"
   ) {
 
-    inquiriesTab?.classList.add(
-      "active"
-    );
+    inquiriesTab
+      ?.classList
+      .add(
+        "active"
+      );
+
 
     if (inquiriesPanel) {
 
       inquiriesPanel.style.display =
         "block";
-
     }
+
 
     loadInquiries();
 
@@ -735,30 +787,63 @@ function showAdminPanel(
   }
 
 
+  // REVIEWS
+
   if (
     selectedPanel ===
     "reviews"
   ) {
 
-    reviewsTab?.classList.add(
-      "active"
-    );
+    reviewsTab
+      ?.classList
+      .add(
+        "active"
+      );
+
 
     if (reviewsPanel) {
 
       reviewsPanel.style.display =
         "block";
-
     }
+
 
     loadReviews();
 
+    return;
   }
+
+
+  // PRICING
+
+  if (
+    selectedPanel ===
+    "pricing"
+  ) {
+
+    pricingTab
+      ?.classList
+      .add(
+        "active"
+      );
+
+
+    if (pricingPanel) {
+
+      pricingPanel.style.display =
+        "block";
+    }
+
+
+    loadAdminPricing();
+
+  }
+
 }
 
 
 // =====================================================
-// MAIN TAB EVENTS
+// TAB EVENTS
 // =====================================================
 
 analyticsTab?.addEventListener(
@@ -797,6 +882,18 @@ reviewsTab?.addEventListener(
 );
 
 
+pricingTab?.addEventListener(
+  "click",
+  () => {
+
+    showAdminPanel(
+      "pricing"
+    );
+
+  }
+);
+
+
 // =====================================================
 // ANALYTICS
 // =====================================================
@@ -808,7 +905,25 @@ async function loadAnalytics() {
   }
 
 
-  setAnalyticsLoading();
+  if (totalPageViews) {
+    totalPageViews.textContent =
+      "…";
+  }
+
+  if (uniqueVisitors) {
+    uniqueVisitors.textContent =
+      "…";
+  }
+
+  if (todayViews) {
+    todayViews.textContent =
+      "…";
+  }
+
+  if (weekViews) {
+    weekViews.textContent =
+      "…";
+  }
 
 
   try {
@@ -819,7 +934,6 @@ async function loadAnalytics() {
         `${SUPABASE_URL}/rest/v1/page_views?select=id,visitor_id,page,path,country_code,country_name,referrer,source,created_at&order=created_at.desc`,
 
         {
-
           headers: {
 
             apikey:
@@ -829,7 +943,6 @@ async function loadAnalytics() {
               `Bearer ${accessToken}`
 
           }
-
         }
 
       );
@@ -837,11 +950,8 @@ async function loadAnalytics() {
 
     if (!response.ok) {
 
-      const errorText =
-        await response.text();
-
       throw new Error(
-        errorText
+        await response.text()
       );
     }
 
@@ -863,105 +973,17 @@ async function loadAnalytics() {
     );
 
 
-    setAnalyticsError();
+    if (topPages) {
 
-  }
-}
-
-
-function setAnalyticsLoading() {
-
-  [
-    totalPageViews,
-    uniqueVisitors,
-    todayViews,
-    weekViews
-  ].forEach(
-    element => {
-
-      if (element) {
-        element.textContent =
-          "…";
-      }
-
+      topPages.innerHTML = `
+        <p class="note">
+          Unable to load analytics.
+        </p>
+      `;
     }
-  );
 
-
-  if (topPages) {
-    topPages.innerHTML =
-      `<p class="note">Loading...</p>`;
   }
 
-
-  if (countryAnalytics) {
-    countryAnalytics.innerHTML =
-      `<p class="note">Loading...</p>`;
-  }
-
-
-  if (trafficSources) {
-    trafficSources.innerHTML =
-      `<p class="note">Loading...</p>`;
-  }
-
-
-  if (recentVisits) {
-    recentVisits.innerHTML =
-      `<p class="note">Loading...</p>`;
-  }
-}
-
-
-function setAnalyticsError() {
-
-  [
-    totalPageViews,
-    uniqueVisitors,
-    todayViews,
-    weekViews
-  ].forEach(
-    element => {
-
-      if (element) {
-        element.textContent =
-          "—";
-      }
-
-    }
-  );
-
-
-  const errorMessage = `
-    <p class="note">
-      Unable to load analytics.
-      Check the browser console and Supabase permissions.
-    </p>
-  `;
-
-
-  if (topPages) {
-    topPages.innerHTML =
-      errorMessage;
-  }
-
-
-  if (countryAnalytics) {
-    countryAnalytics.innerHTML =
-      errorMessage;
-  }
-
-
-  if (trafficSources) {
-    trafficSources.innerHTML =
-      errorMessage;
-  }
-
-
-  if (recentVisits) {
-    recentVisits.innerHTML =
-      errorMessage;
-  }
 }
 
 
@@ -974,6 +996,7 @@ function renderAnalytics(
 ) {
 
   if (!Array.isArray(views)) {
+
     views = [];
   }
 
@@ -982,7 +1005,6 @@ function renderAnalytics(
 
     totalPageViews.textContent =
       views.length.toLocaleString();
-
   }
 
 
@@ -1005,7 +1027,6 @@ function renderAnalytics(
 
     uniqueVisitors.textContent =
       unique.size.toLocaleString();
-
   }
 
 
@@ -1034,11 +1055,18 @@ function renderAnalytics(
             view.created_at
           );
 
+
         return (
+
           !Number.isNaN(
             date.getTime()
-          ) &&
-          date >= todayStart
+          )
+
+          &&
+
+          date >=
+          todayStart
+
         );
 
       }
@@ -1049,15 +1077,18 @@ function renderAnalytics(
 
     todayViews.textContent =
       todaysViews.length.toLocaleString();
-
   }
 
 
   const sevenDaysAgo =
     new Date();
 
+
   sevenDaysAgo.setDate(
-    sevenDaysAgo.getDate() - 7
+
+    sevenDaysAgo.getDate() -
+    7
+
   );
 
 
@@ -1070,11 +1101,18 @@ function renderAnalytics(
             view.created_at
           );
 
+
         return (
+
           !Number.isNaN(
             date.getTime()
-          ) &&
-          date >= sevenDaysAgo
+          )
+
+          &&
+
+          date >=
+          sevenDaysAgo
+
         );
 
       }
@@ -1085,7 +1123,6 @@ function renderAnalytics(
 
     weekViews.textContent =
       weeklyViews.length.toLocaleString();
-
   }
 
 
@@ -1104,6 +1141,7 @@ function renderAnalytics(
   renderRecentVisits(
     views
   );
+
 }
 
 
@@ -1115,7 +1153,9 @@ function renderTopPages(
   views
 ) {
 
-  if (!topPages) return;
+  if (!topPages) {
+    return;
+  }
 
 
   const counts =
@@ -1128,6 +1168,7 @@ function renderTopPages(
       const page =
         view.page ||
         "Unknown";
+
 
       counts[page] =
         (
@@ -1166,25 +1207,24 @@ function renderTopPages(
 
 
   topPages.innerHTML =
-    sorted
-      .map(
-        ([page,count]) => `
+    sorted.map(
+      ([page,count]) => `
 
-          <div class="analytics-row">
+        <div class="analytics-row">
 
-            <span>
-              ${escapeHtml(page)}
-            </span>
+          <span>
+            ${escapeHtml(page)}
+          </span>
 
-            <strong>
-              ${count.toLocaleString()}
-            </strong>
+          <strong>
+            ${count.toLocaleString()}
+          </strong>
 
-          </div>
+        </div>
 
-        `
-      )
-      .join("");
+      `
+    ).join("");
+
 }
 
 
@@ -1217,8 +1257,7 @@ function renderCountries(
 
         counts[country] = {
 
-          count:
-            0,
+          count: 0,
 
           code:
             view.country_code ||
@@ -1251,6 +1290,11 @@ function renderCountries(
       );
 
 
+  const total =
+    views.length ||
+    1;
+
+
   if (!sorted.length) {
 
     countryAnalytics.innerHTML = `
@@ -1263,77 +1307,75 @@ function renderCountries(
   }
 
 
-  const total =
-    views.length ||
-    1;
-
-
   countryAnalytics.innerHTML =
-    sorted
-      .map(
-        ([country,data]) => {
-
-          const percentage =
-            Math.round(
-              (
-                data.count /
-                total
-              ) *
-              100
-            );
+    sorted.map(
+      ([country,data]) => {
 
 
-          return `
+        const percentage =
+          Math.round(
 
-            <div class="analytics-country">
+            (
+              data.count /
+              total
+            ) *
 
-              <div
-                class="analytics-country-top"
-              >
+            100
 
-                <span>
-
-                  ${countryFlag(
-                    data.code
-                  )}
-
-                  ${escapeHtml(
-                    country
-                  )}
-
-                </span>
+          );
 
 
-                <strong>
+        return `
 
-                  ${data.count.toLocaleString()}
+          <div class="analytics-country">
 
-                  <small>
-                    ${percentage}%
-                  </small>
+            <div
+              class="analytics-country-top"
+            >
 
-                </strong>
+              <span>
 
-              </div>
+                ${countryFlag(
+                  data.code
+                )}
+
+                ${escapeHtml(
+                  country
+                )}
+
+              </span>
 
 
-              <div class="analytics-bar">
+              <strong>
 
-                <span
-                  style="
-                    width:${percentage}%;
-                  "
-                ></span>
+                ${data.count}
 
-              </div>
+                <small>
+                  ${percentage}%
+                </small>
+
+              </strong>
 
             </div>
 
-          `;
 
-        }
-      )
-      .join("");
+            <div class="analytics-bar">
+
+              <span
+                style="
+                  width:${percentage}%;
+                "
+              ></span>
+
+            </div>
+
+          </div>
+
+        `;
+
+      }
+    ).join("");
+
 }
 
 
@@ -1358,16 +1400,14 @@ function countryFlag(
   return code
     .toUpperCase()
     .replace(
-
       /./g,
-
       character =>
         String.fromCodePoint(
           127397 +
           character.charCodeAt()
         )
-
     );
+
 }
 
 
@@ -1379,7 +1419,9 @@ function renderTrafficSources(
   views
 ) {
 
-  if (!trafficSources) return;
+  if (!trafficSources) {
+    return;
+  }
 
 
   const counts =
@@ -1392,6 +1434,7 @@ function renderTrafficSources(
       const source =
         view.source ||
         "Direct";
+
 
       counts[source] =
         (
@@ -1421,7 +1464,7 @@ function renderTrafficSources(
 
     trafficSources.innerHTML = `
       <p class="note">
-        No traffic source data yet.
+        No traffic data yet.
       </p>
     `;
 
@@ -1430,25 +1473,24 @@ function renderTrafficSources(
 
 
   trafficSources.innerHTML =
-    sorted
-      .map(
-        ([source,count]) => `
+    sorted.map(
+      ([source,count]) => `
 
-          <div class="analytics-row">
+        <div class="analytics-row">
 
-            <span>
-              ${escapeHtml(source)}
-            </span>
+          <span>
+            ${escapeHtml(source)}
+          </span>
 
-            <strong>
-              ${count.toLocaleString()}
-            </strong>
+          <strong>
+            ${count}
+          </strong>
 
-          </div>
+        </div>
 
-        `
-      )
-      .join("");
+      `
+    ).join("");
+
 }
 
 
@@ -1485,50 +1527,54 @@ function renderRecentVisits(
 
 
   recentVisits.innerHTML =
-    recent
-      .map(
-        view => `
+    recent.map(
+      view => `
 
-          <div class="analytics-visit">
+        <div class="analytics-visit">
 
-            <div>
+          <div>
 
-              <strong>
-                ${escapeHtml(
-                  view.page ||
-                  "Unknown"
-                )}
-              </strong>
+            <strong>
 
-              <span>
-
-                ${countryFlag(
-                  view.country_code
-                )}
-
-                ${escapeHtml(
-                  view.country_name ||
-                  "Unknown"
-                )}
-
-              </span>
-
-            </div>
-
-
-            <small>
               ${escapeHtml(
-                formatDate(
-                  view.created_at
-                )
+                view.page ||
+                "Unknown"
               )}
-            </small>
+
+            </strong>
+
+
+            <span>
+
+              ${countryFlag(
+                view.country_code
+              )}
+
+              ${escapeHtml(
+                view.country_name ||
+                "Unknown"
+              )}
+
+            </span>
 
           </div>
 
-        `
-      )
-      .join("");
+
+          <small>
+
+            ${escapeHtml(
+              formatDate(
+                view.created_at
+              )
+            )}
+
+          </small>
+
+        </div>
+
+      `
+    ).join("");
+
 }
 
 
@@ -1551,7 +1597,6 @@ async function loadInquiryCounts() {
         `${SUPABASE_URL}/rest/v1/contact_inquiries?select=id,status`,
 
         {
-
           headers: {
 
             apikey:
@@ -1561,7 +1606,6 @@ async function loadInquiryCounts() {
               `Bearer ${accessToken}`
 
           }
-
         }
 
       );
@@ -1604,18 +1648,21 @@ async function loadInquiryCounts() {
 
 
     if (newInquiryCount) {
+
       newInquiryCount.textContent =
         newCount;
     }
 
 
     if (contactedInquiryCount) {
+
       contactedInquiryCount.textContent =
         contactedCount;
     }
 
 
     if (closedInquiryCount) {
+
       closedInquiryCount.textContent =
         closedCount;
     }
@@ -1629,6 +1676,7 @@ async function loadInquiryCounts() {
     );
 
   }
+
 }
 
 
@@ -1655,8 +1703,11 @@ async function loadInquiries() {
 
 
   let endpoint =
+
     `${SUPABASE_URL}/rest/v1/contact_inquiries` +
+
     `?select=id,name,email,phone,business,service,budget,timeline,message,status,created_at` +
+
     `&order=created_at.desc`;
 
 
@@ -1682,7 +1733,6 @@ async function loadInquiries() {
         endpoint,
 
         {
-
           headers: {
 
             apikey:
@@ -1692,7 +1742,6 @@ async function loadInquiries() {
               `Bearer ${accessToken}`
 
           }
-
         }
 
       );
@@ -1730,6 +1779,7 @@ async function loadInquiries() {
     `;
 
   }
+
 }
 
 
@@ -1764,279 +1814,241 @@ function renderInquiries(
 
 
   inquiryList.innerHTML =
-    inquiries
-      .map(
-        inquiry => `
+    inquiries.map(
+      inquiry => `
 
-          <article
-            class="admin-inquiry-card"
-          >
+        <article
+          class="admin-inquiry-card"
+        >
 
-            <div
-              class="admin-inquiry-top"
-            >
+          <div class="admin-inquiry-top">
 
-              <div>
+            <div>
 
-                <h3>
-                  ${escapeHtml(
-                    inquiry.name
-                  )}
-                </h3>
-
-
-                <a
-                  class="inquiry-email"
-                  href="mailto:${escapeHtml(
-                    inquiry.email
-                  )}"
-                >
-                  ${escapeHtml(
-                    inquiry.email
-                  )}
-                </a>
-
-              </div>
-
-
-              <span
-                class="
-                  admin-status
-                  status-${escapeHtml(
-                    inquiry.status
-                  )}
-                "
-              >
-                ${escapeHtml(
-                  inquiry.status
-                )}
-              </span>
-
-            </div>
-
-
-
-            <div
-              class="admin-inquiry-details"
-            >
-
-
-              <div
-                class="admin-inquiry-field"
-              >
-
-                <strong>
-                  Business
-                </strong>
+              <h3>
 
                 ${escapeHtml(
-                  inquiry.business ||
-                  "—"
+                  inquiry.name
                 )}
 
-              </div>
-
-
-
-              <div
-                class="admin-inquiry-field"
-              >
-
-                <strong>
-                  Phone
-                </strong>
-
-                ${
-                  inquiry.phone
-
-                    ? `
-
-                      <a
-                        href="tel:${escapeHtml(
-                          inquiry.phone
-                        )}"
-                      >
-                        ${escapeHtml(
-                          inquiry.phone
-                        )}
-                      </a>
-
-                    `
-
-                    : "—"
-                }
-
-              </div>
-
-
-
-              <div
-                class="admin-inquiry-field"
-              >
-
-                <strong>
-                  Service
-                </strong>
-
-                ${escapeHtml(
-                  inquiry.service ||
-                  "—"
-                )}
-
-              </div>
-
-
-
-              <div
-                class="admin-inquiry-field"
-              >
-
-                <strong>
-                  Budget
-                </strong>
-
-                ${escapeHtml(
-                  inquiry.budget ||
-                  "—"
-                )}
-
-              </div>
-
-
-
-              <div
-                class="admin-inquiry-field"
-              >
-
-                <strong>
-                  Timeline
-                </strong>
-
-                ${escapeHtml(
-                  inquiry.timeline ||
-                  "—"
-                )}
-
-              </div>
-
-
-
-              <div
-                class="admin-inquiry-field"
-              >
-
-                <strong>
-                  Submitted
-                </strong>
-
-                ${escapeHtml(
-                  formatDate(
-                    inquiry.created_at
-                  )
-                )}
-
-              </div>
-
-
-            </div>
-
-
-
-            <div
-              class="admin-inquiry-message"
-            >
-
-              <strong>
-                Project details
-              </strong>
-
-              <p>
-                ${escapeHtml(
-                  inquiry.message
-                )}
-              </p>
-
-            </div>
-
-
-
-            <div class="admin-actions">
-
-
-              ${
-                inquiry.status !==
-                "contacted"
-
-                  ? `
-
-                    <button
-                      class="btn"
-                      type="button"
-                      data-inquiry-action="contacted"
-                      data-inquiry-id="${inquiry.id}"
-                    >
-                      Mark Contacted
-                    </button>
-
-                  `
-
-                  : ""
-              }
-
-
-              ${
-                inquiry.status !==
-                "closed"
-
-                  ? `
-
-                    <button
-                      class="btn"
-                      type="button"
-                      data-inquiry-action="closed"
-                      data-inquiry-id="${inquiry.id}"
-                    >
-                      Close
-                    </button>
-
-                  `
-
-                  : ""
-              }
+              </h3>
 
 
               <a
-                class="btn btn-primary"
+                class="inquiry-email"
                 href="mailto:${escapeHtml(
                   inquiry.email
-                )}?subject=${encodeURIComponent(
-                  `Re: Your Doana Digital ${
-                    inquiry.service ||
-                    "project"
-                  } inquiry`
                 )}"
               >
-                Email Client
+
+                ${escapeHtml(
+                  inquiry.email
+                )}
+
               </a>
-
-
-              <button
-                class="btn admin-delete"
-                type="button"
-                data-inquiry-action="delete"
-                data-inquiry-id="${inquiry.id}"
-              >
-                Delete
-              </button>
-
 
             </div>
 
-          </article>
 
-        `
-      )
-      .join("");
+            <span
+              class="
+                admin-status
+                status-${escapeHtml(
+                  inquiry.status
+                )}
+              "
+            >
+
+              ${escapeHtml(
+                inquiry.status
+              )}
+
+            </span>
+
+          </div>
+
+
+
+          <div class="admin-inquiry-details">
+
+
+            <div class="admin-inquiry-field">
+
+              <strong>
+                Business
+              </strong>
+
+              ${escapeHtml(
+                inquiry.business ||
+                "—"
+              )}
+
+            </div>
+
+
+            <div class="admin-inquiry-field">
+
+              <strong>
+                Phone
+              </strong>
+
+              ${escapeHtml(
+                inquiry.phone ||
+                "—"
+              )}
+
+            </div>
+
+
+            <div class="admin-inquiry-field">
+
+              <strong>
+                Service
+              </strong>
+
+              ${escapeHtml(
+                inquiry.service ||
+                "—"
+              )}
+
+            </div>
+
+
+            <div class="admin-inquiry-field">
+
+              <strong>
+                Budget
+              </strong>
+
+              ${escapeHtml(
+                inquiry.budget ||
+                "—"
+              )}
+
+            </div>
+
+
+            <div class="admin-inquiry-field">
+
+              <strong>
+                Timeline
+              </strong>
+
+              ${escapeHtml(
+                inquiry.timeline ||
+                "—"
+              )}
+
+            </div>
+
+
+            <div class="admin-inquiry-field">
+
+              <strong>
+                Submitted
+              </strong>
+
+              ${escapeHtml(
+                formatDate(
+                  inquiry.created_at
+                )
+              )}
+
+            </div>
+
+          </div>
+
+
+
+          <div class="admin-inquiry-message">
+
+            <strong>
+              Project details
+            </strong>
+
+            <p>
+
+              ${escapeHtml(
+                inquiry.message ||
+                ""
+              )}
+
+            </p>
+
+          </div>
+
+
+
+          <div class="admin-actions">
+
+
+            ${
+              inquiry.status !==
+              "contacted"
+
+                ? `
+
+                  <button
+                    class="btn"
+                    type="button"
+                    data-inquiry-action="contacted"
+                    data-inquiry-id="${inquiry.id}"
+                  >
+                    Mark Contacted
+                  </button>
+
+                `
+
+                : ""
+            }
+
+
+            ${
+              inquiry.status !==
+              "closed"
+
+                ? `
+
+                  <button
+                    class="btn"
+                    type="button"
+                    data-inquiry-action="closed"
+                    data-inquiry-id="${inquiry.id}"
+                  >
+                    Close
+                  </button>
+
+                `
+
+                : ""
+            }
+
+
+            <a
+              class="btn btn-primary"
+              href="mailto:${escapeHtml(
+                inquiry.email
+              )}"
+            >
+              Email Client
+            </a>
+
+
+            <button
+              class="btn admin-delete"
+              type="button"
+              data-inquiry-action="delete"
+              data-inquiry-id="${inquiry.id}"
+            >
+              Delete
+            </button>
+
+          </div>
+
+        </article>
+
+      `
+    ).join("");
 
 
   document
@@ -2053,11 +2065,12 @@ function renderInquiries(
 
       }
     );
+
 }
 
 
 // =====================================================
-// INQUIRY ACTIONS
+// INQUIRY ACTION
 // =====================================================
 
 async function handleInquiryAction(
@@ -2090,13 +2103,12 @@ async function handleInquiryAction(
     "delete"
   ) {
 
-    const confirmed =
-      window.confirm(
+    if (
+      !window.confirm(
         "Delete this inquiry permanently?"
-      );
+      )
+    ) {
 
-
-    if (!confirmed) {
       return;
     }
 
@@ -2113,6 +2125,7 @@ async function handleInquiryAction(
     id,
     action
   );
+
 }
 
 
@@ -2125,11 +2138,6 @@ async function updateInquiryStatus(
   status
 ) {
 
-  hideMessage(
-    inquiryActionMessage
-  );
-
-
   try {
 
     const response =
@@ -2140,7 +2148,6 @@ async function updateInquiryStatus(
         )}`,
 
         {
-
           method:
             "PATCH",
 
@@ -2164,7 +2171,6 @@ async function updateInquiryStatus(
             JSON.stringify({
               status
             })
-
         }
 
       );
@@ -2200,17 +2206,17 @@ async function updateInquiryStatus(
   } catch (error) {
 
     console.error(
-      "Inquiry update error:",
       error
     );
 
 
     showMessage(
       inquiryActionMessage,
-      "Unable to update this inquiry."
+      "Unable to update inquiry."
     );
 
   }
+
 }
 
 
@@ -2232,7 +2238,6 @@ async function deleteInquiry(
         )}`,
 
         {
-
           method:
             "DELETE",
 
@@ -2245,7 +2250,6 @@ async function deleteInquiry(
               `Bearer ${accessToken}`
 
           }
-
         }
 
       );
@@ -2273,22 +2277,16 @@ async function deleteInquiry(
   } catch (error) {
 
     console.error(
-      "Inquiry delete error:",
       error
     );
 
-
-    showMessage(
-      inquiryActionMessage,
-      "Unable to delete this inquiry."
-    );
-
   }
+
 }
 
 
 // =====================================================
-// INQUIRY FILTER EVENTS
+// INQUIRY FILTERS
 // =====================================================
 
 inquiryFilterButtons.forEach(
@@ -2300,11 +2298,9 @@ inquiryFilterButtons.forEach(
 
         inquiryFilterButtons.forEach(
           item =>
-
             item.classList.remove(
               "active"
             )
-
         );
 
 
@@ -2346,7 +2342,6 @@ async function loadReviewCounts() {
         `${SUPABASE_URL}/rest/v1/reviews?select=id,status`,
 
         {
-
           headers: {
 
             apikey:
@@ -2356,7 +2351,6 @@ async function loadReviewCounts() {
               `Bearer ${accessToken}`
 
           }
-
         }
 
       );
@@ -2382,7 +2376,6 @@ async function loadReviewCounts() {
             review.status ===
             "pending"
         ).length;
-
     }
 
 
@@ -2394,7 +2387,6 @@ async function loadReviewCounts() {
             review.status ===
             "approved"
         ).length;
-
     }
 
 
@@ -2406,7 +2398,6 @@ async function loadReviewCounts() {
             review.status ===
             "rejected"
         ).length;
-
     }
 
 
@@ -2418,6 +2409,7 @@ async function loadReviewCounts() {
     );
 
   }
+
 }
 
 
@@ -2444,8 +2436,11 @@ async function loadReviews() {
 
 
   let endpoint =
+
     `${SUPABASE_URL}/rest/v1/reviews` +
+
     `?select=id,name,business,rating,text,status,created_at` +
+
     `&order=created_at.desc`;
 
 
@@ -2470,7 +2465,6 @@ async function loadReviews() {
         endpoint,
 
         {
-
           headers: {
 
             apikey:
@@ -2480,7 +2474,6 @@ async function loadReviews() {
               `Bearer ${accessToken}`
 
           }
-
         }
 
       );
@@ -2506,7 +2499,6 @@ async function loadReviews() {
   } catch (error) {
 
     console.error(
-      "Unable to load reviews:",
       error
     );
 
@@ -2518,6 +2510,7 @@ async function loadReviews() {
     `;
 
   }
+
 }
 
 
@@ -2552,154 +2545,151 @@ function renderReviews(
 
 
   reviewList.innerHTML =
-    reviews
-      .map(
-        review => `
+    reviews.map(
+      review => `
 
-          <article
-            class="admin-review-card"
-          >
+        <article class="admin-review-card">
 
-            <div
-              class="admin-review-top"
-            >
+          <div class="admin-review-top">
 
-              <div>
+            <div>
 
-                <div class="stars">
+              <div class="stars">
 
-                  ${"★".repeat(
+                ${"★".repeat(
 
-                    Math.max(
-                      1,
-                      Math.min(
-                        5,
-                        Number(
-                          review.rating
-                        )
+                  Math.max(
+                    1,
+                    Math.min(
+                      5,
+                      Number(
+                        review.rating
                       )
                     )
+                  )
 
-                  )}
-
-                </div>
-
-
-                <h3>
-                  ${escapeHtml(
-                    review.name
-                  )}
-                </h3>
-
-
-                <p class="note">
-                  ${escapeHtml(
-                    review.business ||
-                    "Client"
-                  )}
-                </p>
+                )}
 
               </div>
 
 
-              <span
-                class="
-                  admin-status
-                  status-${escapeHtml(
-                    review.status
-                  )}
-                "
-              >
+              <h3>
                 ${escapeHtml(
+                  review.name
+                )}
+              </h3>
+
+
+              <p class="note">
+
+                ${escapeHtml(
+                  review.business ||
+                  "Client"
+                )}
+
+              </p>
+
+            </div>
+
+
+            <span
+              class="
+                admin-status
+                status-${escapeHtml(
                   review.status
                 )}
-              </span>
-
-            </div>
-
-
-            <p>
-              “${escapeHtml(
-                review.text
-              )}”
-            </p>
-
-
-            <p class="note">
-
-              Submitted:
+              "
+            >
 
               ${escapeHtml(
-                formatDate(
-                  review.created_at
-                )
+                review.status
               )}
 
-            </p>
+            </span>
+
+          </div>
 
 
-            <div class="admin-actions">
+          <p>
+
+            “${escapeHtml(
+              review.text
+            )}”
+
+          </p>
 
 
-              ${
-                review.status !==
-                "approved"
+          <p class="note">
 
-                  ? `
+            ${escapeHtml(
+              formatDate(
+                review.created_at
+              )
+            )}
 
-                    <button
-                      type="button"
-                      class="btn"
-                      data-review-action="approve"
-                      data-review-id="${review.id}"
-                    >
-                      Approve
-                    </button>
-
-                  `
-
-                  : ""
-              }
+          </p>
 
 
-              ${
-                review.status !==
-                "rejected"
-
-                  ? `
-
-                    <button
-                      type="button"
-                      class="btn"
-                      data-review-action="reject"
-                      data-review-id="${review.id}"
-                    >
-                      Reject
-                    </button>
-
-                  `
-
-                  : ""
-              }
+          <div class="admin-actions">
 
 
-              <button
-                type="button"
-                class="btn admin-delete"
-                data-review-action="delete"
-                data-review-id="${review.id}"
-              >
-                Delete
-              </button>
+            ${
+              review.status !==
+              "approved"
+
+                ? `
+
+                  <button
+                    class="btn"
+                    type="button"
+                    data-review-action="approve"
+                    data-review-id="${review.id}"
+                  >
+                    Approve
+                  </button>
+
+                `
+
+                : ""
+            }
 
 
-            </div>
+            ${
+              review.status !==
+              "rejected"
 
-          </article>
+                ? `
 
-        `
-      )
-      .join("");
+                  <button
+                    class="btn"
+                    type="button"
+                    data-review-action="reject"
+                    data-review-id="${review.id}"
+                  >
+                    Reject
+                  </button>
+
+                `
+
+                : ""
+            }
+
+
+            <button
+              class="btn admin-delete"
+              type="button"
+              data-review-action="delete"
+              data-review-id="${review.id}"
+            >
+              Delete
+            </button>
+
+          </div>
+
+        </article>
+
+      `
+    ).join("");
 
 
   document
@@ -2716,6 +2706,7 @@ function renderReviews(
 
       }
     );
+
 }
 
 
@@ -2753,13 +2744,12 @@ async function handleReviewAction(
     "delete"
   ) {
 
-    const confirmed =
-      window.confirm(
+    if (
+      !window.confirm(
         "Delete this review permanently?"
-      );
+      )
+    ) {
 
-
-    if (!confirmed) {
       return;
     }
 
@@ -2785,6 +2775,7 @@ async function handleReviewAction(
     id,
     status
   );
+
 }
 
 
@@ -2807,7 +2798,6 @@ async function updateReviewStatus(
         )}`,
 
         {
-
           method:
             "PATCH",
 
@@ -2831,7 +2821,6 @@ async function updateReviewStatus(
             JSON.stringify({
               status
             })
-
         }
 
       );
@@ -2867,17 +2856,11 @@ async function updateReviewStatus(
   } catch (error) {
 
     console.error(
-      "Review update error:",
       error
     );
 
-
-    showMessage(
-      actionMessage,
-      "Unable to update review."
-    );
-
   }
+
 }
 
 
@@ -2899,7 +2882,6 @@ async function deleteReview(
         )}`,
 
         {
-
           method:
             "DELETE",
 
@@ -2912,7 +2894,6 @@ async function deleteReview(
               `Bearer ${accessToken}`
 
           }
-
         }
 
       );
@@ -2940,22 +2921,16 @@ async function deleteReview(
   } catch (error) {
 
     console.error(
-      "Review delete error:",
       error
     );
 
-
-    showMessage(
-      actionMessage,
-      "Unable to delete review."
-    );
-
   }
+
 }
 
 
 // =====================================================
-// REVIEW FILTER EVENTS
+// REVIEW FILTERS
 // =====================================================
 
 reviewFilterButtons.forEach(
@@ -2967,11 +2942,9 @@ reviewFilterButtons.forEach(
 
         reviewFilterButtons.forEach(
           item =>
-
             item.classList.remove(
               "active"
             )
-
         );
 
 
@@ -2995,6 +2968,1232 @@ reviewFilterButtons.forEach(
 
 
 // =====================================================
+// ADMIN PRICING API
+// =====================================================
+
+async function pricingAdminRequest(
+  endpoint,
+  options = {}
+) {
+
+  if (!accessToken) {
+
+    throw new Error(
+      "Admin session unavailable."
+    );
+  }
+
+
+  const response =
+    await fetch(
+
+      `${SUPABASE_URL}/rest/v1/${endpoint}`,
+
+      {
+        ...options,
+
+        headers: {
+
+          apikey:
+            SUPABASE_PUBLISHABLE_KEY,
+
+          Authorization:
+            `Bearer ${accessToken}`,
+
+          "Content-Type":
+            "application/json",
+
+          ...(options.headers || {})
+
+        }
+      }
+
+    );
+
+
+  if (!response.ok) {
+
+    throw new Error(
+      await response.text()
+    );
+  }
+
+
+  const text =
+    await response.text();
+
+
+  return text
+    ? JSON.parse(text)
+    : null;
+
+}
+
+
+// =====================================================
+// PRICING MESSAGE
+// =====================================================
+
+function showPricingMessage(
+  message
+) {
+
+  if (!pricingAdminMessage) {
+    return;
+  }
+
+
+  pricingAdminMessage.textContent =
+    message;
+
+
+  pricingAdminMessage.style.display =
+    "block";
+
+
+  window.setTimeout(
+    () => {
+
+      pricingAdminMessage.style.display =
+        "none";
+
+    },
+    3000
+  );
+
+}
+
+
+// =====================================================
+// LOAD PRICING
+// =====================================================
+
+async function loadAdminPricing() {
+
+  await Promise.allSettled([
+
+    loadAdminServicePricing(),
+
+    loadAdminRegionPricing()
+
+  ]);
+
+
+  await loadAdminOverrides();
+
+}
+
+
+// =====================================================
+// LOAD SERVICE PRICES
+// =====================================================
+
+async function loadAdminServicePricing() {
+
+  if (!adminServicePricing) {
+    return;
+  }
+
+
+  adminServicePricing.innerHTML = `
+    <p class="note">
+      Loading service prices...
+    </p>
+  `;
+
+
+  try {
+
+    adminPricingServices =
+      await pricingAdminRequest(
+
+        "services_pricing?" +
+
+        "select=id,service_code,service_name,base_price_cad,price_type,active" +
+
+        "&order=id.asc"
+
+      );
+
+
+    renderAdminServicePricing();
+
+
+    populateOverrideServices();
+
+
+  } catch (error) {
+
+    console.error(
+      "Service pricing:",
+      error
+    );
+
+
+    adminServicePricing.innerHTML = `
+      <p class="note">
+        Unable to load service pricing.
+      </p>
+    `;
+
+  }
+
+}
+
+
+// =====================================================
+// RENDER SERVICE PRICES
+// =====================================================
+
+function renderAdminServicePricing() {
+
+  if (!adminServicePricing) {
+    return;
+  }
+
+
+  adminServicePricing.innerHTML =
+    adminPricingServices.map(
+      service => `
+
+        <article class="pricing-admin-card">
+
+          <span class="pricing-admin-code">
+
+            ${escapeHtml(
+              service.service_code
+            )}
+
+          </span>
+
+
+          <h3>
+
+            ${escapeHtml(
+              service.service_name
+            )}
+
+          </h3>
+
+
+          <label>
+            Base Price (CAD)
+          </label>
+
+
+          <input
+            type="number"
+            min="0"
+            step="0.01"
+            value="${Number(
+              service.base_price_cad
+            )}"
+            data-service-price-id="${service.id}"
+          >
+
+
+          <label>
+            Display Type
+          </label>
+
+
+          <select
+            data-service-type-id="${service.id}"
+          >
+
+            <option
+              value="starting_at"
+              ${
+                service.price_type ===
+                "starting_at"
+
+                  ? "selected"
+
+                  : ""
+              }
+            >
+              Starting at
+            </option>
+
+
+            <option
+              value="fixed"
+              ${
+                service.price_type ===
+                "fixed"
+
+                  ? "selected"
+
+                  : ""
+              }
+            >
+              Fixed price
+            </option>
+
+
+            <option
+              value="contact"
+              ${
+                service.price_type ===
+                "contact"
+
+                  ? "selected"
+
+                  : ""
+              }
+            >
+              Contact for pricing
+            </option>
+
+          </select>
+
+
+          <button
+            class="btn btn-primary"
+            type="button"
+            data-save-service="${service.id}"
+          >
+            Save Price
+          </button>
+
+        </article>
+
+      `
+    ).join("");
+
+
+  document
+    .querySelectorAll(
+      "[data-save-service]"
+    )
+    .forEach(
+      button => {
+
+        button.addEventListener(
+          "click",
+          saveAdminServicePricing
+        );
+
+      }
+    );
+
+}
+
+
+// =====================================================
+// SAVE SERVICE PRICE
+// =====================================================
+
+async function saveAdminServicePricing(
+  event
+) {
+
+  const button =
+    event.currentTarget;
+
+
+  const id =
+    button.dataset.saveService;
+
+
+  const priceInput =
+    document.querySelector(
+      `[data-service-price-id="${id}"]`
+    );
+
+
+  const typeInput =
+    document.querySelector(
+      `[data-service-type-id="${id}"]`
+    );
+
+
+  if (
+    !priceInput ||
+    !typeInput
+  ) {
+
+    return;
+  }
+
+
+  const price =
+    Number(
+      priceInput.value
+    );
+
+
+  if (
+    !Number.isFinite(price) ||
+    price < 0
+  ) {
+
+    showPricingMessage(
+      "Enter a valid price."
+    );
+
+    return;
+  }
+
+
+  button.disabled =
+    true;
+
+  button.textContent =
+    "Saving...";
+
+
+  try {
+
+    await pricingAdminRequest(
+
+      `services_pricing?id=eq.${encodeURIComponent(
+        id
+      )}`,
+
+      {
+        method:
+          "PATCH",
+
+        headers: {
+          Prefer:
+            "return=minimal"
+        },
+
+        body:
+          JSON.stringify({
+
+            base_price_cad:
+              price,
+
+            price_type:
+              typeInput.value,
+
+            updated_at:
+              new Date()
+                .toISOString()
+
+          })
+      }
+
+    );
+
+
+    showPricingMessage(
+      "Service price updated."
+    );
+
+
+    await loadAdminServicePricing();
+
+
+  } catch (error) {
+
+    console.error(
+      error
+    );
+
+
+    showPricingMessage(
+      "Unable to update service price."
+    );
+
+
+  } finally {
+
+    button.disabled =
+      false;
+
+    button.textContent =
+      "Save Price";
+
+  }
+
+}
+
+
+// =====================================================
+// LOAD COUNTRIES
+// =====================================================
+
+async function loadAdminRegionPricing() {
+
+  if (!adminRegionPricing) {
+    return;
+  }
+
+
+  adminRegionPricing.innerHTML = `
+    <p class="note">
+      Loading countries...
+    </p>
+  `;
+
+
+  try {
+
+    adminPricingRegions =
+      await pricingAdminRequest(
+
+        "pricing_regions?" +
+
+        "select=country_code,country_name,currency_code,currency_symbol,multiplier,active" +
+
+        "&order=country_name.asc"
+
+      );
+
+
+    renderAdminRegions();
+
+
+    populateOverrideCountries();
+
+
+  } catch (error) {
+
+    console.error(
+      error
+    );
+
+
+    adminRegionPricing.innerHTML = `
+      <p class="note">
+        Unable to load countries.
+      </p>
+    `;
+
+  }
+
+}
+
+
+// =====================================================
+// RENDER COUNTRIES
+// =====================================================
+
+function renderAdminRegions() {
+
+  if (!adminRegionPricing) {
+    return;
+  }
+
+
+  adminRegionPricing.innerHTML =
+    adminPricingRegions.map(
+      region => `
+
+        <article
+          class="pricing-region-row"
+        >
+
+          <div class="pricing-region-country">
+
+            <strong>
+
+              ${escapeHtml(
+                region.country_name
+              )}
+
+            </strong>
+
+            <span>
+
+              ${escapeHtml(
+                region.country_code
+              )}
+
+            </span>
+
+          </div>
+
+
+          <div>
+
+            <label>
+              Currency
+            </label>
+
+            <input
+              type="text"
+              maxlength="3"
+              value="${escapeHtml(
+                region.currency_code
+              )}"
+              data-region-currency="${region.country_code}"
+            >
+
+          </div>
+
+
+          <div>
+
+            <label>
+              Symbol
+            </label>
+
+            <input
+              type="text"
+              maxlength="6"
+              value="${escapeHtml(
+                region.currency_symbol
+              )}"
+              data-region-symbol="${region.country_code}"
+            >
+
+          </div>
+
+
+          <div>
+
+            <label>
+              Multiplier
+            </label>
+
+            <input
+              type="number"
+              min="0.0001"
+              step="0.0001"
+              value="${Number(
+                region.multiplier
+              )}"
+              data-region-multiplier="${region.country_code}"
+            >
+
+          </div>
+
+
+          <button
+            class="btn"
+            type="button"
+            data-save-region="${region.country_code}"
+          >
+            Save
+          </button>
+
+        </article>
+
+      `
+    ).join("");
+
+
+  document
+    .querySelectorAll(
+      "[data-save-region]"
+    )
+    .forEach(
+      button => {
+
+        button.addEventListener(
+          "click",
+          saveAdminRegion
+        );
+
+      }
+    );
+
+}
+
+
+// =====================================================
+// SAVE REGION
+// =====================================================
+
+async function saveAdminRegion(
+  event
+) {
+
+  const button =
+    event.currentTarget;
+
+
+  const code =
+    button.dataset.saveRegion;
+
+
+  const currency =
+    document.querySelector(
+      `[data-region-currency="${code}"]`
+    );
+
+
+  const symbol =
+    document.querySelector(
+      `[data-region-symbol="${code}"]`
+    );
+
+
+  const multiplier =
+    document.querySelector(
+      `[data-region-multiplier="${code}"]`
+    );
+
+
+  if (
+    !currency ||
+    !symbol ||
+    !multiplier
+  ) {
+
+    return;
+  }
+
+
+  const multiplierNumber =
+    Number(
+      multiplier.value
+    );
+
+
+  if (
+    !Number.isFinite(
+      multiplierNumber
+    ) ||
+    multiplierNumber <= 0
+  ) {
+
+    showPricingMessage(
+      "Multiplier must be greater than zero."
+    );
+
+    return;
+  }
+
+
+  button.disabled =
+    true;
+
+  button.textContent =
+    "Saving...";
+
+
+  try {
+
+    await pricingAdminRequest(
+
+      `pricing_regions?country_code=eq.${encodeURIComponent(
+        code
+      )}`,
+
+      {
+        method:
+          "PATCH",
+
+        headers: {
+          Prefer:
+            "return=minimal"
+        },
+
+        body:
+          JSON.stringify({
+
+            currency_code:
+              currency.value
+                .trim()
+                .toUpperCase(),
+
+            currency_symbol:
+              symbol.value
+                .trim(),
+
+            multiplier:
+              multiplierNumber,
+
+            updated_at:
+              new Date()
+                .toISOString()
+
+          })
+      }
+
+    );
+
+
+    showPricingMessage(
+      `${code} pricing updated.`
+    );
+
+
+  } catch (error) {
+
+    console.error(
+      error
+    );
+
+
+    showPricingMessage(
+      "Unable to update country pricing."
+    );
+
+
+  } finally {
+
+    button.disabled =
+      false;
+
+    button.textContent =
+      "Save";
+
+  }
+
+}
+
+
+// =====================================================
+// POPULATE OVERRIDE SERVICE SELECT
+// =====================================================
+
+function populateOverrideServices() {
+
+  if (!overrideService) {
+    return;
+  }
+
+
+  overrideService.innerHTML =
+    adminPricingServices.map(
+      service => `
+
+        <option
+          value="${escapeHtml(
+            service.service_code
+          )}"
+        >
+
+          ${escapeHtml(
+            service.service_name
+          )}
+
+        </option>
+
+      `
+    ).join("");
+
+}
+
+
+// =====================================================
+// POPULATE COUNTRY SELECT
+// =====================================================
+
+function populateOverrideCountries() {
+
+  if (!overrideCountry) {
+    return;
+  }
+
+
+  overrideCountry.innerHTML =
+    adminPricingRegions.map(
+      region => `
+
+        <option
+          value="${escapeHtml(
+            region.country_code
+          )}"
+        >
+
+          ${escapeHtml(
+            region.country_name
+          )}
+
+          (${escapeHtml(
+            region.currency_code
+          )})
+
+        </option>
+
+      `
+    ).join("");
+
+}
+
+
+// =====================================================
+// SAVE COUNTRY OVERRIDE
+// =====================================================
+
+saveOverrideButton?.addEventListener(
+  "click",
+  async () => {
+
+    const serviceCode =
+      overrideService?.value;
+
+
+    const countryCode =
+      overrideCountry?.value;
+
+
+    const price =
+      Number(
+        overridePrice?.value
+      );
+
+
+    if (
+      !serviceCode ||
+      !countryCode ||
+      !Number.isFinite(price) ||
+      price < 0
+    ) {
+
+      showPricingMessage(
+        "Enter a valid override price."
+      );
+
+      return;
+    }
+
+
+    saveOverrideButton.disabled =
+      true;
+
+    saveOverrideButton.textContent =
+      "Saving...";
+
+
+    try {
+
+      await pricingAdminRequest(
+
+        "pricing_overrides?" +
+        "on_conflict=service_code,country_code",
+
+        {
+          method:
+            "POST",
+
+          headers: {
+            Prefer:
+              "resolution=merge-duplicates,return=minimal"
+          },
+
+          body:
+            JSON.stringify({
+
+              service_code:
+                serviceCode,
+
+              country_code:
+                countryCode,
+
+              local_price:
+                price,
+
+              updated_at:
+                new Date()
+                  .toISOString()
+
+            })
+        }
+
+      );
+
+
+      if (overridePrice) {
+
+        overridePrice.value =
+          "";
+      }
+
+
+      showPricingMessage(
+        "Country-specific price saved."
+      );
+
+
+      await loadAdminOverrides();
+
+
+    } catch (error) {
+
+      console.error(
+        error
+      );
+
+
+      showPricingMessage(
+        "Unable to save country-specific price."
+      );
+
+
+    } finally {
+
+      saveOverrideButton.disabled =
+        false;
+
+      saveOverrideButton.textContent =
+        "Save Override";
+
+    }
+
+  }
+);
+
+
+// =====================================================
+// LOAD OVERRIDES
+// =====================================================
+
+async function loadAdminOverrides() {
+
+  if (!adminPricingOverrides) {
+    return;
+  }
+
+
+  adminPricingOverrides.innerHTML = `
+    <p class="note">
+      Loading overrides...
+    </p>
+  `;
+
+
+  try {
+
+    const overrides =
+      await pricingAdminRequest(
+
+        "pricing_overrides?" +
+
+        "select=id,service_code,country_code,local_price,updated_at" +
+
+        "&order=country_code.asc"
+
+      );
+
+
+    renderAdminOverrides(
+      overrides ||
+      []
+    );
+
+
+  } catch (error) {
+
+    console.error(
+      error
+    );
+
+
+    adminPricingOverrides.innerHTML = `
+      <p class="note">
+        Unable to load overrides.
+      </p>
+    `;
+
+  }
+
+}
+
+
+// =====================================================
+// RENDER OVERRIDES
+// =====================================================
+
+function renderAdminOverrides(
+  overrides
+) {
+
+  if (!adminPricingOverrides) {
+    return;
+  }
+
+
+  if (!overrides.length) {
+
+    adminPricingOverrides.innerHTML = `
+      <p class="note">
+        No country-specific prices yet.
+      </p>
+    `;
+
+    return;
+  }
+
+
+  adminPricingOverrides.innerHTML =
+    overrides.map(
+      item => {
+
+
+        const service =
+          adminPricingServices.find(
+            serviceItem =>
+              serviceItem.service_code ===
+              item.service_code
+          );
+
+
+        const region =
+          adminPricingRegions.find(
+            regionItem =>
+              regionItem.country_code ===
+              item.country_code
+          );
+
+
+        return `
+
+          <article
+            class="pricing-override-row"
+          >
+
+            <div>
+
+              <strong>
+
+                ${escapeHtml(
+                  service?.service_name ||
+                  item.service_code
+                )}
+
+              </strong>
+
+            </div>
+
+
+            <div>
+
+              ${escapeHtml(
+                region?.country_name ||
+                item.country_code
+              )}
+
+            </div>
+
+
+            <div>
+
+              ${escapeHtml(
+                region?.currency_symbol ||
+                ""
+              )}
+
+              ${Number(
+                item.local_price
+              ).toLocaleString()}
+
+            </div>
+
+
+            <div>
+
+              ${escapeHtml(
+                region?.currency_code ||
+                ""
+              )}
+
+            </div>
+
+
+            <button
+              class="btn admin-delete"
+              type="button"
+              data-delete-override="${item.id}"
+            >
+              Delete
+            </button>
+
+          </article>
+
+        `;
+
+      }
+    ).join("");
+
+
+  document
+    .querySelectorAll(
+      "[data-delete-override]"
+    )
+    .forEach(
+      button => {
+
+        button.addEventListener(
+          "click",
+          deletePricingOverride
+        );
+
+      }
+    );
+
+}
+
+
+// =====================================================
+// DELETE OVERRIDE
+// =====================================================
+
+async function deletePricingOverride(
+  event
+) {
+
+  const button =
+    event.currentTarget;
+
+
+  const id =
+    button.dataset.deleteOverride;
+
+
+  if (
+    !window.confirm(
+      "Delete this country-specific price?"
+    )
+  ) {
+
+    return;
+  }
+
+
+  try {
+
+    await pricingAdminRequest(
+
+      `pricing_overrides?id=eq.${encodeURIComponent(
+        id
+      )}`,
+
+      {
+        method:
+          "DELETE",
+
+        headers: {
+          Prefer:
+            "return=minimal"
+        }
+      }
+
+    );
+
+
+    showPricingMessage(
+      "Price override deleted."
+    );
+
+
+    await loadAdminOverrides();
+
+
+  } catch (error) {
+
+    console.error(
+      error
+    );
+
+
+    showPricingMessage(
+      "Unable to delete price override."
+    );
+
+  }
+
+}
+
+
+// =====================================================
 // LOGOUT
 // =====================================================
 
@@ -3011,7 +4210,6 @@ logoutButton?.addEventListener(
           `${SUPABASE_URL}/auth/v1/logout`,
 
           {
-
             method:
               "POST",
 
@@ -3024,7 +4222,6 @@ logoutButton?.addEventListener(
                 `Bearer ${accessToken}`
 
             }
-
           }
 
         );
@@ -3055,7 +4252,6 @@ logoutButton?.addEventListener(
 
       dashboard.style.display =
         "none";
-
     }
 
 
@@ -3063,7 +4259,6 @@ logoutButton?.addEventListener(
 
       loginSection.style.display =
         "block";
-
     }
 
 
@@ -3092,7 +4287,6 @@ async function tokenIsValid() {
         `${SUPABASE_URL}/auth/v1/user`,
 
         {
-
           headers: {
 
             apikey:
@@ -3102,7 +4296,6 @@ async function tokenIsValid() {
               `Bearer ${accessToken}`
 
           }
-
         }
 
       );
@@ -3114,13 +4307,13 @@ async function tokenIsValid() {
   } catch {
 
     return false;
-
   }
+
 }
 
 
 // =====================================================
-// RESTORE LOGIN
+// RESTORE SESSION
 // =====================================================
 
 async function restoreAdminSession() {
@@ -3175,6 +4368,7 @@ async function restoreAdminSession() {
 
 
   await showDashboard();
+
 }
 
 

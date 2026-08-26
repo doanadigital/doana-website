@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+
   <meta charset="utf-8">
 
   <meta
@@ -19,16 +20,20 @@
     content="noindex,nofollow"
   >
 
-  <title>Doana Digital — Admin</title>
+  <title>
+    Doana Digital — Admin
+  </title>
 
   <link
     rel="stylesheet"
     href="styles.css"
   >
+
 </head>
 
 
 <body>
+
 
 <main class="section">
 
@@ -36,6 +41,7 @@
     class="container"
     style="max-width:1180px;"
   >
+
 
 
     <!-- =====================================================
@@ -53,6 +59,7 @@
           margin:0 auto;
         "
       >
+
 
         <a
           href="index.html"
@@ -73,9 +80,13 @@
 
 
         <p class="lead">
-          Sign in to manage website analytics,
-          project inquiries and client feedback.
+
+          Sign in to manage analytics,
+          project inquiries, client feedback
+          and pricing.
+
         </p>
+
 
 
         <form id="adminLoginForm">
@@ -84,6 +95,7 @@
           <label for="adminEmail">
             Email
           </label>
+
 
           <input
             id="adminEmail"
@@ -95,22 +107,26 @@
           >
 
 
+
           <label for="adminPassword">
             Password
           </label>
+
 
           <input
             id="adminPassword"
             name="password"
             type="password"
             autocomplete="current-password"
-            required
             minlength="8"
+            required
             placeholder="Password"
           >
 
 
+
           <div class="admin-login-actions">
+
 
             <button
               id="adminLoginButton"
@@ -129,7 +145,9 @@
               Forgot password?
             </button>
 
+
           </div>
+
 
 
           <div
@@ -138,6 +156,7 @@
             role="status"
             aria-live="polite"
           ></div>
+
 
 
           <div
@@ -149,6 +168,7 @@
 
 
         </form>
+
 
       </div>
 
@@ -166,9 +186,11 @@
     >
 
 
+
       <!-- HEADER -->
 
       <div class="admin-header">
+
 
         <div>
 
@@ -176,19 +198,25 @@
             Doana Administration
           </div>
 
+
           <h1>
             Dashboard
           </h1>
 
+
           <p class="lead">
-            Monitor website activity, manage project
-            inquiries and moderate client testimonials.
+
+            Monitor activity, manage leads,
+            moderate reviews and control pricing.
+
           </p>
 
         </div>
 
 
+
         <div class="admin-header-actions">
+
 
           <a
             href="index.html"
@@ -206,7 +234,9 @@
             Sign Out
           </button>
 
+
         </div>
+
 
       </div>
 
@@ -246,12 +276,21 @@
         </button>
 
 
+        <button
+          id="pricingTab"
+          class="btn admin-main-tab"
+          type="button"
+        >
+          Pricing
+        </button>
+
+
       </div>
 
 
 
       <!-- =====================================================
-           ANALYTICS
+           ANALYTICS PANEL
       ====================================================== -->
 
       <section
@@ -276,15 +315,15 @@
 
 
           <p>
-            Understand how visitors are finding and
-            using the Doana Digital website.
+
+            Understand how visitors are finding
+            and using the Doana Digital website.
+
           </p>
 
         </div>
 
 
-
-        <!-- SUMMARY -->
 
         <div class="analytics-summary">
 
@@ -360,36 +399,27 @@
 
 
 
-        <!-- DETAILS -->
-
         <div class="analytics-grid">
 
-
-          <!-- TOP PAGES -->
 
           <article class="analytics-panel-card">
 
             <div class="analytics-panel-header">
 
-              <div>
+              <span class="analytics-small-label">
+                Content
+              </span>
 
-                <span class="analytics-small-label">
-                  Content
-                </span>
-
-                <h3>
-                  Top Pages
-                </h3>
-
-              </div>
+              <h3>
+                Top Pages
+              </h3>
 
             </div>
-
 
             <div id="topPages">
 
               <p class="note">
-                Loading page activity...
+                Loading...
               </p>
 
             </div>
@@ -398,31 +428,24 @@
 
 
 
-          <!-- COUNTRIES -->
-
           <article class="analytics-panel-card">
 
             <div class="analytics-panel-header">
 
-              <div>
+              <span class="analytics-small-label">
+                Location
+              </span>
 
-                <span class="analytics-small-label">
-                  Location
-                </span>
-
-                <h3>
-                  Visitors by Country
-                </h3>
-
-              </div>
+              <h3>
+                Visitors by Country
+              </h3>
 
             </div>
-
 
             <div id="countryAnalytics">
 
               <p class="note">
-                Loading country data...
+                Loading...
               </p>
 
             </div>
@@ -431,31 +454,24 @@
 
 
 
-          <!-- TRAFFIC -->
-
           <article class="analytics-panel-card">
 
             <div class="analytics-panel-header">
 
-              <div>
+              <span class="analytics-small-label">
+                Acquisition
+              </span>
 
-                <span class="analytics-small-label">
-                  Acquisition
-                </span>
-
-                <h3>
-                  Traffic Sources
-                </h3>
-
-              </div>
+              <h3>
+                Traffic Sources
+              </h3>
 
             </div>
-
 
             <div id="trafficSources">
 
               <p class="note">
-                Loading traffic sources...
+                Loading...
               </p>
 
             </div>
@@ -464,31 +480,24 @@
 
 
 
-          <!-- RECENT -->
-
           <article class="analytics-panel-card">
 
             <div class="analytics-panel-header">
 
-              <div>
+              <span class="analytics-small-label">
+                Activity
+              </span>
 
-                <span class="analytics-small-label">
-                  Activity
-                </span>
-
-                <h3>
-                  Recent Visits
-                </h3>
-
-              </div>
+              <h3>
+                Recent Visits
+              </h3>
 
             </div>
-
 
             <div id="recentVisits">
 
               <p class="note">
-                Loading recent activity...
+                Loading...
               </p>
 
             </div>
@@ -530,8 +539,11 @@
 
 
           <p>
-            View project requests, contact potential
-            clients and track each inquiry.
+
+            View project requests,
+            contact potential clients
+            and track each inquiry.
+
           </p>
 
         </div>
@@ -557,6 +569,7 @@
           </article>
 
 
+
           <article class="admin-summary-card">
 
             <span class="admin-summary-label">
@@ -571,6 +584,7 @@
             </strong>
 
           </article>
+
 
 
           <article class="admin-summary-card">
@@ -593,10 +607,7 @@
 
 
 
-        <div
-          class="admin-filters"
-          aria-label="Inquiry filters"
-        >
+        <div class="admin-filters">
 
 
           <button
@@ -638,11 +649,10 @@
         </div>
 
 
+
         <div
           id="inquiryActionMessage"
           class="success"
-          role="status"
-          aria-live="polite"
         ></div>
 
 
@@ -660,7 +670,7 @@
 
 
       <!-- =====================================================
-           CLIENT REVIEWS
+           REVIEWS
       ====================================================== -->
 
       <section
@@ -686,8 +696,10 @@
 
 
           <p>
-            Review submitted testimonials before
-            they appear publicly on the website.
+
+            Approve genuine client feedback
+            before displaying it publicly.
+
           </p>
 
         </div>
@@ -749,10 +761,7 @@
 
 
 
-        <div
-          class="admin-filters"
-          aria-label="Review filters"
-        >
+        <div class="admin-filters">
 
 
           <button
@@ -794,11 +803,10 @@
         </div>
 
 
+
         <div
           id="adminActionMessage"
           class="success"
-          role="status"
-          aria-live="polite"
         ></div>
 
 
@@ -814,7 +822,236 @@
       </section>
 
 
+
+      <!-- =====================================================
+           PRICING
+      ====================================================== -->
+
+      <section
+        id="pricingPanel"
+        class="admin-panel"
+        style="display:none;"
+      >
+
+
+        <div class="section-head">
+
+          <div>
+
+            <div class="kicker">
+              Business Settings
+            </div>
+
+            <h2>
+              Pricing
+            </h2>
+
+          </div>
+
+
+          <p>
+
+            Manage Canadian base prices
+            and country pricing.
+
+          </p>
+
+        </div>
+
+
+
+        <div
+          id="pricingAdminMessage"
+          class="success"
+        ></div>
+
+
+
+        <!-- SERVICE PRICES -->
+
+        <div class="pricing-admin-section">
+
+
+          <div class="pricing-admin-heading">
+
+            <div>
+
+              <h3>
+                Service Base Prices
+              </h3>
+
+              <p class="note">
+                Master prices are stored in CAD.
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <div
+            id="adminServicePricing"
+            class="pricing-admin-grid"
+          >
+
+            <p class="note">
+              Loading service prices...
+            </p>
+
+          </div>
+
+
+        </div>
+
+
+
+        <!-- COUNTRY SETTINGS -->
+
+        <div class="pricing-admin-section">
+
+
+          <div class="pricing-admin-heading">
+
+            <div>
+
+              <h3>
+                Country Pricing
+              </h3>
+
+              <p class="note">
+
+                Set the currency and pricing
+                multiplier for each country.
+
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <div
+            id="adminRegionPricing"
+            class="pricing-region-list"
+          >
+
+            <p class="note">
+              Loading countries...
+            </p>
+
+          </div>
+
+
+        </div>
+
+
+
+        <!-- PRICE OVERRIDES -->
+
+        <div class="pricing-admin-section">
+
+
+          <div class="pricing-admin-heading">
+
+            <div>
+
+              <h3>
+                Country Specific Prices
+              </h3>
+
+              <p class="note">
+
+                Optional. Set an exact service
+                price for a specific country.
+
+              </p>
+
+            </div>
+
+          </div>
+
+
+
+          <div class="pricing-override-form">
+
+
+            <div>
+
+              <label for="overrideService">
+                Service
+              </label>
+
+              <select id="overrideService">
+              </select>
+
+            </div>
+
+
+
+            <div>
+
+              <label for="overrideCountry">
+                Country
+              </label>
+
+              <select id="overrideCountry">
+              </select>
+
+            </div>
+
+
+
+            <div>
+
+              <label for="overridePrice">
+                Local Price
+              </label>
+
+              <input
+                id="overridePrice"
+                type="number"
+                min="0"
+                step="0.01"
+                placeholder="0.00"
+              >
+
+            </div>
+
+
+
+            <button
+              id="saveOverride"
+              class="btn btn-primary"
+              type="button"
+            >
+              Save Override
+            </button>
+
+
+          </div>
+
+
+
+          <div
+            id="adminPricingOverrides"
+            class="pricing-override-list"
+          >
+
+            <p class="note">
+              Loading overrides...
+            </p>
+
+          </div>
+
+
+        </div>
+
+
+      </section>
+
+
     </section>
+
 
   </div>
 
@@ -823,5 +1060,7 @@
 
 <script src="admin.js"></script>
 
+
 </body>
+
 </html>

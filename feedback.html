@@ -15,6 +15,11 @@
     content="Read client feedback for Doana Digital or share your experience working with us."
   >
 
+  <meta
+    name="robots"
+    content="index,follow"
+  >
+
   <title>
     Client Feedback — Doana Digital
   </title>
@@ -59,6 +64,7 @@
     <button
       class="menu-btn"
       aria-label="Open navigation"
+      aria-expanded="false"
       type="button"
     >
       ☰
@@ -79,7 +85,10 @@
         About
       </a>
 
-      <a href="feedback.html">
+      <a
+        href="feedback.html"
+        class="active"
+      >
         Feedback
       </a>
 
@@ -128,7 +137,10 @@
       </h1>
 
 
-      <p class="lead">
+      <p
+        class="lead"
+        style="max-width:760px;"
+      >
 
         See feedback from people who have worked
         with Doana Digital, or share your own
@@ -180,7 +192,7 @@
 
 
       <!--
-        Reviews are loaded automatically
+        Approved reviews are loaded automatically
         from Supabase by script.js
       -->
 
@@ -248,13 +260,16 @@
 
       <!-- RIGHT -->
 
-      <form id="feedbackForm">
+      <form
+        id="feedbackForm"
+        autocomplete="on"
+      >
 
 
         <!-- NAME -->
 
         <label for="clientName">
-          Your name
+          Your name *
         </label>
 
         <input
@@ -263,6 +278,7 @@
           type="text"
           autocomplete="name"
           required
+          minlength="2"
           maxlength="120"
           placeholder="Your name"
         >
@@ -288,7 +304,7 @@
         <!-- RATING -->
 
         <label for="rating">
-          Rating
+          Rating *
         </label>
 
         <select
@@ -297,7 +313,11 @@
           required
         >
 
-          <option value="">
+          <option
+            value=""
+            selected
+            disabled
+          >
             Select a rating
           </option>
 
@@ -328,7 +348,7 @@
         <!-- FEEDBACK -->
 
         <label for="feedbackText">
-          Your feedback
+          Your feedback *
         </label>
 
         <textarea
@@ -337,8 +357,28 @@
           required
           minlength="10"
           maxlength="2000"
+          rows="8"
           placeholder="Tell us about your experience working with Doana Digital."
         ></textarea>
+
+
+
+        <!-- PRIVACY NOTE -->
+
+        <p class="note">
+
+          By submitting feedback, you agree that
+          Doana Digital may review and, if approved,
+          publish your name, project or business name,
+          rating and testimonial on the website.
+
+          See our
+
+          <a href="privacy.html">
+            Privacy Policy
+          </a>.
+
+        </p>
 
 
 
@@ -350,15 +390,6 @@
         >
           Submit feedback
         </button>
-
-
-
-        <p class="note">
-
-          Reviews are moderated before appearing
-          publicly on the website.
-
-        </p>
 
 
 
@@ -486,7 +517,7 @@
         </a>
 
         <a href="privacy.html">
-          Privacy
+          Privacy Policy
         </a>
 
         <a href="admin.html">
@@ -545,9 +576,22 @@
       </div>
 
 
-      <div>
-        Branding • Graphic Design • Digital Experiences
+      <div class="footer-legal">
+
+        <a href="privacy.html">
+          Privacy Policy
+        </a>
+
+        <span>
+          •
+        </span>
+
+        <a href="contact.html">
+          Contact
+        </a>
+
       </div>
+
 
     </div>
 
@@ -564,9 +608,9 @@
 
 <script src="script.js"></script>
 
-<!-- Keep this if you created analytics.js -->
 <script src="analytics.js"></script>
 
 
 </body>
+
 </html>

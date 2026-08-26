@@ -14,10 +14,8 @@
 const PUBLIC_SUPABASE_URL =
   "https://efbmmxtteekbjayiesft.supabase.co";
 
-
 const PUBLIC_SUPABASE_KEY =
   "sb_publishable_xBSJ2JvLfmitO7-e-JJHpw_Ak3R7joj";
-
 
 
 // =====================================================
@@ -25,10 +23,7 @@ const PUBLIC_SUPABASE_KEY =
 // =====================================================
 
 const yearElement =
-  document.getElementById(
-    "year"
-  );
-
+  document.getElementById("year");
 
 if (yearElement) {
 
@@ -38,21 +33,15 @@ if (yearElement) {
 }
 
 
-
 // =====================================================
 // MOBILE NAVIGATION
 // =====================================================
 
 const menuButton =
-  document.querySelector(
-    ".menu-btn"
-  );
-
+  document.querySelector(".menu-btn");
 
 const navigationLinks =
-  document.querySelector(
-    ".nav-links"
-  );
+  document.querySelector(".nav-links");
 
 
 if (
@@ -94,7 +83,6 @@ if (
 }
 
 
-
 // =====================================================
 // ACTIVE NAVIGATION LINK
 // =====================================================
@@ -107,16 +95,12 @@ const currentPage =
 
 
 document
-  .querySelectorAll(
-    ".nav-links a"
-  )
+  .querySelectorAll(".nav-links a")
   .forEach(
     link => {
 
       const href =
-        link.getAttribute(
-          "href"
-        );
+        link.getAttribute("href");
 
 
       if (
@@ -132,7 +116,6 @@ document
 
     }
   );
-
 
 
 // =====================================================
@@ -151,20 +134,11 @@ function escapeHtml(
 
     character => ({
 
-      "&":
-        "&amp;",
-
-      "<":
-        "&lt;",
-
-      ">":
-        "&gt;",
-
-      '"':
-        "&quot;",
-
-      "'":
-        "&#039;"
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&quot;",
+      "'": "&#039;"
 
     })[character]
 
@@ -173,15 +147,12 @@ function escapeHtml(
 }
 
 
-
 // =====================================================
 // STARTER REVIEWS
 // =====================================================
 //
-// These remain visible even if Supabase temporarily
-// cannot be reached.
-//
-// Approved Supabase reviews are shown BEFORE these.
+// These are your existing portfolio/client reviews.
+// Supabase-approved reviews are displayed first.
 // =====================================================
 
 const starterReviews = [
@@ -202,7 +173,6 @@ const starterReviews = [
 
   },
 
-
   {
 
     name:
@@ -222,9 +192,8 @@ const starterReviews = [
 ];
 
 
-
 // =====================================================
-// FETCH APPROVED REVIEWS FROM SUPABASE
+// FETCH APPROVED REVIEWS
 // =====================================================
 
 async function getApprovedReviews() {
@@ -247,8 +216,7 @@ async function getApprovedReviews() {
 
         {
 
-          method:
-            "GET",
+          method: "GET",
 
           headers: {
 
@@ -267,12 +235,8 @@ async function getApprovedReviews() {
 
     if (!response.ok) {
 
-      const errorText =
-        await response.text();
-
-
       throw new Error(
-        errorText
+        await response.text()
       );
 
     }
@@ -282,18 +246,9 @@ async function getApprovedReviews() {
       await response.json();
 
 
-    if (
-      !Array.isArray(
-        reviews
-      )
-    ) {
-
-      return [];
-
-    }
-
-
-    return reviews;
+    return Array.isArray(reviews)
+      ? reviews
+      : [];
 
 
   } catch (error) {
@@ -303,13 +258,11 @@ async function getApprovedReviews() {
       error
     );
 
-
     return [];
 
   }
 
 }
-
 
 
 // =====================================================
@@ -322,11 +275,14 @@ function createStars(
 
   const safeRating =
     Math.max(
+
       1,
+
       Math.min(
         5,
         Number(rating) || 5
       )
+
     );
 
 
@@ -337,9 +293,8 @@ function createStars(
 }
 
 
-
 // =====================================================
-// REVIEW HTML
+// CREATE REVIEW HTML
 // =====================================================
 
 function createReviewHtml(
@@ -356,16 +311,20 @@ function createReviewHtml(
           review.rating
         )} out of 5 stars"
       >
+
         ${createStars(
           review.rating
         )}
+
       </div>
 
 
       <p>
+
         “${escapeHtml(
           review.text
         )}”
+
       </p>
 
 
@@ -393,7 +352,6 @@ function createReviewHtml(
   `;
 
 }
-
 
 
 // =====================================================
@@ -428,9 +386,6 @@ async function renderPublicReviews(
   const approvedReviews =
     await getApprovedReviews();
 
-
-  // Supabase reviews are first.
-  // Starter reviews remain afterwards.
 
   const allReviews = [
 
@@ -480,13 +435,12 @@ async function renderPublicReviews(
 }
 
 
-
 // =====================================================
 // LOAD REVIEWS
 // =====================================================
 //
-// feedback.html uses reviewList
-// index.html uses homeReviews
+// feedback.html → reviewList
+// index.html    → homeReviews
 // =====================================================
 
 renderPublicReviews(
@@ -498,7 +452,6 @@ renderPublicReviews(
   "homeReviews",
   3
 );
-
 
 
 // =====================================================
@@ -514,9 +467,7 @@ const feedbackForm =
 if (feedbackForm) {
 
   feedbackForm.addEventListener(
-
     "submit",
-
     async event => {
 
       event.preventDefault();
@@ -560,7 +511,6 @@ if (feedbackForm) {
         ).trim();
 
 
-
       // =============================================
       // VALIDATION
       // =============================================
@@ -581,7 +531,6 @@ if (feedbackForm) {
       }
 
 
-
       const review = {
 
         name,
@@ -600,7 +549,6 @@ if (feedbackForm) {
       };
 
 
-
       const submitButton =
         feedbackForm.querySelector(
           'button[type="submit"]'
@@ -616,7 +564,6 @@ if (feedbackForm) {
           "Submitting...";
 
       }
-
 
 
       hideFeedbackMessage();
@@ -662,20 +609,14 @@ if (feedbackForm) {
 
         if (!response.ok) {
 
-          const errorText =
-            await response.text();
-
-
           throw new Error(
-            errorText
+            await response.text()
           );
 
         }
 
 
-
         feedbackForm.reset();
-
 
 
         showFeedbackMessage(
@@ -699,6 +640,7 @@ if (feedbackForm) {
 
         );
 
+
       } finally {
 
         if (submitButton) {
@@ -714,15 +656,13 @@ if (feedbackForm) {
       }
 
     }
-
   );
 
 }
 
 
-
 // =====================================================
-// FEEDBACK MESSAGE HELPERS
+// FEEDBACK MESSAGE
 // =====================================================
 
 function showFeedbackMessage(
@@ -742,7 +682,6 @@ function showFeedbackMessage(
 
   element.textContent =
     message;
-
 
   element.style.display =
     "block";
@@ -766,31 +705,14 @@ function hideFeedbackMessage() {
   element.textContent =
     "";
 
-
   element.style.display =
     "none";
 
 }
 
 
-
 // =====================================================
 // CONTACT FORM
-// =====================================================
-//
-// Compatible with your contact_inquiries table.
-//
-// Expected possible field names:
-// name
-// email
-// phone
-// business
-// service
-// budget
-// timeline
-// message
-//
-// Missing optional fields become null.
 // =====================================================
 
 const contactForm =
@@ -799,12 +721,150 @@ const contactForm =
   );
 
 
+// =====================================================
+// SERVICE QUERY PARAMETER
+// =====================================================
+//
+// Example:
+//
+// services.html
+//     ↓
+// contact.html?service=Business%20Cards
+//
+// This automatically selects Business Cards
+// inside the Contact form.
+// =====================================================
+
+function prefillContactService() {
+
+  if (!contactForm) {
+    return;
+  }
+
+
+  const params =
+    new URLSearchParams(
+      window.location.search
+    );
+
+
+  const requestedService =
+    params.get(
+      "service"
+    );
+
+
+  if (!requestedService) {
+    return;
+  }
+
+
+  const serviceField =
+
+    contactForm.querySelector(
+      '[name="service"]'
+    );
+
+
+  if (!serviceField) {
+    return;
+  }
+
+
+  // =============================================
+  // SELECT FIELD
+  // =============================================
+
+  if (
+    serviceField.tagName ===
+    "SELECT"
+  ) {
+
+    const options =
+      Array.from(
+        serviceField.options
+      );
+
+
+    const normalizedRequested =
+      requestedService
+        .trim()
+        .toLowerCase();
+
+
+    const matchingOption =
+      options.find(
+        option => {
+
+          const optionValue =
+            String(
+              option.value
+            )
+              .trim()
+              .toLowerCase();
+
+
+          const optionText =
+            String(
+              option.textContent
+            )
+              .trim()
+              .toLowerCase();
+
+
+          return (
+
+            optionValue ===
+            normalizedRequested
+
+            ||
+
+            optionText ===
+            normalizedRequested
+
+          );
+
+        }
+      );
+
+
+    if (matchingOption) {
+
+      serviceField.value =
+        matchingOption.value;
+
+    }
+
+  }
+
+
+  // =============================================
+  // NORMAL INPUT
+  // =============================================
+
+  else {
+
+    serviceField.value =
+      requestedService;
+
+  }
+
+}
+
+
+// Run prefill immediately.
+
+prefillContactService();
+
+
+// =====================================================
+// CONTACT FORM SUBMISSION
+// =====================================================
+
 if (contactForm) {
 
   contactForm.addEventListener(
-
     "submit",
-
     async event => {
 
       event.preventDefault();
@@ -836,14 +896,15 @@ if (contactForm) {
 
 
           const cleaned =
-            String(value).trim();
+            String(
+              value
+            ).trim();
 
 
           return cleaned ||
             null;
 
         };
-
 
 
       const inquiry = {
@@ -878,7 +939,6 @@ if (contactForm) {
       };
 
 
-
       if (
         !inquiry.name ||
         !inquiry.email ||
@@ -886,15 +946,12 @@ if (contactForm) {
       ) {
 
         showContactMessage(
-
           "Please complete the required fields."
-
         );
 
         return;
 
       }
-
 
 
       const submitButton =
@@ -957,20 +1014,14 @@ if (contactForm) {
 
         if (!response.ok) {
 
-          const errorText =
-            await response.text();
-
-
           throw new Error(
-            errorText
+            await response.text()
           );
 
         }
 
 
-
         contactForm.reset();
-
 
 
         showContactMessage(
@@ -994,6 +1045,7 @@ if (contactForm) {
 
         );
 
+
       } finally {
 
         if (submitButton) {
@@ -1009,15 +1061,13 @@ if (contactForm) {
       }
 
     }
-
   );
 
 }
 
 
-
 // =====================================================
-// CONTACT MESSAGE HELPERS
+// CONTACT MESSAGE
 // =====================================================
 
 function showContactMessage(
@@ -1037,7 +1087,6 @@ function showContactMessage(
 
   element.textContent =
     message;
-
 
   element.style.display =
     "block";
@@ -1061,12 +1110,10 @@ function hideContactMessage() {
   element.textContent =
     "";
 
-
   element.style.display =
     "none";
 
 }
-
 
 
 // =====================================================
@@ -1085,7 +1132,6 @@ let currentHeroSlide =
 
 let heroInterval =
   null;
-
 
 
 if (
@@ -1120,7 +1166,6 @@ if (
   );
 
 
-
   function showHeroSlide(
     index
   ) {
@@ -1145,7 +1190,6 @@ if (
   }
 
 
-
   function nextHeroSlide() {
 
     const next =
@@ -1153,7 +1197,9 @@ if (
       (
         currentHeroSlide +
         1
-      ) %
+      )
+
+      %
 
       heroSlides.length;
 
@@ -1163,7 +1209,6 @@ if (
     );
 
   }
-
 
 
   function startHeroSlider() {
@@ -1184,7 +1229,6 @@ if (
       );
 
   }
-
 
 
   startHeroSlider();
