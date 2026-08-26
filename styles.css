@@ -2520,3 +2520,472 @@ textarea {
   }
 
 }
+
+/* ==========================================================
+   DOANA ADMIN
+   LEAD + PROJECT MANAGEMENT
+========================================================== */
+
+
+.pipeline-toolbar {
+
+  display:
+    grid;
+
+  grid-template-columns:
+    minmax(220px, 1fr)
+    minmax(160px, 220px)
+    auto;
+
+  gap:
+    12px;
+
+  margin:
+    24px 0;
+
+}
+
+
+
+.pipeline-toolbar input,
+.pipeline-toolbar select {
+
+  margin:
+    0;
+
+}
+
+
+
+.pipeline-card {
+
+  padding:
+    24px;
+
+  margin-bottom:
+    18px;
+
+  border:
+    1px solid var(--border);
+
+  border-radius:
+    20px;
+
+  background:
+    var(--surface);
+
+}
+
+
+
+.pipeline-card.priority-high {
+
+  border-left:
+    4px solid currentColor;
+
+}
+
+
+
+.pipeline-card-header {
+
+  display:
+    flex;
+
+  justify-content:
+    space-between;
+
+  align-items:
+    flex-start;
+
+  gap:
+    20px;
+
+  margin-bottom:
+    22px;
+
+}
+
+
+
+.pipeline-card-header h3 {
+
+  margin:
+    6px 0;
+
+}
+
+
+
+.pipeline-stage {
+
+  display:
+    inline-block;
+
+  padding:
+    5px 10px;
+
+  border:
+    1px solid var(--border);
+
+  border-radius:
+    999px;
+
+  font-size:
+    .76rem;
+
+  text-transform:
+    uppercase;
+
+  letter-spacing:
+    .08em;
+
+}
+
+
+
+.pipeline-card-header select {
+
+  width:
+    auto;
+
+  min-width:
+    160px;
+
+  margin:
+    0;
+
+}
+
+
+
+.pipeline-details {
+
+  display:
+    grid;
+
+  grid-template-columns:
+    repeat(
+      3,
+      minmax(0, 1fr)
+    );
+
+  gap:
+    14px;
+
+  margin-bottom:
+    22px;
+
+}
+
+
+
+.pipeline-details > div {
+
+  padding:
+    14px;
+
+  border:
+    1px solid var(--border);
+
+  border-radius:
+    14px;
+
+}
+
+
+
+.pipeline-details strong,
+.pipeline-details span {
+
+  display:
+    block;
+
+}
+
+
+
+.pipeline-details strong {
+
+  margin-bottom:
+    5px;
+
+  font-size:
+    .76rem;
+
+  text-transform:
+    uppercase;
+
+  letter-spacing:
+    .07em;
+
+  opacity:
+    .7;
+
+}
+
+
+
+.pipeline-message {
+
+  padding:
+    18px;
+
+  margin:
+    16px 0;
+
+  border-radius:
+    14px;
+
+  background:
+    rgba(127,127,127,.07);
+
+}
+
+
+
+.pipeline-message p {
+
+  margin-bottom:
+    0;
+
+  white-space:
+    pre-wrap;
+
+}
+
+
+
+.pipeline-edit-grid,
+.pipeline-form-grid {
+
+  display:
+    grid;
+
+  grid-template-columns:
+    repeat(
+      2,
+      minmax(0, 1fr)
+    );
+
+  gap:
+    14px;
+
+}
+
+
+
+.pipeline-actions {
+
+  display:
+    flex;
+
+  flex-wrap:
+    wrap;
+
+  gap:
+    10px;
+
+  margin-top:
+    18px;
+
+}
+
+
+
+.pipeline-modal {
+
+  position:
+    fixed;
+
+  inset:
+    0;
+
+  z-index:
+    9999;
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  padding:
+    24px;
+
+}
+
+
+
+.pipeline-modal-backdrop {
+
+  position:
+    absolute;
+
+  inset:
+    0;
+
+  background:
+    rgba(0,0,0,.7);
+
+}
+
+
+
+.pipeline-modal-dialog {
+
+  position:
+    relative;
+
+  z-index:
+    1;
+
+  width:
+    min(
+      680px,
+      100%
+    );
+
+  max-height:
+    90vh;
+
+  overflow-y:
+    auto;
+
+  padding:
+    28px;
+
+  border:
+    1px solid var(--border);
+
+  border-radius:
+    22px;
+
+  background:
+    var(--surface);
+
+  box-shadow:
+    0 30px 90px rgba(0,0,0,.35);
+
+}
+
+
+
+.pipeline-modal-header {
+
+  display:
+    flex;
+
+  justify-content:
+    space-between;
+
+  align-items:
+    flex-start;
+
+  gap:
+    20px;
+
+  margin-bottom:
+    24px;
+
+}
+
+
+
+.pipeline-modal-header h2 {
+
+  margin-bottom:
+    0;
+
+}
+
+
+
+.pipeline-modal-actions {
+
+  display:
+    flex;
+
+  justify-content:
+    flex-end;
+
+  gap:
+    10px;
+
+  margin-top:
+    24px;
+
+}
+
+
+
+@media (
+  max-width: 800px
+) {
+
+  .pipeline-toolbar {
+
+    grid-template-columns:
+      1fr;
+
+  }
+
+
+  .pipeline-details {
+
+    grid-template-columns:
+      1fr;
+
+  }
+
+
+  .pipeline-edit-grid,
+  .pipeline-form-grid {
+
+    grid-template-columns:
+      1fr;
+
+  }
+
+
+  .pipeline-card-header {
+
+    flex-direction:
+      column;
+
+  }
+
+
+  .pipeline-card-header select {
+
+    width:
+      100%;
+
+  }
+
+
+  .pipeline-modal {
+
+    align-items:
+      flex-start;
+
+    padding:
+      12px;
+
+  }
+
+
+  .pipeline-modal-dialog {
+
+    margin-top:
+      20px;
+
+    padding:
+      20px;
+
+  }
+
+}

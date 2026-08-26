@@ -266,6 +266,13 @@
           Contact Inquiries
         </button>
 
+        <button
+            id="projectManagementTab"
+            class="btn admin-main-tab"
+            type="button"
+        >
+        Leads & Projects
+        </button>
 
         <button
           id="reviewsTab"
@@ -667,7 +674,587 @@
 
       </section>
 
+<!-- =====================================================
+     LEADS & PROJECTS
+===================================================== -->
 
+<section
+  id="projectManagementPanel"
+  class="admin-panel"
+  style="display:none;"
+>
+
+
+  <!-- =================================================
+       HEADER
+  ================================================== -->
+
+  <div class="section-head">
+
+    <div>
+
+      <div class="kicker">
+        Client pipeline
+      </div>
+
+      <h2>
+        Leads & Projects
+      </h2>
+
+    </div>
+
+
+    <p>
+      Track opportunities from first contact
+      through active project delivery.
+    </p>
+
+  </div>
+
+
+
+  <!-- =================================================
+       SUMMARY
+  ================================================== -->
+
+  <div class="admin-summary">
+
+
+    <div class="admin-summary-card">
+
+      <span class="admin-summary-label">
+        Open Leads
+      </span>
+
+      <strong
+        id="pipelineOpenLeads"
+        class="admin-summary-number"
+      >
+        —
+      </strong>
+
+    </div>
+
+
+
+    <div class="admin-summary-card">
+
+      <span class="admin-summary-label">
+        Follow-ups Due
+      </span>
+
+      <strong
+        id="pipelineFollowUps"
+        class="admin-summary-number"
+      >
+        —
+      </strong>
+
+    </div>
+
+
+
+    <div class="admin-summary-card">
+
+      <span class="admin-summary-label">
+        Active Projects
+      </span>
+
+      <strong
+        id="pipelineActiveProjects"
+        class="admin-summary-number"
+      >
+        —
+      </strong>
+
+    </div>
+
+
+
+    <div class="admin-summary-card">
+
+      <span class="admin-summary-label">
+        Completed
+      </span>
+
+      <strong
+        id="pipelineCompletedProjects"
+        class="admin-summary-number"
+      >
+        —
+      </strong>
+
+    </div>
+
+
+  </div>
+
+
+
+  <!-- =================================================
+       SUB TABS
+  ================================================== -->
+
+  <div class="admin-filters">
+
+    <button
+      id="leadPipelineButton"
+      class="btn pipeline-view active"
+      type="button"
+      data-pipeline-view="leads"
+    >
+      Leads
+    </button>
+
+
+    <button
+      id="projectPipelineButton"
+      class="btn pipeline-view"
+      type="button"
+      data-pipeline-view="projects"
+    >
+      Projects
+    </button>
+
+  </div>
+
+
+
+  <!-- =================================================
+       MESSAGE
+  ================================================== -->
+
+  <div
+    id="pipelineMessage"
+    class="success"
+    role="status"
+    aria-live="polite"
+  ></div>
+
+
+
+  <!-- =================================================
+       LEADS
+  ================================================== -->
+
+  <section id="pipelineLeadsView">
+
+
+    <div class="pipeline-toolbar">
+
+      <input
+        id="pipelineLeadSearch"
+        type="search"
+        placeholder="Search name, email, business or service..."
+        aria-label="Search leads"
+      >
+
+
+      <select
+        id="pipelineLeadStage"
+        aria-label="Filter leads by stage"
+      >
+
+        <option value="all">
+          All stages
+        </option>
+
+        <option value="new">
+          New
+        </option>
+
+        <option value="contacted">
+          Contacted
+        </option>
+
+        <option value="qualified">
+          Qualified
+        </option>
+
+        <option value="quote_sent">
+          Quote Sent
+        </option>
+
+        <option value="accepted">
+          Accepted
+        </option>
+
+        <option value="lost">
+          Lost
+        </option>
+
+      </select>
+
+
+      <button
+        id="pipelineRefreshLeads"
+        class="btn"
+        type="button"
+      >
+        Refresh
+      </button>
+
+    </div>
+
+
+    <div id="pipelineLeadList">
+
+      <p class="note">
+        Loading leads...
+      </p>
+
+    </div>
+
+
+  </section>
+
+
+
+  <!-- =================================================
+       PROJECTS
+  ================================================== -->
+
+  <section
+    id="pipelineProjectsView"
+    style="display:none;"
+  >
+
+
+    <div class="pipeline-toolbar">
+
+      <input
+        id="pipelineProjectSearch"
+        type="search"
+        placeholder="Search projects or clients..."
+        aria-label="Search projects"
+      >
+
+
+      <select
+        id="pipelineProjectStatus"
+        aria-label="Filter projects by status"
+      >
+
+        <option value="all">
+          All statuses
+        </option>
+
+        <option value="planned">
+          Planned
+        </option>
+
+        <option value="in_progress">
+          In Progress
+        </option>
+
+        <option value="review">
+          Client Review
+        </option>
+
+        <option value="on_hold">
+          On Hold
+        </option>
+
+        <option value="completed">
+          Completed
+        </option>
+
+        <option value="cancelled">
+          Cancelled
+        </option>
+
+      </select>
+
+
+      <button
+        id="pipelineRefreshProjects"
+        class="btn"
+        type="button"
+      >
+        Refresh
+      </button>
+
+    </div>
+
+
+    <div id="pipelineProjectList">
+
+      <p class="note">
+        Loading projects...
+      </p>
+
+    </div>
+
+
+  </section>
+
+
+</section>
+
+
+
+<!-- =====================================================
+     CREATE PROJECT MODAL
+===================================================== -->
+
+<div
+  id="projectCreateModal"
+  class="pipeline-modal"
+  style="display:none;"
+  aria-hidden="true"
+>
+
+
+  <div class="pipeline-modal-backdrop"></div>
+
+
+  <div
+    class="pipeline-modal-dialog"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="projectModalTitle"
+  >
+
+
+    <div class="pipeline-modal-header">
+
+      <div>
+
+        <div class="kicker">
+          Convert lead
+        </div>
+
+        <h2 id="projectModalTitle">
+          Create Project
+        </h2>
+
+      </div>
+
+
+      <button
+        id="projectModalClose"
+        class="btn"
+        type="button"
+        aria-label="Close project dialog"
+      >
+        ×
+      </button>
+
+    </div>
+
+
+
+    <form id="projectCreateForm">
+
+
+      <input
+        id="projectInquiryId"
+        type="hidden"
+      >
+
+
+
+      <label for="projectName">
+        Project Name *
+      </label>
+
+      <input
+        id="projectName"
+        type="text"
+        required
+        maxlength="200"
+      >
+
+
+
+      <label for="projectClientName">
+        Client Name *
+      </label>
+
+      <input
+        id="projectClientName"
+        type="text"
+        required
+        maxlength="120"
+      >
+
+
+
+      <label for="projectClientEmail">
+        Client Email *
+      </label>
+
+      <input
+        id="projectClientEmail"
+        type="email"
+        required
+        maxlength="254"
+      >
+
+
+
+      <label for="projectBusiness">
+        Business
+      </label>
+
+      <input
+        id="projectBusiness"
+        type="text"
+        maxlength="160"
+      >
+
+
+
+      <label for="projectService">
+        Service *
+      </label>
+
+      <input
+        id="projectService"
+        type="text"
+        required
+        maxlength="160"
+      >
+
+
+
+      <div class="pipeline-form-grid">
+
+
+        <div>
+
+          <label for="projectPrice">
+            Quoted Price
+          </label>
+
+          <input
+            id="projectPrice"
+            type="number"
+            min="0"
+            step="0.01"
+          >
+
+        </div>
+
+
+
+        <div>
+
+          <label for="projectCurrency">
+            Currency
+          </label>
+
+          <select id="projectCurrency">
+
+            <option value="CAD">
+              CAD
+            </option>
+
+            <option value="USD">
+              USD
+            </option>
+
+            <option value="GBP">
+              GBP
+            </option>
+
+            <option value="EUR">
+              EUR
+            </option>
+
+            <option value="INR">
+              INR
+            </option>
+
+            <option value="AUD">
+              AUD
+            </option>
+
+          </select>
+
+        </div>
+
+
+      </div>
+
+
+
+      <div class="pipeline-form-grid">
+
+
+        <div>
+
+          <label for="projectStartDate">
+            Start Date
+          </label>
+
+          <input
+            id="projectStartDate"
+            type="date"
+          >
+
+        </div>
+
+
+
+        <div>
+
+          <label for="projectDueDate">
+            Due Date
+          </label>
+
+          <input
+            id="projectDueDate"
+            type="date"
+          >
+
+        </div>
+
+
+      </div>
+
+
+
+      <label for="projectNotes">
+        Project Notes
+      </label>
+
+      <textarea
+        id="projectNotes"
+        rows="6"
+        maxlength="10000"
+      ></textarea>
+
+
+
+      <div class="pipeline-modal-actions">
+
+        <button
+          id="projectCreateCancel"
+          class="btn"
+          type="button"
+        >
+          Cancel
+        </button>
+
+
+        <button
+          id="projectCreateSubmit"
+          class="btn btn-primary"
+          type="submit"
+        >
+          Create Project
+        </button>
+
+      </div>
+
+
+    </form>
+
+
+  </div>
+
+</div>
 
       <!-- =====================================================
            REVIEWS
@@ -1059,6 +1646,8 @@
 
 
 <script src="admin.js"></script>
+
+<script src="project-management.js"></script>
 
 
 </body>
