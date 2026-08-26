@@ -13,7 +13,7 @@ const SUPABASE_URL =
   "https://efbmmxtteekbjayiesft.supabase.co";
 
 
-const SUPABASE_ANON_KEY =
+const SUPABASE_PUBLISHABLE_KEY =
   "sb_publishable_xBSJ2JvLfmitO7-e-JJHpw_Ak3R7joj";
 
 
