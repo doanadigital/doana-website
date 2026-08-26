@@ -2427,3 +2427,170 @@ textarea {
   }
 
 }
+
+/* =====================================================
+   404 PAGE
+===================================================== */
+
+.error-page {
+  min-height: calc(100vh - 72px);
+
+  display: flex;
+  align-items: center;
+
+  padding: 100px 0;
+
+  text-align: center;
+
+  background:
+    radial-gradient(
+      circle at 50% 30%,
+      rgba(201, 167, 255, .16),
+      transparent 32%
+    ),
+    radial-gradient(
+      circle at 20% 80%,
+      rgba(124, 231, 216, .08),
+      transparent 28%
+    );
+}
+
+
+.error-container {
+  max-width: 900px;
+}
+
+
+/* Giant background-style 404 */
+
+.error-code {
+  margin-bottom: -25px;
+
+  font-size: clamp(8rem, 25vw, 18rem);
+  line-height: .8;
+
+  font-weight: 900;
+
+  letter-spacing: -.08em;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--accent),
+      var(--accent2)
+    );
+
+  -webkit-background-clip: text;
+  background-clip: text;
+
+  color: transparent;
+
+  opacity: .18;
+
+  user-select: none;
+}
+
+
+.error-title {
+  max-width: 850px;
+
+  margin:
+    20px auto 24px;
+
+  font-size:
+    clamp(3rem, 7vw, 6rem);
+}
+
+
+.error-description {
+  max-width: 650px;
+
+  margin:
+    0 auto;
+}
+
+
+.error-actions {
+  display: flex;
+
+  justify-content: center;
+
+  flex-wrap: wrap;
+
+  gap: 12px;
+
+  margin-top: 35px;
+}
+
+
+/* QUICK LINKS */
+
+.error-links {
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+
+  flex-wrap: wrap;
+
+  gap: 18px;
+
+  margin-top: 45px;
+
+  color: var(--muted);
+
+  font-size: .95rem;
+}
+
+
+.error-links span {
+  opacity: .65;
+}
+
+
+.error-links a {
+  color: var(--muted);
+
+  font-weight: 700;
+
+  transition:
+    color .2s ease;
+}
+
+
+.error-links a:hover {
+  color: var(--accent);
+}
+
+
+/* MOBILE */
+
+@media (max-width: 600px) {
+
+  .error-page {
+    padding:
+      70px 0;
+  }
+
+
+  .error-code {
+    margin-bottom:
+      -10px;
+  }
+
+
+  .error-actions {
+    flex-direction:
+      column;
+
+    align-items:
+      stretch;
+  }
+
+
+  .error-actions .btn {
+    width:
+      100%;
+  }
+
+}
