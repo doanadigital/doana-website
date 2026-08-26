@@ -11,8 +11,9 @@
 const SUPABASE_URL =
   "https://efbmmxtteekbjayiesft.supabase.co";
 
-const SUPABASE_ANON_KEY =
+const SUPABASE_PUBLISHABLE_KEY =
   "sb_publishable_xBSJ2JvLfmitO7-e-JJHpw_Ak3R7joj";
+
 
 const PASSWORD_RESET_URL =
   new URL(
@@ -22,7 +23,7 @@ const PASSWORD_RESET_URL =
 
 
 // =====================================================
-// DOM ELEMENTS
+// GENERAL DOM
 // =====================================================
 
 const loginSection =
@@ -63,6 +64,7 @@ const inquiriesTab =
 const reviewsTab =
   document.getElementById("reviewsTab");
 
+
 const analyticsPanel =
   document.getElementById("analyticsPanel");
 
@@ -74,7 +76,7 @@ const reviewsPanel =
 
 
 // =====================================================
-// ANALYTICS ELEMENTS
+// ANALYTICS DOM
 // =====================================================
 
 const totalPageViews =
@@ -103,7 +105,7 @@ const recentVisits =
 
 
 // =====================================================
-// INQUIRY ELEMENTS
+// INQUIRY DOM
 // =====================================================
 
 const inquiryList =
@@ -126,7 +128,7 @@ const inquiryFilterButtons =
 
 
 // =====================================================
-// REVIEW ELEMENTS
+// REVIEW DOM
 // =====================================================
 
 const reviewList =
@@ -154,9 +156,11 @@ const reviewFilterButtons =
 
 let accessToken = null;
 
-let currentReviewFilter = "pending";
+let currentInquiryFilter =
+  "new";
 
-let currentInquiryFilter = "new";
+let currentReviewFilter =
+  "pending";
 
 
 // =====================================================
@@ -184,8 +188,7 @@ function hideMessage(
 
   if (!element) return;
 
-  element.textContent =
-    "";
+  element.textContent = "";
 
   element.style.display =
     "none";
@@ -199,14 +202,19 @@ function escapeHtml(
   return String(
     value ?? ""
   ).replace(
+
     /[&<>"']/g,
+
     character => ({
+
       "&": "&amp;",
       "<": "&lt;",
       ">": "&gt;",
       '"': "&quot;",
       "'": "&#039;"
+
     })[character]
+
   );
 }
 
@@ -252,16 +260,23 @@ if (loginForm) {
         resetMessage
       );
 
+
       const email =
         document
-          .getElementById("adminEmail")
+          .getElementById(
+            "adminEmail"
+          )
           .value
           .trim();
 
+
       const password =
         document
-          .getElementById("adminPassword")
+          .getElementById(
+            "adminPassword"
+          )
           .value;
+
 
       if (
         !email ||
@@ -276,11 +291,13 @@ if (loginForm) {
         return;
       }
 
+
       loginButton.disabled =
         true;
 
       loginButton.textContent =
         "Signing in...";
+
 
       try {
 
@@ -290,14 +307,18 @@ if (loginForm) {
             `${SUPABASE_URL}/auth/v1/token?grant_type=password`,
 
             {
-              method: "POST",
+
+              method:
+                "POST",
 
               headers: {
+
                 apikey:
-                  SUPABASE_ANON_KEY,
+                  SUPABASE_PUBLISHABLE_KEY,
 
                 "Content-Type":
                   "application/json"
+
               },
 
               body:
@@ -305,12 +326,15 @@ if (loginForm) {
                   email,
                   password
                 })
+
             }
 
           );
 
+
         const result =
           await response.json();
+
 
         if (
           !response.ok ||
@@ -322,11 +346,14 @@ if (loginForm) {
           );
         }
 
+
         accessToken =
           result.access_token;
 
+
         const isAdmin =
           await verifyAdmin();
+
 
         if (!isAdmin) {
 
@@ -337,12 +364,15 @@ if (loginForm) {
           );
         }
 
+
         sessionStorage.setItem(
           "doanaAdminToken",
           accessToken
         );
 
+
         await showDashboard();
+
 
       } catch (error) {
 
@@ -350,6 +380,7 @@ if (loginForm) {
           "Admin login error:",
           error
         );
+
 
         if (
           error.message ===
@@ -370,6 +401,7 @@ if (loginForm) {
 
         }
 
+
       } finally {
 
         loginButton.disabled =
@@ -377,6 +409,7 @@ if (loginForm) {
 
         loginButton.textContent =
           "Sign In";
+
       }
 
     }
@@ -394,6 +427,7 @@ async function verifyAdmin() {
     return false;
   }
 
+
   try {
 
     const response =
@@ -402,28 +436,36 @@ async function verifyAdmin() {
         `${SUPABASE_URL}/rest/v1/admin_users?select=user_id`,
 
         {
+
           headers: {
+
             apikey:
-              SUPABASE_ANON_KEY,
+              SUPABASE_PUBLISHABLE_KEY,
 
             Authorization:
               `Bearer ${accessToken}`
+
           }
+
         }
 
       );
+
 
     if (!response.ok) {
       return false;
     }
 
+
     const admins =
       await response.json();
+
 
     return (
       Array.isArray(admins) &&
       admins.length > 0
     );
+
 
   } catch (error) {
 
@@ -441,9 +483,7 @@ async function verifyAdmin() {
 // FORGOT PASSWORD
 // =====================================================
 
-if (
-  forgotPasswordButton
-) {
+if (forgotPasswordButton) {
 
   forgotPasswordButton.addEventListener(
     "click",
@@ -457,11 +497,15 @@ if (
         resetMessage
       );
 
+
       const email =
         document
-          .getElementById("adminEmail")
+          .getElementById(
+            "adminEmail"
+          )
           .value
           .trim();
+
 
       if (!email) {
 
@@ -473,11 +517,13 @@ if (
         return;
       }
 
+
       forgotPasswordButton.disabled =
         true;
 
       forgotPasswordButton.textContent =
         "Sending...";
+
 
       try {
 
@@ -487,25 +533,34 @@ if (
             `${SUPABASE_URL}/auth/v1/recover`,
 
             {
-              method: "POST",
+
+              method:
+                "POST",
 
               headers: {
+
                 apikey:
-                  SUPABASE_ANON_KEY,
+                  SUPABASE_PUBLISHABLE_KEY,
 
                 "Content-Type":
                   "application/json"
+
               },
 
               body:
                 JSON.stringify({
+
                   email,
+
                   redirect_to:
                     PASSWORD_RESET_URL
+
                 })
+
             }
 
           );
+
 
         if (!response.ok) {
 
@@ -514,10 +569,12 @@ if (
           );
         }
 
+
         showMessage(
           resetMessage,
           "If this email belongs to the admin account, a password reset link has been sent."
         );
+
 
       } catch (error) {
 
@@ -526,10 +583,12 @@ if (
           error
         );
 
+
         showMessage(
           resetMessage,
           "Unable to send the password reset email."
         );
+
 
       } finally {
 
@@ -538,6 +597,7 @@ if (
 
         forgotPasswordButton.textContent =
           "Forgot password?";
+
       }
 
     }
@@ -556,10 +616,12 @@ async function showDashboard() {
       "none";
   }
 
+
   if (dashboard) {
     dashboard.style.display =
       "block";
   }
+
 
   hideMessage(
     actionMessage
@@ -569,9 +631,12 @@ async function showDashboard() {
     inquiryActionMessage
   );
 
-  await loadInquiryCounts();
 
-  await loadReviewCounts();
+  await Promise.allSettled([
+    loadInquiryCounts(),
+    loadReviewCounts()
+  ]);
+
 
   showAdminPanel(
     "analytics"
@@ -580,147 +645,890 @@ async function showDashboard() {
 
 
 // =====================================================
-// MAIN ADMIN TABS
+// MAIN TAB SYSTEM
 // =====================================================
 
 function showAdminPanel(
-  panel
+  selectedPanel
 ) {
 
-  if (analyticsPanel) {
-    analyticsPanel.style.display =
-      "none";
-  }
+  const tabs = [
+    analyticsTab,
+    inquiriesTab,
+    reviewsTab
+  ];
 
-  if (inquiriesPanel) {
-    inquiriesPanel.style.display =
-      "none";
-  }
 
-  if (reviewsPanel) {
-    reviewsPanel.style.display =
-      "none";
-  }
+  const panels = [
+    analyticsPanel,
+    inquiriesPanel,
+    reviewsPanel
+  ];
 
-  if (analyticsTab) {
-    analyticsTab.classList.remove(
-      "active"
-    );
-  }
 
-  if (inquiriesTab) {
-    inquiriesTab.classList.remove(
-      "active"
-    );
-  }
+  tabs.forEach(
+    tab => {
 
-  if (reviewsTab) {
-    reviewsTab.classList.remove(
-      "active"
-    );
-  }
+      if (tab) {
+        tab.classList.remove(
+          "active"
+        );
+      }
+
+    }
+  );
+
+
+  panels.forEach(
+    panel => {
+
+      if (panel) {
+        panel.style.display =
+          "none";
+      }
+
+    }
+  );
+
 
   if (
-    panel ===
+    selectedPanel ===
     "analytics"
   ) {
 
+    analyticsTab?.classList.add(
+      "active"
+    );
+
     if (analyticsPanel) {
+
       analyticsPanel.style.display =
         "block";
-    }
 
-    if (analyticsTab) {
-      analyticsTab.classList.add(
-        "active"
-      );
     }
 
     loadAnalytics();
+
+    return;
   }
 
-  else if (
-    panel ===
+
+  if (
+    selectedPanel ===
     "inquiries"
   ) {
 
+    inquiriesTab?.classList.add(
+      "active"
+    );
+
     if (inquiriesPanel) {
+
       inquiriesPanel.style.display =
         "block";
-    }
 
-    if (inquiriesTab) {
-      inquiriesTab.classList.add(
-        "active"
-      );
     }
 
     loadInquiries();
+
+    return;
   }
 
-  else if (
-    panel ===
+
+  if (
+    selectedPanel ===
     "reviews"
   ) {
 
+    reviewsTab?.classList.add(
+      "active"
+    );
+
     if (reviewsPanel) {
+
       reviewsPanel.style.display =
         "block";
-    }
 
-    if (reviewsTab) {
-      reviewsTab.classList.add(
-        "active"
-      );
     }
 
     loadReviews();
+
   }
 }
 
 
-if (analyticsTab) {
+// =====================================================
+// MAIN TAB EVENTS
+// =====================================================
 
-  analyticsTab.addEventListener(
-    "click",
-    () => {
+analyticsTab?.addEventListener(
+  "click",
+  () => {
 
-      showAdminPanel(
-        "analytics"
+    showAdminPanel(
+      "analytics"
+    );
+
+  }
+);
+
+
+inquiriesTab?.addEventListener(
+  "click",
+  () => {
+
+    showAdminPanel(
+      "inquiries"
+    );
+
+  }
+);
+
+
+reviewsTab?.addEventListener(
+  "click",
+  () => {
+
+    showAdminPanel(
+      "reviews"
+    );
+
+  }
+);
+
+
+// =====================================================
+// ANALYTICS
+// =====================================================
+
+async function loadAnalytics() {
+
+  if (!accessToken) {
+    return;
+  }
+
+
+  setAnalyticsLoading();
+
+
+  try {
+
+    const response =
+      await fetch(
+
+        `${SUPABASE_URL}/rest/v1/page_views?select=id,visitor_id,page,path,country_code,country_name,referrer,source,created_at&order=created_at.desc`,
+
+        {
+
+          headers: {
+
+            apikey:
+              SUPABASE_PUBLISHABLE_KEY,
+
+            Authorization:
+              `Bearer ${accessToken}`
+
+          }
+
+        }
+
       );
 
+
+    if (!response.ok) {
+
+      const errorText =
+        await response.text();
+
+      throw new Error(
+        errorText
+      );
     }
+
+
+    const views =
+      await response.json();
+
+
+    renderAnalytics(
+      views
+    );
+
+
+  } catch (error) {
+
+    console.error(
+      "Analytics loading error:",
+      error
+    );
+
+
+    setAnalyticsError();
+
+  }
+}
+
+
+function setAnalyticsLoading() {
+
+  [
+    totalPageViews,
+    uniqueVisitors,
+    todayViews,
+    weekViews
+  ].forEach(
+    element => {
+
+      if (element) {
+        element.textContent =
+          "…";
+      }
+
+    }
+  );
+
+
+  if (topPages) {
+    topPages.innerHTML =
+      `<p class="note">Loading...</p>`;
+  }
+
+
+  if (countryAnalytics) {
+    countryAnalytics.innerHTML =
+      `<p class="note">Loading...</p>`;
+  }
+
+
+  if (trafficSources) {
+    trafficSources.innerHTML =
+      `<p class="note">Loading...</p>`;
+  }
+
+
+  if (recentVisits) {
+    recentVisits.innerHTML =
+      `<p class="note">Loading...</p>`;
+  }
+}
+
+
+function setAnalyticsError() {
+
+  [
+    totalPageViews,
+    uniqueVisitors,
+    todayViews,
+    weekViews
+  ].forEach(
+    element => {
+
+      if (element) {
+        element.textContent =
+          "—";
+      }
+
+    }
+  );
+
+
+  const errorMessage = `
+    <p class="note">
+      Unable to load analytics.
+      Check the browser console and Supabase permissions.
+    </p>
+  `;
+
+
+  if (topPages) {
+    topPages.innerHTML =
+      errorMessage;
+  }
+
+
+  if (countryAnalytics) {
+    countryAnalytics.innerHTML =
+      errorMessage;
+  }
+
+
+  if (trafficSources) {
+    trafficSources.innerHTML =
+      errorMessage;
+  }
+
+
+  if (recentVisits) {
+    recentVisits.innerHTML =
+      errorMessage;
+  }
+}
+
+
+// =====================================================
+// RENDER ANALYTICS
+// =====================================================
+
+function renderAnalytics(
+  views
+) {
+
+  if (!Array.isArray(views)) {
+    views = [];
+  }
+
+
+  if (totalPageViews) {
+
+    totalPageViews.textContent =
+      views.length.toLocaleString();
+
+  }
+
+
+  const visitorIds =
+    views
+      .map(
+        view =>
+          view.visitor_id
+      )
+      .filter(Boolean);
+
+
+  const unique =
+    new Set(
+      visitorIds
+    );
+
+
+  if (uniqueVisitors) {
+
+    uniqueVisitors.textContent =
+      unique.size.toLocaleString();
+
+  }
+
+
+  const now =
+    new Date();
+
+
+  const todayStart =
+    new Date(
+
+      now.getFullYear(),
+
+      now.getMonth(),
+
+      now.getDate()
+
+    );
+
+
+  const todaysViews =
+    views.filter(
+      view => {
+
+        const date =
+          new Date(
+            view.created_at
+          );
+
+        return (
+          !Number.isNaN(
+            date.getTime()
+          ) &&
+          date >= todayStart
+        );
+
+      }
+    );
+
+
+  if (todayViews) {
+
+    todayViews.textContent =
+      todaysViews.length.toLocaleString();
+
+  }
+
+
+  const sevenDaysAgo =
+    new Date();
+
+  sevenDaysAgo.setDate(
+    sevenDaysAgo.getDate() - 7
+  );
+
+
+  const weeklyViews =
+    views.filter(
+      view => {
+
+        const date =
+          new Date(
+            view.created_at
+          );
+
+        return (
+          !Number.isNaN(
+            date.getTime()
+          ) &&
+          date >= sevenDaysAgo
+        );
+
+      }
+    );
+
+
+  if (weekViews) {
+
+    weekViews.textContent =
+      weeklyViews.length.toLocaleString();
+
+  }
+
+
+  renderTopPages(
+    views
+  );
+
+  renderCountries(
+    views
+  );
+
+  renderTrafficSources(
+    views
+  );
+
+  renderRecentVisits(
+    views
   );
 }
 
 
-if (inquiriesTab) {
+// =====================================================
+// TOP PAGES
+// =====================================================
 
-  inquiriesTab.addEventListener(
-    "click",
-    () => {
+function renderTopPages(
+  views
+) {
 
-      showAdminPanel(
-        "inquiries"
-      );
+  if (!topPages) return;
+
+
+  const counts =
+    {};
+
+
+  views.forEach(
+    view => {
+
+      const page =
+        view.page ||
+        "Unknown";
+
+      counts[page] =
+        (
+          counts[page] ||
+          0
+        ) + 1;
 
     }
   );
+
+
+  const sorted =
+    Object.entries(
+      counts
+    )
+      .sort(
+        (a,b) =>
+          b[1] - a[1]
+      )
+      .slice(
+        0,
+        10
+      );
+
+
+  if (!sorted.length) {
+
+    topPages.innerHTML = `
+      <p class="note">
+        No page activity yet.
+      </p>
+    `;
+
+    return;
+  }
+
+
+  topPages.innerHTML =
+    sorted
+      .map(
+        ([page,count]) => `
+
+          <div class="analytics-row">
+
+            <span>
+              ${escapeHtml(page)}
+            </span>
+
+            <strong>
+              ${count.toLocaleString()}
+            </strong>
+
+          </div>
+
+        `
+      )
+      .join("");
 }
 
 
-if (reviewsTab) {
+// =====================================================
+// COUNTRIES
+// =====================================================
 
-  reviewsTab.addEventListener(
-    "click",
-    () => {
+function renderCountries(
+  views
+) {
 
-      showAdminPanel(
-        "reviews"
-      );
+  if (!countryAnalytics) {
+    return;
+  }
+
+
+  const counts =
+    {};
+
+
+  views.forEach(
+    view => {
+
+      const country =
+        view.country_name ||
+        "Unknown";
+
+
+      if (!counts[country]) {
+
+        counts[country] = {
+
+          count:
+            0,
+
+          code:
+            view.country_code ||
+            ""
+
+        };
+
+      }
+
+
+      counts[country].count +=
+        1;
 
     }
   );
+
+
+  const sorted =
+    Object.entries(
+      counts
+    )
+      .sort(
+        (a,b) =>
+          b[1].count -
+          a[1].count
+      )
+      .slice(
+        0,
+        10
+      );
+
+
+  if (!sorted.length) {
+
+    countryAnalytics.innerHTML = `
+      <p class="note">
+        No country information yet.
+      </p>
+    `;
+
+    return;
+  }
+
+
+  const total =
+    views.length ||
+    1;
+
+
+  countryAnalytics.innerHTML =
+    sorted
+      .map(
+        ([country,data]) => {
+
+          const percentage =
+            Math.round(
+              (
+                data.count /
+                total
+              ) *
+              100
+            );
+
+
+          return `
+
+            <div class="analytics-country">
+
+              <div
+                class="analytics-country-top"
+              >
+
+                <span>
+
+                  ${countryFlag(
+                    data.code
+                  )}
+
+                  ${escapeHtml(
+                    country
+                  )}
+
+                </span>
+
+
+                <strong>
+
+                  ${data.count.toLocaleString()}
+
+                  <small>
+                    ${percentage}%
+                  </small>
+
+                </strong>
+
+              </div>
+
+
+              <div class="analytics-bar">
+
+                <span
+                  style="
+                    width:${percentage}%;
+                  "
+                ></span>
+
+              </div>
+
+            </div>
+
+          `;
+
+        }
+      )
+      .join("");
+}
+
+
+// =====================================================
+// COUNTRY FLAG
+// =====================================================
+
+function countryFlag(
+  code
+) {
+
+  if (
+    !code ||
+    code.length !==
+    2
+  ) {
+
+    return "🌎";
+  }
+
+
+  return code
+    .toUpperCase()
+    .replace(
+
+      /./g,
+
+      character =>
+        String.fromCodePoint(
+          127397 +
+          character.charCodeAt()
+        )
+
+    );
+}
+
+
+// =====================================================
+// TRAFFIC SOURCES
+// =====================================================
+
+function renderTrafficSources(
+  views
+) {
+
+  if (!trafficSources) return;
+
+
+  const counts =
+    {};
+
+
+  views.forEach(
+    view => {
+
+      const source =
+        view.source ||
+        "Direct";
+
+      counts[source] =
+        (
+          counts[source] ||
+          0
+        ) + 1;
+
+    }
+  );
+
+
+  const sorted =
+    Object.entries(
+      counts
+    )
+      .sort(
+        (a,b) =>
+          b[1] - a[1]
+      )
+      .slice(
+        0,
+        10
+      );
+
+
+  if (!sorted.length) {
+
+    trafficSources.innerHTML = `
+      <p class="note">
+        No traffic source data yet.
+      </p>
+    `;
+
+    return;
+  }
+
+
+  trafficSources.innerHTML =
+    sorted
+      .map(
+        ([source,count]) => `
+
+          <div class="analytics-row">
+
+            <span>
+              ${escapeHtml(source)}
+            </span>
+
+            <strong>
+              ${count.toLocaleString()}
+            </strong>
+
+          </div>
+
+        `
+      )
+      .join("");
+}
+
+
+// =====================================================
+// RECENT VISITS
+// =====================================================
+
+function renderRecentVisits(
+  views
+) {
+
+  if (!recentVisits) {
+    return;
+  }
+
+
+  const recent =
+    views.slice(
+      0,
+      10
+    );
+
+
+  if (!recent.length) {
+
+    recentVisits.innerHTML = `
+      <p class="note">
+        No visits yet.
+      </p>
+    `;
+
+    return;
+  }
+
+
+  recentVisits.innerHTML =
+    recent
+      .map(
+        view => `
+
+          <div class="analytics-visit">
+
+            <div>
+
+              <strong>
+                ${escapeHtml(
+                  view.page ||
+                  "Unknown"
+                )}
+              </strong>
+
+              <span>
+
+                ${countryFlag(
+                  view.country_code
+                )}
+
+                ${escapeHtml(
+                  view.country_name ||
+                  "Unknown"
+                )}
+
+              </span>
+
+            </div>
+
+
+            <small>
+              ${escapeHtml(
+                formatDate(
+                  view.created_at
+                )
+              )}
+            </small>
+
+          </div>
+
+        `
+      )
+      .join("");
 }
 
 
@@ -734,6 +1542,7 @@ async function loadInquiryCounts() {
     return;
   }
 
+
   try {
 
     const response =
@@ -742,16 +1551,21 @@ async function loadInquiryCounts() {
         `${SUPABASE_URL}/rest/v1/contact_inquiries?select=id,status`,
 
         {
+
           headers: {
+
             apikey:
-              SUPABASE_ANON_KEY,
+              SUPABASE_PUBLISHABLE_KEY,
 
             Authorization:
               `Bearer ${accessToken}`
+
           }
+
         }
 
       );
+
 
     if (!response.ok) {
 
@@ -760,41 +1574,52 @@ async function loadInquiryCounts() {
       );
     }
 
+
     const inquiries =
       await response.json();
+
 
     const newCount =
       inquiries.filter(
         inquiry =>
-          inquiry.status === "new"
+          inquiry.status ===
+          "new"
       ).length;
+
 
     const contactedCount =
       inquiries.filter(
         inquiry =>
-          inquiry.status === "contacted"
+          inquiry.status ===
+          "contacted"
       ).length;
+
 
     const closedCount =
       inquiries.filter(
         inquiry =>
-          inquiry.status === "closed"
+          inquiry.status ===
+          "closed"
       ).length;
+
 
     if (newInquiryCount) {
       newInquiryCount.textContent =
         newCount;
     }
 
+
     if (contactedInquiryCount) {
       contactedInquiryCount.textContent =
         contactedCount;
     }
 
+
     if (closedInquiryCount) {
       closedInquiryCount.textContent =
         closedCount;
     }
+
 
   } catch (error) {
 
@@ -802,6 +1627,7 @@ async function loadInquiryCounts() {
       "Inquiry count error:",
       error
     );
+
   }
 }
 
@@ -816,8 +1642,10 @@ async function loadInquiries() {
     !accessToken ||
     !inquiryList
   ) {
+
     return;
   }
+
 
   inquiryList.innerHTML = `
     <p class="note">
@@ -825,10 +1653,12 @@ async function loadInquiries() {
     </p>
   `;
 
+
   let endpoint =
     `${SUPABASE_URL}/rest/v1/contact_inquiries` +
     `?select=id,name,email,phone,business,service,budget,timeline,message,status,created_at` +
     `&order=created_at.desc`;
+
 
   if (
     currentInquiryFilter !==
@@ -836,26 +1666,37 @@ async function loadInquiries() {
   ) {
 
     endpoint +=
+
       `&status=eq.${encodeURIComponent(
         currentInquiryFilter
       )}`;
+
   }
+
 
   try {
 
     const response =
       await fetch(
+
         endpoint,
+
         {
+
           headers: {
+
             apikey:
-              SUPABASE_ANON_KEY,
+              SUPABASE_PUBLISHABLE_KEY,
 
             Authorization:
               `Bearer ${accessToken}`
+
           }
+
         }
+
       );
+
 
     if (!response.ok) {
 
@@ -864,12 +1705,15 @@ async function loadInquiries() {
       );
     }
 
+
     const inquiries =
       await response.json();
+
 
     renderInquiries(
       inquiries
     );
+
 
   } catch (error) {
 
@@ -878,11 +1722,13 @@ async function loadInquiries() {
       error
     );
 
+
     inquiryList.innerHTML = `
       <p class="note">
         Unable to load inquiries.
       </p>
     `;
+
   }
 }
 
@@ -899,9 +1745,10 @@ function renderInquiries(
     return;
   }
 
+
   if (
     !Array.isArray(inquiries) ||
-    inquiries.length === 0
+    !inquiries.length
   ) {
 
     inquiryList.innerHTML = `
@@ -914,6 +1761,7 @@ function renderInquiries(
 
     return;
   }
+
 
   inquiryList.innerHTML =
     inquiries
@@ -936,6 +1784,7 @@ function renderInquiries(
                   )}
                 </h3>
 
+
                 <a
                   class="inquiry-email"
                   href="mailto:${escapeHtml(
@@ -948,6 +1797,7 @@ function renderInquiries(
                 </a>
 
               </div>
+
 
               <span
                 class="
@@ -965,13 +1815,16 @@ function renderInquiries(
             </div>
 
 
+
             <div
               class="admin-inquiry-details"
             >
 
+
               <div
                 class="admin-inquiry-field"
               >
+
                 <strong>
                   Business
                 </strong>
@@ -980,19 +1833,24 @@ function renderInquiries(
                   inquiry.business ||
                   "—"
                 )}
+
               </div>
+
 
 
               <div
                 class="admin-inquiry-field"
               >
+
                 <strong>
                   Phone
                 </strong>
 
                 ${
                   inquiry.phone
+
                     ? `
+
                       <a
                         href="tel:${escapeHtml(
                           inquiry.phone
@@ -1002,15 +1860,20 @@ function renderInquiries(
                           inquiry.phone
                         )}
                       </a>
+
                     `
+
                     : "—"
                 }
+
               </div>
+
 
 
               <div
                 class="admin-inquiry-field"
               >
+
                 <strong>
                   Service
                 </strong>
@@ -1019,12 +1882,15 @@ function renderInquiries(
                   inquiry.service ||
                   "—"
                 )}
+
               </div>
+
 
 
               <div
                 class="admin-inquiry-field"
               >
+
                 <strong>
                   Budget
                 </strong>
@@ -1033,12 +1899,15 @@ function renderInquiries(
                   inquiry.budget ||
                   "—"
                 )}
+
               </div>
+
 
 
               <div
                 class="admin-inquiry-field"
               >
+
                 <strong>
                   Timeline
                 </strong>
@@ -1047,12 +1916,15 @@ function renderInquiries(
                   inquiry.timeline ||
                   "—"
                 )}
+
               </div>
+
 
 
               <div
                 class="admin-inquiry-field"
               >
+
                 <strong>
                   Submitted
                 </strong>
@@ -1062,9 +1934,12 @@ function renderInquiries(
                     inquiry.created_at
                   )
                 )}
+
               </div>
 
+
             </div>
+
 
 
             <div
@@ -1084,14 +1959,16 @@ function renderInquiries(
             </div>
 
 
-            <div
-              class="admin-actions"
-            >
+
+            <div class="admin-actions">
+
 
               ${
                 inquiry.status !==
                 "contacted"
+
                   ? `
+
                     <button
                       class="btn"
                       type="button"
@@ -1100,7 +1977,9 @@ function renderInquiries(
                     >
                       Mark Contacted
                     </button>
+
                   `
+
                   : ""
               }
 
@@ -1108,7 +1987,9 @@ function renderInquiries(
               ${
                 inquiry.status !==
                 "closed"
+
                   ? `
+
                     <button
                       class="btn"
                       type="button"
@@ -1117,7 +1998,9 @@ function renderInquiries(
                     >
                       Close
                     </button>
+
                   `
+
                   : ""
               }
 
@@ -1146,12 +2029,15 @@ function renderInquiries(
                 Delete
               </button>
 
+
             </div>
 
           </article>
+
         `
       )
       .join("");
+
 
   document
     .querySelectorAll(
@@ -1181,18 +2067,23 @@ async function handleInquiryAction(
   const button =
     event.currentTarget;
 
+
   const id =
     button.dataset.inquiryId;
 
+
   const action =
     button.dataset.inquiryAction;
+
 
   if (
     !id ||
     !action
   ) {
+
     return;
   }
+
 
   if (
     action ===
@@ -1204,9 +2095,11 @@ async function handleInquiryAction(
         "Delete this inquiry permanently?"
       );
 
+
     if (!confirmed) {
       return;
     }
+
 
     await deleteInquiry(
       id
@@ -1214,6 +2107,7 @@ async function handleInquiryAction(
 
     return;
   }
+
 
   await updateInquiryStatus(
     id,
@@ -1223,7 +2117,7 @@ async function handleInquiryAction(
 
 
 // =====================================================
-// UPDATE INQUIRY STATUS
+// UPDATE INQUIRY
 // =====================================================
 
 async function updateInquiryStatus(
@@ -1235,6 +2129,7 @@ async function updateInquiryStatus(
     inquiryActionMessage
   );
 
+
   try {
 
     const response =
@@ -1245,11 +2140,14 @@ async function updateInquiryStatus(
         )}`,
 
         {
-          method: "PATCH",
+
+          method:
+            "PATCH",
 
           headers: {
+
             apikey:
-              SUPABASE_ANON_KEY,
+              SUPABASE_PUBLISHABLE_KEY,
 
             Authorization:
               `Bearer ${accessToken}`,
@@ -1259,15 +2157,18 @@ async function updateInquiryStatus(
 
             Prefer:
               "return=minimal"
+
           },
 
           body:
             JSON.stringify({
               status
             })
+
         }
 
       );
+
 
     if (!response.ok) {
 
@@ -1276,16 +2177,25 @@ async function updateInquiryStatus(
       );
     }
 
+
     showMessage(
+
       inquiryActionMessage,
-      status === "contacted"
+
+      status ===
+      "contacted"
+
         ? "Inquiry marked as contacted."
+
         : "Inquiry closed."
+
     );
+
 
     await loadInquiryCounts();
 
     await loadInquiries();
+
 
   } catch (error) {
 
@@ -1294,10 +2204,12 @@ async function updateInquiryStatus(
       error
     );
 
+
     showMessage(
       inquiryActionMessage,
       "Unable to update this inquiry."
     );
+
   }
 }
 
@@ -1320,18 +2232,24 @@ async function deleteInquiry(
         )}`,
 
         {
-          method: "DELETE",
+
+          method:
+            "DELETE",
 
           headers: {
+
             apikey:
-              SUPABASE_ANON_KEY,
+              SUPABASE_PUBLISHABLE_KEY,
 
             Authorization:
               `Bearer ${accessToken}`
+
           }
+
         }
 
       );
+
 
     if (!response.ok) {
 
@@ -1340,14 +2258,17 @@ async function deleteInquiry(
       );
     }
 
+
     showMessage(
       inquiryActionMessage,
       "Inquiry deleted."
     );
 
+
     await loadInquiryCounts();
 
     await loadInquiries();
+
 
   } catch (error) {
 
@@ -1356,16 +2277,18 @@ async function deleteInquiry(
       error
     );
 
+
     showMessage(
       inquiryActionMessage,
       "Unable to delete this inquiry."
     );
+
   }
 }
 
 
 // =====================================================
-// INQUIRY FILTERS
+// INQUIRY FILTER EVENTS
 // =====================================================
 
 inquiryFilterButtons.forEach(
@@ -1377,20 +2300,26 @@ inquiryFilterButtons.forEach(
 
         inquiryFilterButtons.forEach(
           item =>
+
             item.classList.remove(
               "active"
             )
+
         );
+
 
         button.classList.add(
           "active"
         );
 
+
         currentInquiryFilter =
           button.dataset.inquiryStatus ||
           "new";
 
+
         await loadInquiries();
+
       }
     );
 
@@ -1408,6 +2337,7 @@ async function loadReviewCounts() {
     return;
   }
 
+
   try {
 
     const response =
@@ -1416,16 +2346,21 @@ async function loadReviewCounts() {
         `${SUPABASE_URL}/rest/v1/reviews?select=id,status`,
 
         {
+
           headers: {
+
             apikey:
-              SUPABASE_ANON_KEY,
+              SUPABASE_PUBLISHABLE_KEY,
 
             Authorization:
               `Bearer ${accessToken}`
+
           }
+
         }
 
       );
+
 
     if (!response.ok) {
 
@@ -1434,35 +2369,46 @@ async function loadReviewCounts() {
       );
     }
 
+
     const reviews =
       await response.json();
 
+
     if (pendingCount) {
+
       pendingCount.textContent =
         reviews.filter(
           review =>
             review.status ===
             "pending"
         ).length;
+
     }
 
+
     if (approvedCount) {
+
       approvedCount.textContent =
         reviews.filter(
           review =>
             review.status ===
             "approved"
         ).length;
+
     }
 
+
     if (rejectedCount) {
+
       rejectedCount.textContent =
         reviews.filter(
           review =>
             review.status ===
             "rejected"
         ).length;
+
     }
+
 
   } catch (error) {
 
@@ -1470,6 +2416,7 @@ async function loadReviewCounts() {
       "Review count error:",
       error
     );
+
   }
 }
 
@@ -1484,8 +2431,10 @@ async function loadReviews() {
     !accessToken ||
     !reviewList
   ) {
+
     return;
   }
+
 
   reviewList.innerHTML = `
     <p class="note">
@@ -1493,10 +2442,12 @@ async function loadReviews() {
     </p>
   `;
 
+
   let endpoint =
     `${SUPABASE_URL}/rest/v1/reviews` +
     `?select=id,name,business,rating,text,status,created_at` +
     `&order=created_at.desc`;
+
 
   if (
     currentReviewFilter !==
@@ -1507,23 +2458,33 @@ async function loadReviews() {
       `&status=eq.${encodeURIComponent(
         currentReviewFilter
       )}`;
+
   }
+
 
   try {
 
     const response =
       await fetch(
+
         endpoint,
+
         {
+
           headers: {
+
             apikey:
-              SUPABASE_ANON_KEY,
+              SUPABASE_PUBLISHABLE_KEY,
 
             Authorization:
               `Bearer ${accessToken}`
+
           }
+
         }
+
       );
+
 
     if (!response.ok) {
 
@@ -1532,12 +2493,15 @@ async function loadReviews() {
       );
     }
 
+
     const reviews =
       await response.json();
+
 
     renderReviews(
       reviews
     );
+
 
   } catch (error) {
 
@@ -1546,11 +2510,13 @@ async function loadReviews() {
       error
     );
 
+
     reviewList.innerHTML = `
       <p class="note">
         Unable to load reviews.
       </p>
     `;
+
   }
 }
 
@@ -1567,9 +2533,10 @@ function renderReviews(
     return;
   }
 
+
   if (
     !Array.isArray(reviews) ||
-    reviews.length === 0
+    !reviews.length
   ) {
 
     reviewList.innerHTML = `
@@ -1582,6 +2549,7 @@ function renderReviews(
 
     return;
   }
+
 
   reviewList.innerHTML =
     reviews
@@ -1599,7 +2567,9 @@ function renderReviews(
               <div>
 
                 <div class="stars">
+
                   ${"★".repeat(
+
                     Math.max(
                       1,
                       Math.min(
@@ -1609,14 +2579,18 @@ function renderReviews(
                         )
                       )
                     )
+
                   )}
+
                 </div>
+
 
                 <h3>
                   ${escapeHtml(
                     review.name
                   )}
                 </h3>
+
 
                 <p class="note">
                   ${escapeHtml(
@@ -1652,23 +2626,27 @@ function renderReviews(
 
 
             <p class="note">
+
               Submitted:
+
               ${escapeHtml(
                 formatDate(
                   review.created_at
                 )
               )}
+
             </p>
 
 
-            <div
-              class="admin-actions"
-            >
+            <div class="admin-actions">
+
 
               ${
                 review.status !==
                 "approved"
+
                   ? `
+
                     <button
                       type="button"
                       class="btn"
@@ -1677,7 +2655,9 @@ function renderReviews(
                     >
                       Approve
                     </button>
+
                   `
+
                   : ""
               }
 
@@ -1685,7 +2665,9 @@ function renderReviews(
               ${
                 review.status !==
                 "rejected"
+
                   ? `
+
                     <button
                       type="button"
                       class="btn"
@@ -1694,7 +2676,9 @@ function renderReviews(
                     >
                       Reject
                     </button>
+
                   `
+
                   : ""
               }
 
@@ -1708,12 +2692,15 @@ function renderReviews(
                 Delete
               </button>
 
+
             </div>
 
           </article>
+
         `
       )
       .join("");
+
 
   document
     .querySelectorAll(
@@ -1733,7 +2720,7 @@ function renderReviews(
 
 
 // =====================================================
-// REVIEW ACTIONS
+// REVIEW ACTION
 // =====================================================
 
 async function handleReviewAction(
@@ -1743,18 +2730,23 @@ async function handleReviewAction(
   const button =
     event.currentTarget;
 
+
   const id =
     button.dataset.reviewId;
 
+
   const action =
     button.dataset.reviewAction;
+
 
   if (
     !id ||
     !action
   ) {
+
     return;
   }
+
 
   if (
     action ===
@@ -1766,9 +2758,11 @@ async function handleReviewAction(
         "Delete this review permanently?"
       );
 
+
     if (!confirmed) {
       return;
     }
+
 
     await deleteReview(
       id
@@ -1777,10 +2771,15 @@ async function handleReviewAction(
     return;
   }
 
+
   const status =
-    action === "approve"
+    action ===
+    "approve"
+
       ? "approved"
+
       : "rejected";
+
 
   await updateReviewStatus(
     id,
@@ -1790,7 +2789,7 @@ async function handleReviewAction(
 
 
 // =====================================================
-// UPDATE REVIEW STATUS
+// UPDATE REVIEW
 // =====================================================
 
 async function updateReviewStatus(
@@ -1808,11 +2807,14 @@ async function updateReviewStatus(
         )}`,
 
         {
-          method: "PATCH",
+
+          method:
+            "PATCH",
 
           headers: {
+
             apikey:
-              SUPABASE_ANON_KEY,
+              SUPABASE_PUBLISHABLE_KEY,
 
             Authorization:
               `Bearer ${accessToken}`,
@@ -1822,15 +2824,18 @@ async function updateReviewStatus(
 
             Prefer:
               "return=minimal"
+
           },
 
           body:
             JSON.stringify({
               status
             })
+
         }
 
       );
+
 
     if (!response.ok) {
 
@@ -1839,27 +2844,39 @@ async function updateReviewStatus(
       );
     }
 
+
     showMessage(
+
       actionMessage,
-      status === "approved"
+
+      status ===
+      "approved"
+
         ? "Review approved."
+
         : "Review rejected."
+
     );
+
 
     await loadReviewCounts();
 
     await loadReviews();
 
+
   } catch (error) {
 
     console.error(
+      "Review update error:",
       error
     );
+
 
     showMessage(
       actionMessage,
       "Unable to update review."
     );
+
   }
 }
 
@@ -1882,18 +2899,24 @@ async function deleteReview(
         )}`,
 
         {
-          method: "DELETE",
+
+          method:
+            "DELETE",
 
           headers: {
+
             apikey:
-              SUPABASE_ANON_KEY,
+              SUPABASE_PUBLISHABLE_KEY,
 
             Authorization:
               `Bearer ${accessToken}`
+
           }
+
         }
 
       );
+
 
     if (!response.ok) {
 
@@ -1902,31 +2925,37 @@ async function deleteReview(
       );
     }
 
+
     showMessage(
       actionMessage,
       "Review deleted."
     );
 
+
     await loadReviewCounts();
 
     await loadReviews();
 
+
   } catch (error) {
 
     console.error(
+      "Review delete error:",
       error
     );
+
 
     showMessage(
       actionMessage,
       "Unable to delete review."
     );
+
   }
 }
 
 
 // =====================================================
-// REVIEW FILTERS
+// REVIEW FILTER EVENTS
 // =====================================================
 
 reviewFilterButtons.forEach(
@@ -1938,20 +2967,26 @@ reviewFilterButtons.forEach(
 
         reviewFilterButtons.forEach(
           item =>
+
             item.classList.remove(
               "active"
             )
+
         );
+
 
         button.classList.add(
           "active"
         );
 
+
         currentReviewFilter =
           button.dataset.status ||
           "pending";
 
+
         await loadReviews();
+
       }
     );
 
@@ -1960,606 +2995,82 @@ reviewFilterButtons.forEach(
 
 
 // =====================================================
-// WEBSITE ANALYTICS
-// =====================================================
-
-async function loadAnalytics() {
-
-  if (!accessToken) {
-    return;
-  }
-
-  try {
-
-    const response =
-      await fetch(
-
-        `${SUPABASE_URL}/rest/v1/page_views?select=id,visitor_id,page,path,country_code,country_name,referrer,source,created_at&order=created_at.desc`,
-
-        {
-          headers: {
-            apikey:
-              SUPABASE_ANON_KEY,
-
-            Authorization:
-              `Bearer ${accessToken}`
-          }
-        }
-
-      );
-
-    if (!response.ok) {
-
-      throw new Error(
-        await response.text()
-      );
-    }
-
-    const views =
-      await response.json();
-
-    renderAnalytics(
-      views
-    );
-
-  } catch (error) {
-
-    console.error(
-      "Analytics loading error:",
-      error
-    );
-
-    if (topPages) {
-
-      topPages.innerHTML = `
-        <p class="note">
-          Unable to load analytics.
-        </p>
-      `;
-    }
-  }
-}
-
-
-// =====================================================
-// ANALYTICS CALCULATIONS
-// =====================================================
-
-function renderAnalytics(
-  views
-) {
-
-  if (!Array.isArray(views)) {
-    return;
-  }
-
-  if (totalPageViews) {
-    totalPageViews.textContent =
-      views.length;
-  }
-
-  const visitors =
-    new Set(
-      views.map(
-        view =>
-          view.visitor_id
-      )
-    );
-
-  if (uniqueVisitors) {
-    uniqueVisitors.textContent =
-      visitors.size;
-  }
-
-  const now =
-    new Date();
-
-  const todayStart =
-    new Date(
-      now.getFullYear(),
-      now.getMonth(),
-      now.getDate()
-    );
-
-  const todaysViews =
-    views.filter(
-      view =>
-        new Date(
-          view.created_at
-        ) >= todayStart
-    );
-
-  if (todayViews) {
-    todayViews.textContent =
-      todaysViews.length;
-  }
-
-  const sevenDaysAgo =
-    new Date();
-
-  sevenDaysAgo.setDate(
-    sevenDaysAgo.getDate() - 7
-  );
-
-  const weeklyViews =
-    views.filter(
-      view =>
-        new Date(
-          view.created_at
-        ) >= sevenDaysAgo
-    );
-
-  if (weekViews) {
-    weekViews.textContent =
-      weeklyViews.length;
-  }
-
-  renderTopPages(
-    views
-  );
-
-  renderCountries(
-    views
-  );
-
-  renderTrafficSources(
-    views
-  );
-
-  renderRecentVisits(
-    views
-  );
-}
-
-
-// =====================================================
-// TOP PAGES
-// =====================================================
-
-function renderTopPages(
-  views
-) {
-
-  if (!topPages) {
-    return;
-  }
-
-  const counts = {};
-
-  views.forEach(
-    view => {
-
-      const page =
-        view.page ||
-        "Unknown";
-
-      counts[page] =
-        (
-          counts[page] ||
-          0
-        ) + 1;
-    }
-  );
-
-  const sorted =
-    Object.entries(
-      counts
-    )
-      .sort(
-        (a,b) =>
-          b[1] - a[1]
-      )
-      .slice(
-        0,
-        8
-      );
-
-  if (
-    sorted.length ===
-    0
-  ) {
-
-    topPages.innerHTML = `
-      <p class="note">
-        No page activity yet.
-      </p>
-    `;
-
-    return;
-  }
-
-  topPages.innerHTML =
-    sorted.map(
-      ([page,count]) => `
-
-        <div class="analytics-row">
-
-          <span>
-            ${escapeHtml(page)}
-          </span>
-
-          <strong>
-            ${count}
-          </strong>
-
-        </div>
-
-      `
-    ).join("");
-}
-
-
-// =====================================================
-// COUNTRIES
-// =====================================================
-
-function renderCountries(
-  views
-) {
-
-  if (!countryAnalytics) {
-    return;
-  }
-
-  const counts = {};
-
-  views.forEach(
-    view => {
-
-      const country =
-        view.country_name ||
-        "Unknown";
-
-      if (
-        !counts[country]
-      ) {
-
-        counts[country] = {
-          count: 0,
-          code:
-            view.country_code ||
-            ""
-        };
-      }
-
-      counts[country].count +=
-        1;
-    }
-  );
-
-  const sorted =
-    Object.entries(
-      counts
-    )
-      .sort(
-        (a,b) =>
-          b[1].count -
-          a[1].count
-      )
-      .slice(
-        0,
-        10
-      );
-
-  const total =
-    views.length ||
-    1;
-
-  if (
-    sorted.length ===
-    0
-  ) {
-
-    countryAnalytics.innerHTML = `
-      <p class="note">
-        No country data yet.
-      </p>
-    `;
-
-    return;
-  }
-
-  countryAnalytics.innerHTML =
-    sorted.map(
-      ([country,data]) => {
-
-        const percentage =
-          Math.round(
-            (
-              data.count /
-              total
-            ) *
-            100
-          );
-
-        return `
-
-          <div class="analytics-country">
-
-            <div class="analytics-country-top">
-
-              <span>
-                ${countryFlag(
-                  data.code
-                )}
-
-                ${escapeHtml(
-                  country
-                )}
-              </span>
-
-              <strong>
-                ${data.count}
-
-                <small>
-                  ${percentage}%
-                </small>
-              </strong>
-
-            </div>
-
-            <div class="analytics-bar">
-
-              <span
-                style="
-                  width:${percentage}%;
-                "
-              ></span>
-
-            </div>
-
-          </div>
-
-        `;
-      }
-    ).join("");
-}
-
-
-// =====================================================
-// COUNTRY FLAG
-// =====================================================
-
-function countryFlag(
-  code
-) {
-
-  if (
-    !code ||
-    code.length !==
-    2
-  ) {
-    return "🌎";
-  }
-
-  return code
-    .toUpperCase()
-    .replace(
-      /./g,
-      character =>
-        String.fromCodePoint(
-          127397 +
-          character.charCodeAt()
-        )
-    );
-}
-
-
-// =====================================================
-// TRAFFIC SOURCES
-// =====================================================
-
-function renderTrafficSources(
-  views
-) {
-
-  if (!trafficSources) {
-    return;
-  }
-
-  const counts = {};
-
-  views.forEach(
-    view => {
-
-      const source =
-        view.source ||
-        "Other";
-
-      counts[source] =
-        (
-          counts[source] ||
-          0
-        ) + 1;
-    }
-  );
-
-  const sorted =
-    Object.entries(
-      counts
-    )
-      .sort(
-        (a,b) =>
-          b[1] - a[1]
-      )
-      .slice(
-        0,
-        8
-      );
-
-  if (
-    sorted.length ===
-    0
-  ) {
-
-    trafficSources.innerHTML = `
-      <p class="note">
-        No traffic source data yet.
-      </p>
-    `;
-
-    return;
-  }
-
-  trafficSources.innerHTML =
-    sorted.map(
-      ([source,count]) => `
-
-        <div class="analytics-row">
-
-          <span>
-            ${escapeHtml(source)}
-          </span>
-
-          <strong>
-            ${count}
-          </strong>
-
-        </div>
-
-      `
-    ).join("");
-}
-
-
-// =====================================================
-// RECENT VISITS
-// =====================================================
-
-function renderRecentVisits(
-  views
-) {
-
-  if (!recentVisits) {
-    return;
-  }
-
-  const recent =
-    views.slice(
-      0,
-      8
-    );
-
-  if (
-    recent.length ===
-    0
-  ) {
-
-    recentVisits.innerHTML = `
-      <p class="note">
-        No visits yet.
-      </p>
-    `;
-
-    return;
-  }
-
-  recentVisits.innerHTML =
-    recent.map(
-      view => `
-
-        <div class="analytics-visit">
-
-          <div>
-
-            <strong>
-              ${escapeHtml(
-                view.page ||
-                "Unknown"
-              )}
-            </strong>
-
-            <span>
-              ${countryFlag(
-                view.country_code
-              )}
-
-              ${escapeHtml(
-                view.country_name ||
-                "Unknown"
-              )}
-            </span>
-
-          </div>
-
-          <small>
-            ${escapeHtml(
-              formatDate(
-                view.created_at
-              )
-            )}
-          </small>
-
-        </div>
-
-      `
-    ).join("");
-}
-
-
-// =====================================================
 // LOGOUT
 // =====================================================
 
-if (logoutButton) {
+logoutButton?.addEventListener(
+  "click",
+  async () => {
 
-  logoutButton.addEventListener(
-    "click",
-    async () => {
+    try {
 
-      try {
+      if (accessToken) {
 
-        if (accessToken) {
+        await fetch(
 
-          await fetch(
+          `${SUPABASE_URL}/auth/v1/logout`,
 
-            `${SUPABASE_URL}/auth/v1/logout`,
+          {
 
-            {
-              method: "POST",
+            method:
+              "POST",
 
-              headers: {
-                apikey:
-                  SUPABASE_ANON_KEY,
+            headers: {
 
-                Authorization:
-                  `Bearer ${accessToken}`
-              }
+              apikey:
+                SUPABASE_PUBLISHABLE_KEY,
+
+              Authorization:
+                `Bearer ${accessToken}`
+
             }
 
-          );
-        }
+          }
 
-      } catch (error) {
-
-        console.warn(
-          error
         );
+
       }
 
-      sessionStorage.removeItem(
-        "doanaAdminToken"
+
+    } catch (error) {
+
+      console.warn(
+        "Logout error:",
+        error
       );
 
-      accessToken =
-        null;
-
-      if (dashboard) {
-        dashboard.style.display =
-          "none";
-      }
-
-      if (loginSection) {
-        loginSection.style.display =
-          "block";
-      }
-
-      if (loginForm) {
-        loginForm.reset();
-      }
     }
-  );
-}
+
+
+    sessionStorage.removeItem(
+      "doanaAdminToken"
+    );
+
+
+    accessToken =
+      null;
+
+
+    if (dashboard) {
+
+      dashboard.style.display =
+        "none";
+
+    }
+
+
+    if (loginSection) {
+
+      loginSection.style.display =
+        "block";
+
+    }
+
+
+    loginForm?.reset();
+
+  }
+);
 
 
 // =====================================================
@@ -2572,6 +3083,7 @@ async function tokenIsValid() {
     return false;
   }
 
+
   try {
 
     const response =
@@ -2580,28 +3092,35 @@ async function tokenIsValid() {
         `${SUPABASE_URL}/auth/v1/user`,
 
         {
+
           headers: {
+
             apikey:
-              SUPABASE_ANON_KEY,
+              SUPABASE_PUBLISHABLE_KEY,
 
             Authorization:
               `Bearer ${accessToken}`
+
           }
+
         }
 
       );
 
+
     return response.ok;
+
 
   } catch {
 
     return false;
+
   }
 }
 
 
 // =====================================================
-// RESTORE SESSION
+// RESTORE LOGIN
 // =====================================================
 
 async function restoreAdminSession() {
@@ -2611,15 +3130,19 @@ async function restoreAdminSession() {
       "doanaAdminToken"
     );
 
+
   if (!storedToken) {
     return;
   }
 
+
   accessToken =
     storedToken;
 
+
   const validToken =
     await tokenIsValid();
+
 
   if (!validToken) {
 
@@ -2633,8 +3156,10 @@ async function restoreAdminSession() {
     return;
   }
 
+
   const isAdmin =
     await verifyAdmin();
+
 
   if (!isAdmin) {
 
@@ -2647,6 +3172,7 @@ async function restoreAdminSession() {
 
     return;
   }
+
 
   await showDashboard();
 }

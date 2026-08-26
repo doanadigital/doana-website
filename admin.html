@@ -1,9 +1,7 @@
 <!doctype html>
-
 <html lang="en">
 
 <head>
-
   <meta charset="utf-8">
 
   <meta
@@ -21,20 +19,16 @@
     content="noindex,nofollow"
   >
 
-  <title>
-    Doana Digital — Admin
-  </title>
+  <title>Doana Digital — Admin</title>
 
   <link
     rel="stylesheet"
     href="styles.css"
   >
-
 </head>
 
 
 <body>
-
 
 <main class="section">
 
@@ -45,7 +39,7 @@
 
 
     <!-- =====================================================
-         ADMIN LOGIN
+         LOGIN
     ====================================================== -->
 
     <section
@@ -59,9 +53,6 @@
           margin:0 auto;
         "
       >
-
-
-        <!-- BACK TO WEBSITE -->
 
         <a
           href="index.html"
@@ -87,15 +78,8 @@
         </p>
 
 
-
-        <!-- =================================================
-             LOGIN FORM
-        ================================================== -->
-
         <form id="adminLoginForm">
 
-
-          <!-- EMAIL -->
 
           <label for="adminEmail">
             Email
@@ -111,9 +95,6 @@
           >
 
 
-
-          <!-- PASSWORD -->
-
           <label for="adminPassword">
             Password
           </label>
@@ -128,9 +109,6 @@
             placeholder="Password"
           >
 
-
-
-          <!-- LOGIN ACTIONS -->
 
           <div class="admin-login-actions">
 
@@ -154,9 +132,6 @@
           </div>
 
 
-
-          <!-- LOGIN MESSAGE -->
-
           <div
             id="adminLoginMessage"
             class="success"
@@ -164,9 +139,6 @@
             aria-live="polite"
           ></div>
 
-
-
-          <!-- PASSWORD RESET MESSAGE -->
 
           <div
             id="resetMessage"
@@ -185,7 +157,7 @@
 
 
     <!-- =====================================================
-         ADMIN DASHBOARD
+         DASHBOARD
     ====================================================== -->
 
     <section
@@ -194,32 +166,19 @@
     >
 
 
-      <!-- =================================================
-           DASHBOARD HEADER
-      ================================================== -->
+      <!-- HEADER -->
 
       <div class="admin-header">
 
-
         <div>
 
-          <a
-            href="index.html"
-            class="admin-back-link"
-          >
-            ← Back to website
-          </a>
-
-
           <div class="kicker">
-            Doana administration
+            Doana Administration
           </div>
-
 
           <h1>
             Dashboard
           </h1>
-
 
           <p class="lead">
             Monitor website activity, manage project
@@ -229,59 +188,58 @@
         </div>
 
 
+        <div class="admin-header-actions">
 
-        <button
-          id="adminLogout"
-          class="btn btn-secondary"
-          type="button"
-        >
-          Sign Out
-        </button>
+          <a
+            href="index.html"
+            class="btn btn-secondary"
+          >
+            ← View Website
+          </a>
 
+
+          <button
+            id="adminLogout"
+            class="btn btn-secondary"
+            type="button"
+          >
+            Sign Out
+          </button>
+
+        </div>
 
       </div>
 
 
 
       <!-- =====================================================
-           MAIN DASHBOARD TABS
+           MAIN TABS
       ====================================================== -->
 
       <div class="admin-main-tabs">
 
 
-        <!-- ANALYTICS -->
-
         <button
           id="analyticsTab"
           class="btn admin-main-tab active"
-          data-panel="analytics"
           type="button"
         >
           Analytics
         </button>
 
 
-
-        <!-- INQUIRIES -->
-
         <button
           id="inquiriesTab"
           class="btn admin-main-tab"
-          data-panel="inquiries"
           type="button"
         >
           Contact Inquiries
         </button>
 
 
-
-        <!-- REVIEWS -->
-
         <button
           id="reviewsTab"
           class="btn admin-main-tab"
-          data-panel="reviews"
           type="button"
         >
           Client Reviews
@@ -293,7 +251,7 @@
 
 
       <!-- =====================================================
-           ANALYTICS PANEL
+           ANALYTICS
       ====================================================== -->
 
       <section
@@ -301,8 +259,6 @@
         class="admin-panel"
       >
 
-
-        <!-- ANALYTICS HEADER -->
 
         <div class="section-head">
 
@@ -312,7 +268,6 @@
               Website Activity
             </div>
 
-
             <h2>
               Analytics
             </h2>
@@ -321,24 +276,20 @@
 
 
           <p>
-            Understand how visitors are finding
-            and using the Doana Digital website.
+            Understand how visitors are finding and
+            using the Doana Digital website.
           </p>
 
         </div>
 
 
 
-        <!-- =================================================
-             ANALYTICS SUMMARY
-        ================================================== -->
+        <!-- SUMMARY -->
 
         <div class="analytics-summary">
 
 
-          <!-- TOTAL PAGE VIEWS -->
-
-          <div class="analytics-card">
+          <article class="analytics-card">
 
             <span class="analytics-label">
               Total Page Views
@@ -351,13 +302,11 @@
               —
             </strong>
 
-          </div>
+          </article>
 
 
 
-          <!-- UNIQUE VISITORS -->
-
-          <div class="analytics-card">
+          <article class="analytics-card">
 
             <span class="analytics-label">
               Unique Visitors
@@ -370,13 +319,11 @@
               —
             </strong>
 
-          </div>
+          </article>
 
 
 
-          <!-- TODAY -->
-
-          <div class="analytics-card">
+          <article class="analytics-card">
 
             <span class="analytics-label">
               Today
@@ -389,13 +336,11 @@
               —
             </strong>
 
-          </div>
+          </article>
 
 
 
-          <!-- LAST 7 DAYS -->
-
-          <div class="analytics-card">
+          <article class="analytics-card">
 
             <span class="analytics-label">
               Last 7 Days
@@ -408,27 +353,21 @@
               —
             </strong>
 
-          </div>
+          </article>
 
 
         </div>
 
 
 
-        <!-- =================================================
-             ANALYTICS DETAILS
-        ================================================== -->
+        <!-- DETAILS -->
 
         <div class="analytics-grid">
 
 
+          <!-- TOP PAGES -->
 
-          <!-- =================================================
-               TOP PAGES
-          ================================================== -->
-
-          <section class="analytics-panel-card">
-
+          <article class="analytics-panel-card">
 
             <div class="analytics-panel-header">
 
@@ -447,7 +386,6 @@
             </div>
 
 
-
             <div id="topPages">
 
               <p class="note">
@@ -456,17 +394,13 @@
 
             </div>
 
-
-          </section>
-
+          </article>
 
 
-          <!-- =================================================
-               VISITORS BY COUNTRY
-          ================================================== -->
 
-          <section class="analytics-panel-card">
+          <!-- COUNTRIES -->
 
+          <article class="analytics-panel-card">
 
             <div class="analytics-panel-header">
 
@@ -485,7 +419,6 @@
             </div>
 
 
-
             <div id="countryAnalytics">
 
               <p class="note">
@@ -494,17 +427,13 @@
 
             </div>
 
-
-          </section>
-
+          </article>
 
 
-          <!-- =================================================
-               TRAFFIC SOURCES
-          ================================================== -->
 
-          <section class="analytics-panel-card">
+          <!-- TRAFFIC -->
 
+          <article class="analytics-panel-card">
 
             <div class="analytics-panel-header">
 
@@ -523,7 +452,6 @@
             </div>
 
 
-
             <div id="trafficSources">
 
               <p class="note">
@@ -532,17 +460,13 @@
 
             </div>
 
-
-          </section>
-
+          </article>
 
 
-          <!-- =================================================
-               RECENT VISITS
-          ================================================== -->
 
-          <section class="analytics-panel-card">
+          <!-- RECENT -->
 
+          <article class="analytics-panel-card">
 
             <div class="analytics-panel-header">
 
@@ -561,7 +485,6 @@
             </div>
 
 
-
             <div id="recentVisits">
 
               <p class="note">
@@ -570,8 +493,7 @@
 
             </div>
 
-
-          </section>
+          </article>
 
 
         </div>
@@ -582,7 +504,7 @@
 
 
       <!-- =====================================================
-           CONTACT INQUIRIES PANEL
+           CONTACT INQUIRIES
       ====================================================== -->
 
       <section
@@ -592,8 +514,6 @@
       >
 
 
-        <!-- INQUIRY HEADER -->
-
         <div class="section-head">
 
           <div>
@@ -601,7 +521,6 @@
             <div class="kicker">
               Leads
             </div>
-
 
             <h2>
               Contact Inquiries
@@ -619,16 +538,10 @@
 
 
 
-        <!-- =================================================
-             INQUIRY SUMMARY
-        ================================================== -->
-
         <div class="admin-summary">
 
 
-          <!-- NEW -->
-
-          <div class="admin-summary-card">
+          <article class="admin-summary-card">
 
             <span class="admin-summary-label">
               New
@@ -641,13 +554,10 @@
               —
             </strong>
 
-          </div>
+          </article>
 
 
-
-          <!-- CONTACTED -->
-
-          <div class="admin-summary-card">
+          <article class="admin-summary-card">
 
             <span class="admin-summary-label">
               Contacted
@@ -660,13 +570,10 @@
               —
             </strong>
 
-          </div>
+          </article>
 
 
-
-          <!-- CLOSED -->
-
-          <div class="admin-summary-card">
+          <article class="admin-summary-card">
 
             <span class="admin-summary-label">
               Closed
@@ -679,16 +586,12 @@
               —
             </strong>
 
-          </div>
+          </article>
 
 
         </div>
 
 
-
-        <!-- =================================================
-             INQUIRY FILTERS
-        ================================================== -->
 
         <div
           class="admin-filters"
@@ -735,9 +638,6 @@
         </div>
 
 
-
-        <!-- INQUIRY ACTION MESSAGE -->
-
         <div
           id="inquiryActionMessage"
           class="success"
@@ -745,9 +645,6 @@
           aria-live="polite"
         ></div>
 
-
-
-        <!-- INQUIRY LIST -->
 
         <div id="adminInquiryList">
 
@@ -763,7 +660,7 @@
 
 
       <!-- =====================================================
-           CLIENT REVIEWS PANEL
+           CLIENT REVIEWS
       ====================================================== -->
 
       <section
@@ -773,8 +670,6 @@
       >
 
 
-        <!-- REVIEWS HEADER -->
-
         <div class="section-head">
 
           <div>
@@ -782,7 +677,6 @@
             <div class="kicker">
               Feedback Moderation
             </div>
-
 
             <h2>
               Client Reviews
@@ -800,16 +694,10 @@
 
 
 
-        <!-- =================================================
-             REVIEW SUMMARY
-        ================================================== -->
-
         <div class="admin-summary">
 
 
-          <!-- PENDING -->
-
-          <div class="admin-summary-card">
+          <article class="admin-summary-card">
 
             <span class="admin-summary-label">
               Pending
@@ -822,13 +710,10 @@
               —
             </strong>
 
-          </div>
+          </article>
 
 
-
-          <!-- APPROVED -->
-
-          <div class="admin-summary-card">
+          <article class="admin-summary-card">
 
             <span class="admin-summary-label">
               Approved
@@ -841,13 +726,10 @@
               —
             </strong>
 
-          </div>
+          </article>
 
 
-
-          <!-- REJECTED -->
-
-          <div class="admin-summary-card">
+          <article class="admin-summary-card">
 
             <span class="admin-summary-label">
               Rejected
@@ -860,16 +742,12 @@
               —
             </strong>
 
-          </div>
+          </article>
 
 
         </div>
 
 
-
-        <!-- =================================================
-             REVIEW FILTERS
-        ================================================== -->
 
         <div
           class="admin-filters"
@@ -916,9 +794,6 @@
         </div>
 
 
-
-        <!-- REVIEW ACTION MESSAGE -->
-
         <div
           id="adminActionMessage"
           class="success"
@@ -926,9 +801,6 @@
           aria-live="polite"
         ></div>
 
-
-
-        <!-- REVIEW LIST -->
 
         <div id="adminReviewList">
 
@@ -944,20 +816,12 @@
 
     </section>
 
-
   </div>
 
 </main>
 
 
-
-<!-- =====================================================
-     ADMIN JAVASCRIPT
-====================================================== -->
-
 <script src="admin.js"></script>
 
-
 </body>
-
 </html>
