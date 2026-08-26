@@ -1,19 +1,21 @@
+(() => {
+
+
 // =====================================================
 // DOANA DIGITAL
-// MAIN WEBSITE JAVASCRIPT
+// PUBLIC WEBSITE JAVASCRIPT
 // =====================================================
-
 
 
 // =====================================================
 // SUPABASE
 // =====================================================
 
-const SUPABASE_URL =
+const PUBLIC_SUPABASE_URL =
   "https://efbmmxtteekbjayiesft.supabase.co";
 
 
-const SUPABASE_PUBLISHABLE_KEY =
+const PUBLIC_SUPABASE_KEY =
   "sb_publishable_xBSJ2JvLfmitO7-e-JJHpw_Ak3R7joj";
 
 
@@ -41,44 +43,64 @@ if (yearElement) {
 // MOBILE NAVIGATION
 // =====================================================
 
-const menuBtn =
+const menuButton =
   document.querySelector(
     ".menu-btn"
   );
 
 
-const navLinks =
+const navigationLinks =
   document.querySelector(
     ".nav-links"
   );
 
 
 if (
-  menuBtn &&
-  navLinks
+  menuButton &&
+  navigationLinks
 ) {
 
-  menuBtn.addEventListener(
+  menuButton.addEventListener(
     "click",
     () => {
 
-      navLinks.classList.toggle(
+      navigationLinks.classList.toggle(
         "open"
       );
 
     }
   );
 
+
+  navigationLinks
+    .querySelectorAll("a")
+    .forEach(
+      link => {
+
+        link.addEventListener(
+          "click",
+          () => {
+
+            navigationLinks.classList.remove(
+              "open"
+            );
+
+          }
+        );
+
+      }
+    );
+
 }
 
 
 
 // =====================================================
-// ACTIVE NAVIGATION
+// ACTIVE NAVIGATION LINK
 // =====================================================
 
 const currentPage =
-  location.pathname
+  window.location.pathname
     .split("/")
     .pop() ||
   "index.html";
@@ -89,13 +111,16 @@ document
     ".nav-links a"
   )
   .forEach(
-
     link => {
 
-      if (
+      const href =
         link.getAttribute(
           "href"
-        ) ===
+        );
+
+
+      if (
+        href ===
         currentPage
       ) {
 
@@ -106,355 +131,12 @@ document
       }
 
     }
-
   );
 
 
 
 // =====================================================
-// CONTACT FORM
-// WEB3FORMS + SUPABASE
-// =====================================================
-
-const contactForm =
-  document.getElementById(
-    "contactForm"
-  );
-
-
-const contactSubmit =
-  document.getElementById(
-    "contactSubmit"
-  );
-
-
-const contactSuccess =
-  document.getElementById(
-    "success"
-  );
-
-
-if (contactForm) {
-
-  contactForm.addEventListener(
-    "submit",
-    async event => {
-
-      event.preventDefault();
-
-
-      if (contactSuccess) {
-
-        contactSuccess.style.display =
-          "none";
-
-
-        contactSuccess.textContent =
-          "";
-
-      }
-
-
-      if (contactSubmit) {
-
-        contactSubmit.disabled =
-          true;
-
-
-        contactSubmit.textContent =
-          "Sending...";
-
-      }
-
-
-      const formData =
-        new FormData(
-          contactForm
-        );
-
-
-      const formObject =
-        Object.fromEntries(
-          formData.entries()
-        );
-
-
-      const inquiry = {
-
-        name:
-          String(
-            formData.get(
-              "name"
-            ) || ""
-          ).trim(),
-
-        email:
-          String(
-            formData.get(
-              "email"
-            ) || ""
-          ).trim(),
-
-        phone:
-          String(
-            formData.get(
-              "phone"
-            ) || ""
-          ).trim() || null,
-
-        business:
-          String(
-            formData.get(
-              "business"
-            ) || ""
-          ).trim() || null,
-
-        service:
-          String(
-            formData.get(
-              "service"
-            ) || ""
-          ).trim(),
-
-        budget:
-          String(
-            formData.get(
-              "budget"
-            ) || ""
-          ).trim() || null,
-
-        timeline:
-          String(
-            formData.get(
-              "timeline"
-            ) || ""
-          ).trim() || null,
-
-        message:
-          String(
-            formData.get(
-              "message"
-            ) || ""
-          ).trim(),
-
-        status:
-          "new"
-
-      };
-
-
-      try {
-
-        // -----------------------------------------
-        // SEND EMAIL
-        // -----------------------------------------
-
-        const emailResponse =
-          await fetch(
-
-            "https://api.web3forms.com/submit",
-
-            {
-
-              method:
-                "POST",
-
-              headers: {
-
-                "Content-Type":
-                  "application/json",
-
-                "Accept":
-                  "application/json"
-
-              },
-
-              body:
-                JSON.stringify(
-                  formObject
-                )
-
-            }
-
-          );
-
-
-        const emailResult =
-          await emailResponse.json();
-
-
-        if (
-          !emailResponse.ok ||
-          !emailResult.success
-        ) {
-
-          throw new Error(
-            emailResult.message ||
-            "Unable to send inquiry."
-          );
-
-        }
-
-
-
-        // -----------------------------------------
-        // SAVE TO SUPABASE
-        // -----------------------------------------
-
-        const databaseResponse =
-          await fetch(
-
-            `${SUPABASE_URL}/rest/v1/contact_inquiries`,
-
-            {
-
-              method:
-                "POST",
-
-              headers: {
-
-                "apikey":
-                  SUPABASE_ANON_KEY,
-
-                "Authorization":
-                  `Bearer ${SUPABASE_ANON_KEY}`,
-
-                "Content-Type":
-                  "application/json",
-
-                "Prefer":
-                  "return=minimal"
-
-              },
-
-              body:
-                JSON.stringify(
-                  inquiry
-                )
-
-            }
-
-          );
-
-
-        if (!databaseResponse.ok) {
-
-          console.error(
-            "Inquiry database error:",
-            await databaseResponse.text()
-          );
-
-        }
-
-
-        contactForm.reset();
-
-
-        if (contactSuccess) {
-
-          contactSuccess.style.display =
-            "block";
-
-
-          contactSuccess.textContent =
-            "Thank you! Your inquiry has been sent successfully. We'll get back to you shortly.";
-
-        }
-
-
-      } catch (error) {
-
-        console.error(
-          "Contact submission error:",
-          error
-        );
-
-
-        if (contactSuccess) {
-
-          contactSuccess.style.display =
-            "block";
-
-
-          contactSuccess.textContent =
-            "Sorry, your inquiry could not be sent. Please try again.";
-
-        }
-
-
-      } finally {
-
-        if (contactSubmit) {
-
-          contactSubmit.disabled =
-            false;
-
-
-          contactSubmit.textContent =
-            "Send Inquiry";
-
-        }
-
-      }
-
-    }
-
-  );
-
-}
-
-
-
-// =====================================================
-// EXISTING TESTIMONIALS
-// =====================================================
-
-const starterReviews = [
-
-  {
-
-    name:
-      "jaredb85 Longwood, United States",
-
-    business:
-      "Minimalist Face Graphic for PowerPoint",
-
-    rating:
-      5,
-
-    text:
-      "Did a nice job designing an a graphic image for my power point presentation."
-
-  },
-
-
-  {
-
-    name:
-      "Carol M. Erskine, Ireland",
-
-    business:
-      "Colorful Product Promo Poster",
-
-    rating:
-      5,
-
-    text:
-      "Fabulous exchange.... worked well and to my specifications. Quick response. thanks"
-
-  }
-
-];
-
-
-
-let approvedOnlineReviews =
-  [];
-
-
-
-// =====================================================
-// ESCAPE HTML
+// HTML ESCAPING
 // =====================================================
 
 function escapeHtml(
@@ -493,7 +175,145 @@ function escapeHtml(
 
 
 // =====================================================
-// STARS
+// STARTER REVIEWS
+// =====================================================
+//
+// These remain visible even if Supabase temporarily
+// cannot be reached.
+//
+// Approved Supabase reviews are shown BEFORE these.
+// =====================================================
+
+const starterReviews = [
+
+  {
+
+    name:
+      "jaredb85 — Longwood, United States",
+
+    business:
+      "Minimalist Face Graphic for PowerPoint",
+
+    rating:
+      5,
+
+    text:
+      "Did a nice job designing an a graphic image for my power point presentation."
+
+  },
+
+
+  {
+
+    name:
+      "Carol M. — Erskine, Ireland",
+
+    business:
+      "Colorful Product Promo Poster",
+
+    rating:
+      5,
+
+    text:
+      "Fabulous exchange.... worked well and to my specifications. Quick response. thanks"
+
+  }
+
+];
+
+
+
+// =====================================================
+// FETCH APPROVED REVIEWS FROM SUPABASE
+// =====================================================
+
+async function getApprovedReviews() {
+
+  try {
+
+    const endpoint =
+
+      `${PUBLIC_SUPABASE_URL}` +
+      `/rest/v1/reviews` +
+      `?select=id,name,business,rating,text,created_at` +
+      `&status=eq.approved` +
+      `&order=created_at.desc`;
+
+
+    const response =
+      await fetch(
+
+        endpoint,
+
+        {
+
+          method:
+            "GET",
+
+          headers: {
+
+            apikey:
+              PUBLIC_SUPABASE_KEY,
+
+            Authorization:
+              `Bearer ${PUBLIC_SUPABASE_KEY}`
+
+          }
+
+        }
+
+      );
+
+
+    if (!response.ok) {
+
+      const errorText =
+        await response.text();
+
+
+      throw new Error(
+        errorText
+      );
+
+    }
+
+
+    const reviews =
+      await response.json();
+
+
+    if (
+      !Array.isArray(
+        reviews
+      )
+    ) {
+
+      return [];
+
+    }
+
+
+    return reviews;
+
+
+  } catch (error) {
+
+    console.error(
+      "Unable to load approved reviews:",
+      error
+    );
+
+
+    return [];
+
+  }
+
+}
+
+
+
+// =====================================================
+// REVIEW STARS
 // =====================================================
 
 function createStars(
@@ -502,19 +322,11 @@ function createStars(
 
   const safeRating =
     Math.max(
-
       1,
-
       Math.min(
-
         5,
-
-        Number(
-          rating
-        ) || 5
-
+        Number(rating) || 5
       )
-
     );
 
 
@@ -527,18 +339,58 @@ function createStars(
 
 
 // =====================================================
-// PUBLIC REVIEWS
+// REVIEW HTML
 // =====================================================
 
-function getPublicReviews() {
+function createReviewHtml(
+  review
+) {
 
-  return [
+  return `
 
-    ...approvedOnlineReviews,
+    <article class="review">
 
-    ...starterReviews
+      <div
+        class="stars"
+        aria-label="${escapeHtml(
+          review.rating
+        )} out of 5 stars"
+      >
+        ${createStars(
+          review.rating
+        )}
+      </div>
 
-  ];
+
+      <p>
+        “${escapeHtml(
+          review.text
+        )}”
+      </p>
+
+
+      <div class="client">
+
+        ${escapeHtml(
+          review.name ||
+          "Client"
+        )}
+
+      </div>
+
+
+      <div class="meta">
+
+        ${escapeHtml(
+          review.business ||
+          "Doana Digital Client"
+        )}
+
+      </div>
+
+    </article>
+
+  `;
 
 }
 
@@ -548,93 +400,81 @@ function getPublicReviews() {
 // RENDER PUBLIC REVIEWS
 // =====================================================
 
-function renderReviews(
+async function renderPublicReviews(
   targetId,
-  max = null
+  maximum = null
 ) {
 
-  const element =
+  const container =
     document.getElementById(
       targetId
     );
 
 
-  if (!element) {
+  if (!container) {
+    return;
+  }
+
+
+  container.innerHTML = `
+
+    <p class="note">
+      Loading reviews...
+    </p>
+
+  `;
+
+
+  const approvedReviews =
+    await getApprovedReviews();
+
+
+  // Supabase reviews are first.
+  // Starter reviews remain afterwards.
+
+  const allReviews = [
+
+    ...approvedReviews,
+
+    ...starterReviews
+
+  ];
+
+
+  const displayedReviews =
+    maximum
+
+      ? allReviews.slice(
+          0,
+          maximum
+        )
+
+      : allReviews;
+
+
+  if (
+    displayedReviews.length ===
+    0
+  ) {
+
+    container.innerHTML = `
+
+      <p class="note">
+        No reviews have been published yet.
+      </p>
+
+    `;
 
     return;
 
   }
 
 
-  const reviews =
-    getPublicReviews();
-
-
-  const display =
-
-    max
-
-      ? reviews.slice(
-          0,
-          max
-        )
-
-      : reviews;
-
-
-  element.innerHTML =
-
-    display
-
+  container.innerHTML =
+    displayedReviews
       .map(
-
-        review => `
-
-          <article
-            class="review"
-          >
-
-            <div
-              class="stars"
-            >
-              ${createStars(
-                review.rating
-              )}
-            </div>
-
-
-            <p>
-              “${escapeHtml(
-                review.text
-              )}”
-            </p>
-
-
-            <div
-              class="client"
-            >
-              ${escapeHtml(
-                review.name
-              )}
-            </div>
-
-
-            <div
-              class="meta"
-            >
-              ${escapeHtml(
-                review.business ||
-                "Client"
-              )}
-            </div>
-
-
-          </article>
-
-        `
-
+        createReviewHtml
       )
-
       .join("");
 
 }
@@ -642,84 +482,22 @@ function renderReviews(
 
 
 // =====================================================
-// LOAD APPROVED REVIEWS
+// LOAD REVIEWS
+// =====================================================
+//
+// feedback.html uses reviewList
+// index.html uses homeReviews
 // =====================================================
 
-async function loadApprovedReviews() {
-
-  try {
-
-    const endpoint =
-
-      `${SUPABASE_URL}/rest/v1/reviews` +
-
-      `?status=eq.approved` +
-
-      `&select=id,name,business,rating,text,created_at` +
-
-      `&order=created_at.desc`;
+renderPublicReviews(
+  "reviewList"
+);
 
 
-    const response =
-      await fetch(
-
-        endpoint,
-
-        {
-
-          headers: {
-
-            "apikey":
-              SUPABASE_ANON_KEY,
-
-            "Authorization":
-              `Bearer ${SUPABASE_ANON_KEY}`
-
-          }
-
-        }
-
-      );
-
-
-    if (!response.ok) {
-
-      throw new Error(
-        await response.text()
-      );
-
-    }
-
-
-    approvedOnlineReviews =
-      await response.json();
-
-
-  } catch (error) {
-
-    console.error(
-      "Review loading error:",
-      error
-    );
-
-
-    approvedOnlineReviews =
-      [];
-
-  }
-
-
-  renderReviews(
-    "reviewList"
-  );
-
-
-  renderReviews(
-    "homeReviews",
-    3
-  );
-
-}
+renderPublicReviews(
+  "homeReviews",
+  3
+);
 
 
 
@@ -733,86 +511,88 @@ const feedbackForm =
   );
 
 
-const feedbackSubmit =
-  document.getElementById(
-    "feedbackSubmit"
-  );
-
-
-const feedbackSuccess =
-  document.getElementById(
-    "feedbackSuccess"
-  );
-
-
 if (feedbackForm) {
 
   feedbackForm.addEventListener(
+
     "submit",
+
     async event => {
 
       event.preventDefault();
 
 
-      if (feedbackSubmit) {
-
-        feedbackSubmit.disabled =
-          true;
-
-
-        feedbackSubmit.textContent =
-          "Submitting...";
-
-      }
-
-
-      if (feedbackSuccess) {
-
-        feedbackSuccess.style.display =
-          "none";
-
-
-        feedbackSuccess.textContent =
-          "";
-
-      }
-
-
-      const data =
+      const formData =
         new FormData(
           feedbackForm
         );
 
 
+      const name =
+        String(
+          formData.get(
+            "clientName"
+          ) || ""
+        ).trim();
+
+
+      const business =
+        String(
+          formData.get(
+            "clientBusiness"
+          ) || ""
+        ).trim();
+
+
+      const rating =
+        Number(
+          formData.get(
+            "rating"
+          )
+        );
+
+
+      const text =
+        String(
+          formData.get(
+            "feedbackText"
+          ) || ""
+        ).trim();
+
+
+
+      // =============================================
+      // VALIDATION
+      // =============================================
+
+      if (
+        !name ||
+        !text ||
+        rating < 1 ||
+        rating > 5
+      ) {
+
+        showFeedbackMessage(
+          "Please complete all required fields."
+        );
+
+        return;
+
+      }
+
+
+
       const review = {
 
-        name:
-          String(
-            data.get(
-              "clientName"
-            ) || ""
-          ).trim(),
+        name,
 
         business:
-          String(
-            data.get(
-              "clientBusiness"
-            ) || ""
-          ).trim() || null,
+          business ||
+          null,
 
-        rating:
-          Number(
-            data.get(
-              "rating"
-            )
-          ),
+        rating,
 
-        text:
-          String(
-            data.get(
-              "feedbackText"
-            ) || ""
-          ).trim(),
+        text,
 
         status:
           "pending"
@@ -820,12 +600,34 @@ if (feedbackForm) {
       };
 
 
+
+      const submitButton =
+        feedbackForm.querySelector(
+          'button[type="submit"]'
+        );
+
+
+      if (submitButton) {
+
+        submitButton.disabled =
+          true;
+
+        submitButton.textContent =
+          "Submitting...";
+
+      }
+
+
+
+      hideFeedbackMessage();
+
+
       try {
 
         const response =
           await fetch(
 
-            `${SUPABASE_URL}/rest/v1/reviews`,
+            `${PUBLIC_SUPABASE_URL}/rest/v1/reviews`,
 
             {
 
@@ -834,16 +636,16 @@ if (feedbackForm) {
 
               headers: {
 
-                "apikey":
-                  SUPABASE_ANON_KEY,
+                apikey:
+                  PUBLIC_SUPABASE_KEY,
 
-                "Authorization":
-                  `Bearer ${SUPABASE_ANON_KEY}`,
+                Authorization:
+                  `Bearer ${PUBLIC_SUPABASE_KEY}`,
 
                 "Content-Type":
                   "application/json",
 
-                "Prefer":
+                Prefer:
                   "return=minimal"
 
               },
@@ -860,58 +662,52 @@ if (feedbackForm) {
 
         if (!response.ok) {
 
+          const errorText =
+            await response.text();
+
+
           throw new Error(
-            await response.text()
+            errorText
           );
 
         }
 
 
+
         feedbackForm.reset();
 
 
-        if (feedbackSuccess) {
 
-          feedbackSuccess.style.display =
-            "block";
+        showFeedbackMessage(
 
+          "Thank you! Your feedback has been submitted and will appear after it is approved."
 
-          feedbackSuccess.textContent =
-            "Thank you! Your feedback has been submitted and will appear after review.";
-
-        }
+        );
 
 
       } catch (error) {
 
         console.error(
-          "Feedback error:",
+          "Feedback submission error:",
           error
         );
 
 
-        if (feedbackSuccess) {
+        showFeedbackMessage(
 
-          feedbackSuccess.style.display =
-            "block";
+          "We couldn't submit your feedback right now. Please try again."
 
-
-          feedbackSuccess.textContent =
-            "Sorry, your feedback could not be submitted.";
-
-        }
-
+        );
 
       } finally {
 
-        if (feedbackSubmit) {
+        if (submitButton) {
 
-          feedbackSubmit.disabled =
+          submitButton.disabled =
             false;
 
-
-          feedbackSubmit.textContent =
-            "Submit Feedback";
+          submitButton.textContent =
+            "Submit feedback";
 
         }
 
@@ -926,26 +722,355 @@ if (feedbackForm) {
 
 
 // =====================================================
-// INITIAL REVIEWS
+// FEEDBACK MESSAGE HELPERS
 // =====================================================
 
-renderReviews(
-  "reviewList"
-);
+function showFeedbackMessage(
+  message
+) {
+
+  const element =
+    document.getElementById(
+      "feedbackSuccess"
+    );
 
 
-renderReviews(
-  "homeReviews",
-  3
-);
+  if (!element) {
+    return;
+  }
 
 
-loadApprovedReviews();
+  element.textContent =
+    message;
+
+
+  element.style.display =
+    "block";
+
+}
+
+
+function hideFeedbackMessage() {
+
+  const element =
+    document.getElementById(
+      "feedbackSuccess"
+    );
+
+
+  if (!element) {
+    return;
+  }
+
+
+  element.textContent =
+    "";
+
+
+  element.style.display =
+    "none";
+
+}
 
 
 
 // =====================================================
-// HERO SLIDER
+// CONTACT FORM
+// =====================================================
+//
+// Compatible with your contact_inquiries table.
+//
+// Expected possible field names:
+// name
+// email
+// phone
+// business
+// service
+// budget
+// timeline
+// message
+//
+// Missing optional fields become null.
+// =====================================================
+
+const contactForm =
+  document.getElementById(
+    "contactForm"
+  );
+
+
+if (contactForm) {
+
+  contactForm.addEventListener(
+
+    "submit",
+
+    async event => {
+
+      event.preventDefault();
+
+
+      const formData =
+        new FormData(
+          contactForm
+        );
+
+
+      const getValue =
+        field => {
+
+          const value =
+            formData.get(
+              field
+            );
+
+
+          if (
+            value === null ||
+            value === undefined
+          ) {
+
+            return null;
+
+          }
+
+
+          const cleaned =
+            String(value).trim();
+
+
+          return cleaned ||
+            null;
+
+        };
+
+
+
+      const inquiry = {
+
+        name:
+          getValue("name"),
+
+        email:
+          getValue("email"),
+
+        phone:
+          getValue("phone"),
+
+        business:
+          getValue("business"),
+
+        service:
+          getValue("service"),
+
+        budget:
+          getValue("budget"),
+
+        timeline:
+          getValue("timeline"),
+
+        message:
+          getValue("message"),
+
+        status:
+          "new"
+
+      };
+
+
+
+      if (
+        !inquiry.name ||
+        !inquiry.email ||
+        !inquiry.message
+      ) {
+
+        showContactMessage(
+
+          "Please complete the required fields."
+
+        );
+
+        return;
+
+      }
+
+
+
+      const submitButton =
+        contactForm.querySelector(
+          'button[type="submit"]'
+        );
+
+
+      if (submitButton) {
+
+        submitButton.disabled =
+          true;
+
+        submitButton.textContent =
+          "Sending...";
+
+      }
+
+
+      hideContactMessage();
+
+
+      try {
+
+        const response =
+          await fetch(
+
+            `${PUBLIC_SUPABASE_URL}/rest/v1/contact_inquiries`,
+
+            {
+
+              method:
+                "POST",
+
+              headers: {
+
+                apikey:
+                  PUBLIC_SUPABASE_KEY,
+
+                Authorization:
+                  `Bearer ${PUBLIC_SUPABASE_KEY}`,
+
+                "Content-Type":
+                  "application/json",
+
+                Prefer:
+                  "return=minimal"
+
+              },
+
+              body:
+                JSON.stringify(
+                  inquiry
+                )
+
+            }
+
+          );
+
+
+        if (!response.ok) {
+
+          const errorText =
+            await response.text();
+
+
+          throw new Error(
+            errorText
+          );
+
+        }
+
+
+
+        contactForm.reset();
+
+
+
+        showContactMessage(
+
+          "Thank you! Your project inquiry has been sent. We'll get back to you soon."
+
+        );
+
+
+      } catch (error) {
+
+        console.error(
+          "Contact form error:",
+          error
+        );
+
+
+        showContactMessage(
+
+          "We couldn't send your inquiry right now. Please try again."
+
+        );
+
+      } finally {
+
+        if (submitButton) {
+
+          submitButton.disabled =
+            false;
+
+          submitButton.textContent =
+            "Send inquiry";
+
+        }
+
+      }
+
+    }
+
+  );
+
+}
+
+
+
+// =====================================================
+// CONTACT MESSAGE HELPERS
+// =====================================================
+
+function showContactMessage(
+  message
+) {
+
+  const element =
+    document.getElementById(
+      "success"
+    );
+
+
+  if (!element) {
+    return;
+  }
+
+
+  element.textContent =
+    message;
+
+
+  element.style.display =
+    "block";
+
+}
+
+
+function hideContactMessage() {
+
+  const element =
+    document.getElementById(
+      "success"
+    );
+
+
+  if (!element) {
+    return;
+  }
+
+
+  element.textContent =
+    "";
+
+
+  element.style.display =
+    "none";
+
+}
+
+
+
+// =====================================================
+// HERO IMAGE SLIDER
 // =====================================================
 
 const heroSlides =
@@ -958,7 +1083,8 @@ let currentHeroSlide =
   0;
 
 
-let heroInterval;
+let heroInterval =
+  null;
 
 
 
@@ -969,8 +1095,10 @@ if (
 
 
   heroSlides.forEach(
-
-    (slide, index) => {
+    (
+      slide,
+      index
+    ) => {
 
       slide.classList.remove(
         "active"
@@ -989,8 +1117,8 @@ if (
       }
 
     }
-
   );
+
 
 
   function showHeroSlide(
@@ -999,7 +1127,7 @@ if (
 
     heroSlides[
       currentHeroSlide
-    ].classList.remove(
+    ]?.classList.remove(
       "active"
     );
 
@@ -1010,7 +1138,7 @@ if (
 
     heroSlides[
       currentHeroSlide
-    ].classList.add(
+    ]?.classList.add(
       "active"
     );
 
@@ -1038,10 +1166,30 @@ if (
 
 
 
-  heroInterval =
-    setInterval(
-      nextHeroSlide,
-      4000
-    );
+  function startHeroSlider() {
+
+    if (heroInterval) {
+
+      clearInterval(
+        heroInterval
+      );
+
+    }
+
+
+    heroInterval =
+      setInterval(
+        nextHeroSlide,
+        4000
+      );
+
+  }
+
+
+
+  startHeroSlider();
 
 }
+
+
+})();

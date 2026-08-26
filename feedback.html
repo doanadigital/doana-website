@@ -1,5 +1,4 @@
 <!doctype html>
-
 <html lang="en">
 
 <head>
@@ -13,10 +12,12 @@
 
   <meta
     name="description"
-    content="Read client feedback and testimonials for Doana Digital Creative Studio."
+    content="Read client feedback for Doana Digital or share your experience working with us."
   >
 
-  <title>Doana Digital - Feedback</title>
+  <title>
+    Client Feedback — Doana Digital
+  </title>
 
   <link
     rel="stylesheet"
@@ -29,9 +30,9 @@
 <body>
 
 
-<!-- ========================= -->
-<!-- NAVIGATION -->
-<!-- ========================= -->
+<!-- =====================================================
+     NAVIGATION
+===================================================== -->
 
 <header class="nav">
 
@@ -58,6 +59,7 @@
     <button
       class="menu-btn"
       aria-label="Open navigation"
+      type="button"
     >
       ☰
     </button>
@@ -70,8 +72,8 @@
       </a>
 
       <a href="services.html">
-          Services
-      </a>      
+        Services
+      </a>
 
       <a href="about.html">
         About
@@ -99,289 +101,335 @@
 </header>
 
 
+
 <main>
 
 
-<!-- ========================= -->
-<!-- HERO -->
-<!-- ========================= -->
+  <!-- =====================================================
+       HERO
+  ====================================================== -->
 
-<section
-  class="hero"
-  style="padding-bottom:48px"
->
+  <section
+    class="hero"
+    style="padding-bottom:55px;"
+  >
 
-  <div class="container">
+    <div class="container">
 
-    <div class="kicker">
-      Client feedback
+      <div class="kicker">
+        Client Feedback
+      </div>
+
+
+      <h1
+        style="max-width:900px;"
+      >
+        What our clients say.
+      </h1>
+
+
+      <p class="lead">
+
+        See feedback from people who have worked
+        with Doana Digital, or share your own
+        experience with us.
+
+      </p>
+
     </div>
 
-    <h1 style="max-width:900px">
-      Real words from people we've worked with.
-    </h1>
-
-    <p class="lead">
-
-      Discover what clients say about working with
-      Doana Digital and share your own experience.
-
-    </p>
-
-  </div>
-
-</section>
+  </section>
 
 
 
-<!-- ========================= -->
-<!-- TESTIMONIALS -->
-<!-- ========================= -->
+  <!-- =====================================================
+       APPROVED REVIEWS
+  ====================================================== -->
 
-<section class="section section-alt">
+  <section
+    class="section section-alt"
+  >
 
-  <div class="container">
+    <div class="container">
 
-    <div class="section-head">
+
+      <div class="section-head">
+
+        <div>
+
+          <div class="kicker">
+            Testimonials
+          </div>
+
+          <h2>
+            Client experiences.
+          </h2>
+
+        </div>
+
+
+        <p>
+
+          Feedback shown below has been reviewed
+          before being published publicly.
+
+        </p>
+
+      </div>
+
+
+
+      <!--
+        Reviews are loaded automatically
+        from Supabase by script.js
+      -->
+
+      <div
+        class="review-grid"
+        id="reviewList"
+      >
+
+        <p class="note">
+          Loading reviews...
+        </p>
+
+      </div>
+
+
+    </div>
+
+  </section>
+
+
+
+  <!-- =====================================================
+       LEAVE FEEDBACK
+  ====================================================== -->
+
+  <section class="section">
+
+    <div
+      class="container review-form-wrap"
+    >
+
+
+      <!-- LEFT -->
 
       <div>
 
         <div class="kicker">
-          Testimonials
+          Worked with us?
         </div>
 
+
         <h2>
-          What clients say.
+          Share your experience.
+        </h2>
+
+
+        <p class="lead">
+
+          We appreciate hearing about your
+          experience working with Doana Digital.
+
+        </p>
+
+
+        <div class="notice">
+
+          Your feedback will be submitted for
+          review before it is displayed publicly.
+
+        </div>
+
+      </div>
+
+
+
+      <!-- RIGHT -->
+
+      <form id="feedbackForm">
+
+
+        <!-- NAME -->
+
+        <label for="clientName">
+          Your name
+        </label>
+
+        <input
+          id="clientName"
+          name="clientName"
+          type="text"
+          autocomplete="name"
+          required
+          maxlength="120"
+          placeholder="Your name"
+        >
+
+
+
+        <!-- BUSINESS -->
+
+        <label for="clientBusiness">
+          Business / Project
+        </label>
+
+        <input
+          id="clientBusiness"
+          name="clientBusiness"
+          type="text"
+          maxlength="160"
+          placeholder="Business or project name"
+        >
+
+
+
+        <!-- RATING -->
+
+        <label for="rating">
+          Rating
+        </label>
+
+        <select
+          id="rating"
+          name="rating"
+          required
+        >
+
+          <option value="">
+            Select a rating
+          </option>
+
+          <option value="5">
+            ★★★★★ — Excellent
+          </option>
+
+          <option value="4">
+            ★★★★☆ — Very good
+          </option>
+
+          <option value="3">
+            ★★★☆☆ — Good
+          </option>
+
+          <option value="2">
+            ★★☆☆☆ — Fair
+          </option>
+
+          <option value="1">
+            ★☆☆☆☆ — Poor
+          </option>
+
+        </select>
+
+
+
+        <!-- FEEDBACK -->
+
+        <label for="feedbackText">
+          Your feedback
+        </label>
+
+        <textarea
+          id="feedbackText"
+          name="feedbackText"
+          required
+          minlength="10"
+          maxlength="2000"
+          placeholder="Tell us about your experience working with Doana Digital."
+        ></textarea>
+
+
+
+        <!-- SUBMIT -->
+
+        <button
+          class="btn btn-primary"
+          type="submit"
+        >
+          Submit feedback
+        </button>
+
+
+
+        <p class="note">
+
+          Reviews are moderated before appearing
+          publicly on the website.
+
+        </p>
+
+
+
+        <!-- STATUS -->
+
+        <div
+          id="feedbackSuccess"
+          class="success"
+          role="status"
+          aria-live="polite"
+        ></div>
+
+
+      </form>
+
+
+    </div>
+
+  </section>
+
+
+
+  <!-- =====================================================
+       CTA
+  ====================================================== -->
+
+  <section
+    class="section section-alt"
+  >
+
+    <div class="container cta">
+
+      <div>
+
+        <div class="kicker">
+          Have a project in mind?
+        </div>
+
+        <h2
+          style="margin-bottom:0;"
+        >
+          Let's create something memorable.
         </h2>
 
       </div>
 
 
-      <p>
-
-        Every testimonial displayed here is either
-        existing verified client feedback or feedback
-        reviewed and approved by Doana Digital.
-
-      </p>
-
-    </div>
-
-
-    <!-- Reviews are inserted here by JavaScript -->
-
-    <div
-      class="review-grid"
-      id="reviewList"
-    >
-
-      <p class="note">
-        Loading client feedback...
-      </p>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-
-<!-- ========================= -->
-<!-- LEAVE FEEDBACK -->
-<!-- ========================= -->
-
-<section class="section">
-
-  <div class="container review-form-wrap">
-
-
-    <!-- LEFT CONTENT -->
-
-    <div>
-
-      <div class="kicker">
-        Leave feedback
-      </div>
-
-      <h2>
-        Worked with Doana?
-      </h2>
-
-      <p class="lead">
-
-        We'd love to hear about your experience.
-        Your feedback helps future clients understand
-        what it's like to work with Doana Digital.
-
-      </p>
-
-
-      <div class="notice">
-
-        Submitted feedback is reviewed before appearing
-        publicly. This helps us prevent spam and ensures
-        that testimonials shown on the website are genuine.
-
-      </div>
-
-    </div>
-
-
-
-    <!-- FEEDBACK FORM -->
-
-    <form id="feedbackForm">
-
-
-      <!-- NAME -->
-
-      <label for="clientName">
-        Your name
-      </label>
-
-      <input
-        id="clientName"
-        name="clientName"
-        type="text"
-        autocomplete="name"
-        required
-        maxlength="100"
-        placeholder="Your name"
-      >
-
-
-
-      <!-- BUSINESS -->
-
-      <label for="clientBusiness">
-        Business / Brand
-      </label>
-
-      <input
-        id="clientBusiness"
-        name="clientBusiness"
-        type="text"
-        maxlength="120"
-        placeholder="Optional"
-      >
-
-
-
-      <!-- RATING -->
-
-      <label for="rating">
-        Rating
-      </label>
-
-      <select
-        id="rating"
-        name="rating"
-        required
-      >
-
-        <option value="">
-          Choose rating
-        </option>
-
-        <option value="5">
-          5 — Excellent
-        </option>
-
-        <option value="4">
-          4 — Very good
-        </option>
-
-        <option value="3">
-          3 — Good
-        </option>
-
-        <option value="2">
-          2 — Fair
-        </option>
-
-        <option value="1">
-          1 — Poor
-        </option>
-
-      </select>
-
-
-
-      <!-- FEEDBACK -->
-
-      <label for="feedbackText">
-        Your feedback
-      </label>
-
-      <textarea
-        id="feedbackText"
-        name="feedbackText"
-        required
-        maxlength="1500"
-        placeholder="Tell us about your experience working with Doana."
-      ></textarea>
-
-
-
-      <!-- CONSENT -->
-
-      <label>
-
-        <input
-          type="checkbox"
-          id="consent"
-          required
-          style="width:auto; margin-right:8px;"
-        >
-
-        I agree that Doana Digital may display
-        this feedback publicly.
-
-      </label>
-
-
-
-      <!-- SUBMIT -->
-
-      <button
-        id="feedbackSubmit"
+      <a
         class="btn btn-primary"
-        type="submit"
+        href="contact.html"
       >
-        Submit Feedback
-      </button>
+        Start a project
+      </a>
 
+    </div>
 
-
-      <!-- STATUS -->
-
-      <div
-        class="success"
-        id="feedbackSuccess"
-        role="status"
-        aria-live="polite"
-      ></div>
-
-
-    </form>
-
-  </div>
-
-</section>
+  </section>
 
 
 </main>
 
 
 
-<!-- ========================= -->
-<!-- FOOTER -->
-<!-- ========================= -->
+<!-- =====================================================
+     FOOTER
+===================================================== -->
 
 <footer class="site-footer">
 
   <div class="container">
+
 
     <div class="footer-main">
 
@@ -396,35 +444,67 @@
           class="footer-logo"
         >
 
+
         <p>
-          Creative design for brands that want to
-          look established, memorable and professional.
+
+          Creative design for brands that want
+          to look established, memorable and
+          professional.
+
         </p>
 
       </div>
 
 
-      <!-- WEBSITE LINKS -->
+
+      <!-- LINKS -->
 
       <div class="footer-links">
 
-        <h4>Explore</h4>
+        <h4>
+          Explore
+        </h4>
 
-        <a href="index.html">Home</a>
-        <a href="services.html">Services</a>
-        <a href="about.html">About</a>
-        <a href="feedback.html">Feedback</a>
-        <a href="contact.html">Contact</a>
-        <a href="admin.html">Admin</a>
+        <a href="index.html">
+          Home
+        </a>
+
+        <a href="services.html">
+          Services
+        </a>
+
+        <a href="about.html">
+          About
+        </a>
+
+        <a href="feedback.html">
+          Feedback
+        </a>
+
+        <a href="contact.html">
+          Contact
+        </a>
+
+        <a href="privacy.html">
+          Privacy
+        </a>
+
+        <a href="admin.html">
+          Admin
+        </a>
 
       </div>
 
 
-      <!-- SOCIAL MEDIA -->
+
+      <!-- SOCIAL -->
 
       <div class="footer-social">
 
-        <h4>Follow Doana Digital</h4>
+        <h4>
+          Follow Doana Digital
+        </h4>
+
 
         <a
           href="https://www.instagram.com/doana.digital/"
@@ -435,6 +515,7 @@
           Instagram
           <span>↗</span>
         </a>
+
 
         <a
           href="https://www.linkedin.com/company/doanadigital"
@@ -448,44 +529,44 @@
 
       </div>
 
+
     </div>
 
 
-    <!-- BOTTOM -->
 
     <div class="footer-bottom">
 
       <div>
-        © <span id="year"></span>
+
+        ©
+        <span id="year"></span>
         Doana Digital Creative Studio.
+
       </div>
 
 
-      <div class="footer-legal">
-
-        <a href="privacy.html">
-          Privacy Policy
-        </a>
-
-        <span>•</span>
-
-        <a href="contact.html">
-          Contact
-        </a>
-
+      <div>
+        Branding • Graphic Design • Digital Experiences
       </div>
 
     </div>
+
 
   </div>
 
 </footer>
 
 
+
+<!-- =====================================================
+     JAVASCRIPT
+===================================================== -->
+
 <script src="script.js"></script>
+
+<!-- Keep this if you created analytics.js -->
 <script src="analytics.js"></script>
 
 
 </body>
-
 </html>
