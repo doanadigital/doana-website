@@ -1,18 +1,32 @@
 // =====================================================
 // DOANA DIGITAL
 // ADMIN DASHBOARD
+//
+// Features:
+// - Admin authentication
+// - Password reset
+// - Analytics
+// - Contact inquiry management
+// - Review moderation
+// - USD master service pricing
+// - Regional exchange rates
+// - Market multipliers
+// - Country-specific pricing overrides
+// - Session restoration
 // =====================================================
 
 
 // =====================================================
-// SUPABASE
+// SUPABASE CONFIG
 // =====================================================
 
 const SUPABASE_URL =
   "https://efbmmxtteekbjayiesft.supabase.co";
 
+
 const SUPABASE_PUBLISHABLE_KEY =
   "sb_publishable_xBSJ2JvLfmitO7-e-JJHpw_Ak3R7joj";
+
 
 const PASSWORD_RESET_URL =
   new URL(
@@ -26,28 +40,51 @@ const PASSWORD_RESET_URL =
 // =====================================================
 
 const loginSection =
-  document.getElementById("adminLogin");
+  document.getElementById(
+    "adminLogin"
+  );
+
 
 const dashboard =
-  document.getElementById("adminDashboard");
+  document.getElementById(
+    "adminDashboard"
+  );
+
 
 const loginForm =
-  document.getElementById("adminLoginForm");
+  document.getElementById(
+    "adminLoginForm"
+  );
+
 
 const loginButton =
-  document.getElementById("adminLoginButton");
+  document.getElementById(
+    "adminLoginButton"
+  );
+
 
 const loginMessage =
-  document.getElementById("adminLoginMessage");
+  document.getElementById(
+    "adminLoginMessage"
+  );
+
 
 const forgotPasswordButton =
-  document.getElementById("forgotPassword");
+  document.getElementById(
+    "forgotPassword"
+  );
+
 
 const resetMessage =
-  document.getElementById("resetMessage");
+  document.getElementById(
+    "resetMessage"
+  );
+
 
 const logoutButton =
-  document.getElementById("adminLogout");
+  document.getElementById(
+    "adminLogout"
+  );
 
 
 // =====================================================
@@ -55,29 +92,51 @@ const logoutButton =
 // =====================================================
 
 const analyticsTab =
-  document.getElementById("analyticsTab");
+  document.getElementById(
+    "analyticsTab"
+  );
+
 
 const inquiriesTab =
-  document.getElementById("inquiriesTab");
+  document.getElementById(
+    "inquiriesTab"
+  );
+
 
 const reviewsTab =
-  document.getElementById("reviewsTab");
+  document.getElementById(
+    "reviewsTab"
+  );
+
 
 const pricingTab =
-  document.getElementById("pricingTab");
+  document.getElementById(
+    "pricingTab"
+  );
 
 
 const analyticsPanel =
-  document.getElementById("analyticsPanel");
+  document.getElementById(
+    "analyticsPanel"
+  );
+
 
 const inquiriesPanel =
-  document.getElementById("inquiriesPanel");
+  document.getElementById(
+    "inquiriesPanel"
+  );
+
 
 const reviewsPanel =
-  document.getElementById("reviewsPanel");
+  document.getElementById(
+    "reviewsPanel"
+  );
+
 
 const pricingPanel =
-  document.getElementById("pricingPanel");
+  document.getElementById(
+    "pricingPanel"
+  );
 
 
 // =====================================================
@@ -85,28 +144,51 @@ const pricingPanel =
 // =====================================================
 
 const totalPageViews =
-  document.getElementById("totalPageViews");
+  document.getElementById(
+    "totalPageViews"
+  );
+
 
 const uniqueVisitors =
-  document.getElementById("uniqueVisitors");
+  document.getElementById(
+    "uniqueVisitors"
+  );
+
 
 const todayViews =
-  document.getElementById("todayViews");
+  document.getElementById(
+    "todayViews"
+  );
+
 
 const weekViews =
-  document.getElementById("weekViews");
+  document.getElementById(
+    "weekViews"
+  );
+
 
 const topPages =
-  document.getElementById("topPages");
+  document.getElementById(
+    "topPages"
+  );
+
 
 const countryAnalytics =
-  document.getElementById("countryAnalytics");
+  document.getElementById(
+    "countryAnalytics"
+  );
+
 
 const trafficSources =
-  document.getElementById("trafficSources");
+  document.getElementById(
+    "trafficSources"
+  );
+
 
 const recentVisits =
-  document.getElementById("recentVisits");
+  document.getElementById(
+    "recentVisits"
+  );
 
 
 // =====================================================
@@ -114,22 +196,39 @@ const recentVisits =
 // =====================================================
 
 const inquiryList =
-  document.getElementById("adminInquiryList");
+  document.getElementById(
+    "adminInquiryList"
+  );
+
 
 const inquiryActionMessage =
-  document.getElementById("inquiryActionMessage");
+  document.getElementById(
+    "inquiryActionMessage"
+  );
+
 
 const newInquiryCount =
-  document.getElementById("newInquiryCount");
+  document.getElementById(
+    "newInquiryCount"
+  );
+
 
 const contactedInquiryCount =
-  document.getElementById("contactedInquiryCount");
+  document.getElementById(
+    "contactedInquiryCount"
+  );
+
 
 const closedInquiryCount =
-  document.getElementById("closedInquiryCount");
+  document.getElementById(
+    "closedInquiryCount"
+  );
+
 
 const inquiryFilterButtons =
-  document.querySelectorAll(".inquiry-filter");
+  document.querySelectorAll(
+    ".inquiry-filter"
+  );
 
 
 // =====================================================
@@ -137,22 +236,39 @@ const inquiryFilterButtons =
 // =====================================================
 
 const reviewList =
-  document.getElementById("adminReviewList");
+  document.getElementById(
+    "adminReviewList"
+  );
+
 
 const actionMessage =
-  document.getElementById("adminActionMessage");
+  document.getElementById(
+    "adminActionMessage"
+  );
+
 
 const pendingCount =
-  document.getElementById("pendingCount");
+  document.getElementById(
+    "pendingCount"
+  );
+
 
 const approvedCount =
-  document.getElementById("approvedCount");
+  document.getElementById(
+    "approvedCount"
+  );
+
 
 const rejectedCount =
-  document.getElementById("rejectedCount");
+  document.getElementById(
+    "rejectedCount"
+  );
+
 
 const reviewFilterButtons =
-  document.querySelectorAll(".admin-filter");
+  document.querySelectorAll(
+    ".admin-filter"
+  );
 
 
 // =====================================================
@@ -160,44 +276,72 @@ const reviewFilterButtons =
 // =====================================================
 
 const adminServicePricing =
-  document.getElementById("adminServicePricing");
+  document.getElementById(
+    "adminServicePricing"
+  );
+
 
 const adminRegionPricing =
-  document.getElementById("adminRegionPricing");
+  document.getElementById(
+    "adminRegionPricing"
+  );
+
 
 const adminPricingOverrides =
-  document.getElementById("adminPricingOverrides");
+  document.getElementById(
+    "adminPricingOverrides"
+  );
+
 
 const pricingAdminMessage =
-  document.getElementById("pricingAdminMessage");
+  document.getElementById(
+    "pricingAdminMessage"
+  );
+
 
 const overrideService =
-  document.getElementById("overrideService");
+  document.getElementById(
+    "overrideService"
+  );
+
 
 const overrideCountry =
-  document.getElementById("overrideCountry");
+  document.getElementById(
+    "overrideCountry"
+  );
+
 
 const overridePrice =
-  document.getElementById("overridePrice");
+  document.getElementById(
+    "overridePrice"
+  );
+
 
 const saveOverrideButton =
-  document.getElementById("saveOverride");
+  document.getElementById(
+    "saveOverride"
+  );
 
 
 // =====================================================
 // STATE
 // =====================================================
 
-let accessToken = null;
+let accessToken =
+  null;
+
 
 let currentInquiryFilter =
   "new";
 
+
 let currentReviewFilter =
   "pending";
 
+
 let adminPricingServices =
   [];
+
 
 let adminPricingRegions =
   [];
@@ -212,13 +356,18 @@ function showMessage(
   message
 ) {
 
-  if (!element) return;
+  if (!element) {
+    return;
+  }
+
 
   element.textContent =
     message;
 
+
   element.style.display =
     "block";
+
 }
 
 
@@ -226,13 +375,18 @@ function hideMessage(
   element
 ) {
 
-  if (!element) return;
+  if (!element) {
+    return;
+  }
+
 
   element.textContent =
     "";
 
+
   element.style.display =
     "none";
+
 }
 
 
@@ -243,15 +397,30 @@ function escapeHtml(
   return String(
     value ?? ""
   ).replace(
+
     /[&<>"']/g,
+
     character => ({
-      "&": "&amp;",
-      "<": "&lt;",
-      ">": "&gt;",
-      '"': "&quot;",
-      "'": "&#039;"
+
+      "&":
+        "&amp;",
+
+      "<":
+        "&lt;",
+
+      ">":
+        "&gt;",
+
+      '"':
+        "&quot;",
+
+      "'":
+        "&#039;"
+
     })[character]
+
   );
+
 }
 
 
@@ -260,21 +429,105 @@ function formatDate(
 ) {
 
   if (!value) {
-    return "";
+
+    return "—";
+
   }
 
+
   const date =
-    new Date(value);
+    new Date(
+      value
+    );
+
 
   if (
     Number.isNaN(
       date.getTime()
     )
   ) {
-    return "";
+
+    return "—";
+
   }
 
+
   return date.toLocaleString();
+
+}
+
+
+// =====================================================
+// ADMIN API REQUEST
+// =====================================================
+
+async function adminRequest(
+  endpoint,
+  options = {}
+) {
+
+  if (!accessToken) {
+
+    throw new Error(
+      "Admin session unavailable."
+    );
+
+  }
+
+
+  const response =
+    await fetch(
+
+      `${SUPABASE_URL}/rest/v1/${endpoint}`,
+
+      {
+
+        ...options,
+
+        headers: {
+
+          apikey:
+            SUPABASE_PUBLISHABLE_KEY,
+
+          Authorization:
+            `Bearer ${accessToken}`,
+
+          "Content-Type":
+            "application/json",
+
+          ...(options.headers || {})
+
+        }
+
+      }
+
+    );
+
+
+  if (!response.ok) {
+
+    const errorText =
+      await response.text();
+
+
+    throw new Error(
+      errorText ||
+      `Request failed (${response.status}).`
+    );
+
+  }
+
+
+  const text =
+    await response.text();
+
+
+  return text
+    ? JSON.parse(
+        text
+      )
+    : null;
+
 }
 
 
@@ -282,168 +535,212 @@ function formatDate(
 // LOGIN
 // =====================================================
 
-if (loginForm) {
+loginForm?.addEventListener(
 
-  loginForm.addEventListener(
-    "submit",
-    async event => {
+  "submit",
 
-      event.preventDefault();
+  async event => {
 
-      hideMessage(
-        loginMessage
+
+    event.preventDefault();
+
+
+    hideMessage(
+      loginMessage
+    );
+
+
+    hideMessage(
+      resetMessage
+    );
+
+
+    const email =
+      document
+        .getElementById(
+          "adminEmail"
+        )
+        ?.value
+        ?.trim();
+
+
+    const password =
+      document
+        .getElementById(
+          "adminPassword"
+        )
+        ?.value;
+
+
+    if (
+      !email ||
+      !password
+    ) {
+
+      showMessage(
+
+        loginMessage,
+
+        "Enter your email and password."
+
       );
 
-      hideMessage(
-        resetMessage
-      );
+
+      return;
+
+    }
 
 
-      const email =
-        document
-          .getElementById("adminEmail")
-          .value
-          .trim();
-
-
-      const password =
-        document
-          .getElementById("adminPassword")
-          .value;
-
-
-      if (
-        !email ||
-        !password
-      ) {
-
-        showMessage(
-          loginMessage,
-          "Enter your email and password."
-        );
-
-        return;
-      }
-
+    if (loginButton) {
 
       loginButton.disabled =
         true;
 
+
       loginButton.textContent =
         "Signing in...";
 
-
-      try {
-
-        const response =
-          await fetch(
-
-            `${SUPABASE_URL}/auth/v1/token?grant_type=password`,
-
-            {
-              method: "POST",
-
-              headers: {
-                apikey:
-                  SUPABASE_PUBLISHABLE_KEY,
-
-                "Content-Type":
-                  "application/json"
-              },
-
-              body:
-                JSON.stringify({
-                  email,
-                  password
-                })
-            }
-
-          );
+    }
 
 
-        const result =
-          await response.json();
+    try {
+
+      const response =
+        await fetch(
+
+          `${SUPABASE_URL}/auth/v1/token?grant_type=password`,
+
+          {
+
+            method:
+              "POST",
+
+            headers: {
+
+              apikey:
+                SUPABASE_PUBLISHABLE_KEY,
+
+              "Content-Type":
+                "application/json"
+
+            },
+
+            body:
+              JSON.stringify({
+
+                email,
+
+                password
+
+              })
+
+          }
+
+        );
 
 
-        if (
-          !response.ok ||
-          !result.access_token
-        ) {
+      const result =
+        await response.json();
 
-          throw new Error(
-            "LOGIN_FAILED"
-          );
-        }
 
+      if (
+        !response.ok ||
+        !result.access_token
+      ) {
+
+        throw new Error(
+          "LOGIN_FAILED"
+        );
+
+      }
+
+
+      accessToken =
+        result.access_token;
+
+
+      const admin =
+        await verifyAdmin();
+
+
+      if (!admin) {
 
         accessToken =
-          result.access_token;
+          null;
 
 
-        const isAdmin =
-          await verifyAdmin();
-
-
-        if (!isAdmin) {
-
-          accessToken =
-            null;
-
-          throw new Error(
-            "NOT_ADMIN"
-          );
-        }
-
-
-        sessionStorage.setItem(
-          "doanaAdminToken",
-          accessToken
-        );
-
-
-        await showDashboard();
-
-
-      } catch (error) {
-
-        console.error(
-          "Admin login error:",
-          error
-        );
-
-
-        if (
-          error.message ===
+        throw new Error(
           "NOT_ADMIN"
-        ) {
+        );
 
-          showMessage(
-            loginMessage,
-            "This account does not have Doana admin permission."
-          );
-
-        } else {
-
-          showMessage(
-            loginMessage,
-            "Incorrect email or password. Please try again."
-          );
-
-        }
+      }
 
 
-      } finally {
+      sessionStorage.setItem(
+
+        "doanaAdminToken",
+
+        accessToken
+
+      );
+
+
+      await showDashboard();
+
+
+    } catch (error) {
+
+      console.error(
+        "Admin login:",
+        error
+      );
+
+
+      if (
+        error.message ===
+        "NOT_ADMIN"
+      ) {
+
+        showMessage(
+
+          loginMessage,
+
+          "This account does not have Doana admin permission."
+
+        );
+
+
+      } else {
+
+        showMessage(
+
+          loginMessage,
+
+          "Incorrect email or password. Please try again."
+
+        );
+
+      }
+
+
+    } finally {
+
+      if (loginButton) {
 
         loginButton.disabled =
           false;
 
+
         loginButton.textContent =
           "Sign In";
+
       }
 
     }
-  );
-}
+
+  }
+
+);
 
 
 // =====================================================
@@ -453,7 +750,9 @@ if (loginForm) {
 async function verifyAdmin() {
 
   if (!accessToken) {
+
     return false;
+
   }
 
 
@@ -465,6 +764,7 @@ async function verifyAdmin() {
         `${SUPABASE_URL}/rest/v1/admin_users?select=user_id`,
 
         {
+
           headers: {
 
             apikey:
@@ -474,13 +774,16 @@ async function verifyAdmin() {
               `Bearer ${accessToken}`
 
           }
+
         }
 
       );
 
 
     if (!response.ok) {
+
       return false;
+
     }
 
 
@@ -489,20 +792,31 @@ async function verifyAdmin() {
 
 
     return (
-      Array.isArray(admins) &&
-      admins.length > 0
+
+      Array.isArray(
+        admins
+      )
+
+      &&
+
+      admins.length >
+      0
+
     );
 
 
   } catch (error) {
 
     console.error(
-      "Admin verification error:",
+      "Admin verification:",
       error
     );
 
+
     return false;
+
   }
+
 }
 
 
@@ -510,122 +824,142 @@ async function verifyAdmin() {
 // FORGOT PASSWORD
 // =====================================================
 
-if (
-  forgotPasswordButton
-) {
+forgotPasswordButton?.addEventListener(
 
-  forgotPasswordButton.addEventListener(
-    "click",
-    async () => {
+  "click",
 
-      hideMessage(
-        loginMessage
+  async () => {
+
+
+    hideMessage(
+      loginMessage
+    );
+
+
+    hideMessage(
+      resetMessage
+    );
+
+
+    const email =
+      document
+        .getElementById(
+          "adminEmail"
+        )
+        ?.value
+        ?.trim();
+
+
+    if (!email) {
+
+      showMessage(
+
+        resetMessage,
+
+        "Enter your admin email first."
+
       );
 
-      hideMessage(
-        resetMessage
-      );
 
-
-      const email =
-        document
-          .getElementById("adminEmail")
-          .value
-          .trim();
-
-
-      if (!email) {
-
-        showMessage(
-          resetMessage,
-          "Enter your admin email first."
-        );
-
-        return;
-      }
-
-
-      forgotPasswordButton.disabled =
-        true;
-
-      forgotPasswordButton.textContent =
-        "Sending...";
-
-
-      try {
-
-        const response =
-          await fetch(
-
-            `${SUPABASE_URL}/auth/v1/recover`,
-
-            {
-              method: "POST",
-
-              headers: {
-
-                apikey:
-                  SUPABASE_PUBLISHABLE_KEY,
-
-                "Content-Type":
-                  "application/json"
-
-              },
-
-              body:
-                JSON.stringify({
-
-                  email,
-
-                  redirect_to:
-                    PASSWORD_RESET_URL
-
-                })
-            }
-
-          );
-
-
-        if (!response.ok) {
-
-          throw new Error(
-            "RESET_FAILED"
-          );
-        }
-
-
-        showMessage(
-          resetMessage,
-          "If this email belongs to the admin account, a password reset link has been sent."
-        );
-
-
-      } catch (error) {
-
-        console.error(
-          "Password reset error:",
-          error
-        );
-
-
-        showMessage(
-          resetMessage,
-          "Unable to send the password reset email."
-        );
-
-
-      } finally {
-
-        forgotPasswordButton.disabled =
-          false;
-
-        forgotPasswordButton.textContent =
-          "Forgot password?";
-      }
+      return;
 
     }
-  );
-}
+
+
+    forgotPasswordButton.disabled =
+      true;
+
+
+    forgotPasswordButton.textContent =
+      "Sending...";
+
+
+    try {
+
+      const response =
+        await fetch(
+
+          `${SUPABASE_URL}/auth/v1/recover`,
+
+          {
+
+            method:
+              "POST",
+
+            headers: {
+
+              apikey:
+                SUPABASE_PUBLISHABLE_KEY,
+
+              "Content-Type":
+                "application/json"
+
+            },
+
+            body:
+              JSON.stringify({
+
+                email,
+
+                redirect_to:
+                  PASSWORD_RESET_URL
+
+              })
+
+          }
+
+        );
+
+
+      if (!response.ok) {
+
+        throw new Error(
+          await response.text()
+        );
+
+      }
+
+
+      showMessage(
+
+        resetMessage,
+
+        "If this email belongs to the admin account, a password reset link has been sent."
+
+      );
+
+
+    } catch (error) {
+
+      console.error(
+        "Password reset:",
+        error
+      );
+
+
+      showMessage(
+
+        resetMessage,
+
+        "Unable to send the password reset email."
+
+      );
+
+
+    } finally {
+
+      forgotPasswordButton.disabled =
+        false;
+
+
+      forgotPasswordButton.textContent =
+        "Forgot password?";
+
+    }
+
+  }
+
+);
 
 
 // =====================================================
@@ -638,6 +972,7 @@ async function showDashboard() {
 
     loginSection.style.display =
       "none";
+
   }
 
 
@@ -645,6 +980,7 @@ async function showDashboard() {
 
     dashboard.style.display =
       "block";
+
   }
 
 
@@ -652,9 +988,11 @@ async function showDashboard() {
     actionMessage
   );
 
+
   hideMessage(
     inquiryActionMessage
   );
+
 
   hideMessage(
     pricingAdminMessage
@@ -673,6 +1011,7 @@ async function showDashboard() {
   showAdminPanel(
     "analytics"
   );
+
 }
 
 
@@ -687,8 +1026,11 @@ function showAdminPanel(
   const tabs = [
 
     analyticsTab,
+
     inquiriesTab,
+
     reviewsTab,
+
     pricingTab
 
   ];
@@ -697,29 +1039,29 @@ function showAdminPanel(
   const panels = [
 
     analyticsPanel,
+
     inquiriesPanel,
+
     reviewsPanel,
+
     pricingPanel
 
   ];
 
 
-  // Remove active tab
   tabs.forEach(
     tab => {
 
-      if (tab) {
-
-        tab.classList.remove(
+      tab
+        ?.classList
+        .remove(
           "active"
         );
-      }
 
     }
   );
 
 
-  // Hide all panels
   panels.forEach(
     panel => {
 
@@ -727,13 +1069,26 @@ function showAdminPanel(
 
         panel.style.display =
           "none";
+
       }
 
     }
   );
 
 
-  // ANALYTICS
+  const projectManagementPanel =
+    document.getElementById(
+      "projectManagementPanel"
+    );
+
+
+  if (projectManagementPanel) {
+
+    projectManagementPanel.style.display =
+      "none";
+
+  }
+
 
   if (
     selectedPanel ===
@@ -751,16 +1106,17 @@ function showAdminPanel(
 
       analyticsPanel.style.display =
         "block";
+
     }
 
 
     loadAnalytics();
 
+
     return;
+
   }
 
-
-  // INQUIRIES
 
   if (
     selectedPanel ===
@@ -778,16 +1134,17 @@ function showAdminPanel(
 
       inquiriesPanel.style.display =
         "block";
+
     }
 
 
     loadInquiries();
 
+
     return;
+
   }
 
-
-  // REVIEWS
 
   if (
     selectedPanel ===
@@ -805,16 +1162,17 @@ function showAdminPanel(
 
       reviewsPanel.style.display =
         "block";
+
     }
 
 
     loadReviews();
 
+
     return;
+
   }
 
-
-  // PRICING
 
   if (
     selectedPanel ===
@@ -832,6 +1190,7 @@ function showAdminPanel(
 
       pricingPanel.style.display =
         "block";
+
     }
 
 
@@ -843,11 +1202,13 @@ function showAdminPanel(
 
 
 // =====================================================
-// TAB EVENTS
+// MAIN TAB EVENTS
 // =====================================================
 
 analyticsTab?.addEventListener(
+
   "click",
+
   () => {
 
     showAdminPanel(
@@ -855,11 +1216,14 @@ analyticsTab?.addEventListener(
     );
 
   }
+
 );
 
 
 inquiriesTab?.addEventListener(
+
   "click",
+
   () => {
 
     showAdminPanel(
@@ -867,11 +1231,14 @@ inquiriesTab?.addEventListener(
     );
 
   }
+
 );
 
 
 reviewsTab?.addEventListener(
+
   "click",
+
   () => {
 
     showAdminPanel(
@@ -879,11 +1246,14 @@ reviewsTab?.addEventListener(
     );
 
   }
+
 );
 
 
 pricingTab?.addEventListener(
+
   "click",
+
   () => {
 
     showAdminPanel(
@@ -891,6 +1261,7 @@ pricingTab?.addEventListener(
     );
 
   }
+
 );
 
 
@@ -901,74 +1272,77 @@ pricingTab?.addEventListener(
 async function loadAnalytics() {
 
   if (!accessToken) {
+
     return;
+
   }
 
 
   if (totalPageViews) {
+
     totalPageViews.textContent =
       "…";
+
   }
+
 
   if (uniqueVisitors) {
+
     uniqueVisitors.textContent =
       "…";
+
   }
+
 
   if (todayViews) {
+
     todayViews.textContent =
       "…";
+
   }
 
+
   if (weekViews) {
+
     weekViews.textContent =
       "…";
+
   }
 
 
   try {
 
-    const response =
-      await fetch(
-
-        `${SUPABASE_URL}/rest/v1/page_views?select=id,visitor_id,page,path,country_code,country_name,referrer,source,created_at&order=created_at.desc`,
-
-        {
-          headers: {
-
-            apikey:
-              SUPABASE_PUBLISHABLE_KEY,
-
-            Authorization:
-              `Bearer ${accessToken}`
-
-          }
-        }
-
-      );
-
-
-    if (!response.ok) {
-
-      throw new Error(
-        await response.text()
-      );
-    }
-
-
     const views =
-      await response.json();
+      await adminRequest(
+
+        "page_views?" +
+
+        "select=" +
+
+        "id," +
+        "visitor_id," +
+        "page," +
+        "path," +
+        "country_code," +
+        "country_name," +
+        "referrer," +
+        "source," +
+        "created_at" +
+
+        "&order=created_at.desc"
+
+      );
 
 
     renderAnalytics(
-      views
+      views || []
     );
 
 
   } catch (error) {
 
     console.error(
-      "Analytics loading error:",
+      "Analytics:",
       error
     );
 
@@ -976,10 +1350,13 @@ async function loadAnalytics() {
     if (topPages) {
 
       topPages.innerHTML = `
+
         <p class="note">
           Unable to load analytics.
         </p>
+
       `;
+
     }
 
   }
@@ -998,13 +1375,16 @@ function renderAnalytics(
   if (!Array.isArray(views)) {
 
     views = [];
+
   }
 
 
   if (totalPageViews) {
 
     totalPageViews.textContent =
-      views.length.toLocaleString();
+      views.length
+        .toLocaleString();
+
   }
 
 
@@ -1014,19 +1394,20 @@ function renderAnalytics(
         view =>
           view.visitor_id
       )
-      .filter(Boolean);
-
-
-  const unique =
-    new Set(
-      visitorIds
-    );
+      .filter(
+        Boolean
+      );
 
 
   if (uniqueVisitors) {
 
     uniqueVisitors.textContent =
-      unique.size.toLocaleString();
+      new Set(
+        visitorIds
+      )
+        .size
+        .toLocaleString();
+
   }
 
 
@@ -1046,7 +1427,7 @@ function renderAnalytics(
     );
 
 
-  const todaysViews =
+  const todayCount =
     views.filter(
       view => {
 
@@ -1070,13 +1451,15 @@ function renderAnalytics(
         );
 
       }
-    );
+    ).length;
 
 
   if (todayViews) {
 
     todayViews.textContent =
-      todaysViews.length.toLocaleString();
+      todayCount
+        .toLocaleString();
+
   }
 
 
@@ -1092,7 +1475,7 @@ function renderAnalytics(
   );
 
 
-  const weeklyViews =
+  const weeklyCount =
     views.filter(
       view => {
 
@@ -1116,13 +1499,15 @@ function renderAnalytics(
         );
 
       }
-    );
+    ).length;
 
 
   if (weekViews) {
 
     weekViews.textContent =
-      weeklyViews.length.toLocaleString();
+      weeklyCount
+        .toLocaleString();
+
   }
 
 
@@ -1130,13 +1515,16 @@ function renderAnalytics(
     views
   );
 
+
   renderCountries(
     views
   );
 
+
   renderTrafficSources(
     views
   );
+
 
   renderRecentVisits(
     views
@@ -1154,7 +1542,9 @@ function renderTopPages(
 ) {
 
   if (!topPages) {
+
     return;
+
   }
 
 
@@ -1174,115 +1564,22 @@ function renderTopPages(
         (
           counts[page] ||
           0
-        ) + 1;
-
-    }
-  );
-
-
-  const sorted =
-    Object.entries(
-      counts
-    )
-      .sort(
-        (a,b) =>
-          b[1] - a[1]
-      )
-      .slice(
-        0,
-        10
-      );
-
-
-  if (!sorted.length) {
-
-    topPages.innerHTML = `
-      <p class="note">
-        No page activity yet.
-      </p>
-    `;
-
-    return;
-  }
-
-
-  topPages.innerHTML =
-    sorted.map(
-      ([page,count]) => `
-
-        <div class="analytics-row">
-
-          <span>
-            ${escapeHtml(page)}
-          </span>
-
-          <strong>
-            ${count.toLocaleString()}
-          </strong>
-
-        </div>
-
-      `
-    ).join("");
-
-}
-
-
-// =====================================================
-// COUNTRIES
-// =====================================================
-
-function renderCountries(
-  views
-) {
-
-  if (!countryAnalytics) {
-    return;
-  }
-
-
-  const counts =
-    {};
-
-
-  views.forEach(
-    view => {
-
-      const country =
-        view.country_name ||
-        "Unknown";
-
-
-      if (!counts[country]) {
-
-        counts[country] = {
-
-          count: 0,
-
-          code:
-            view.country_code ||
-            ""
-
-        };
-
-      }
-
-
-      counts[country].count +=
+        )
+        +
         1;
 
     }
   );
 
 
-  const sorted =
+  const rows =
     Object.entries(
       counts
     )
       .sort(
-        (a,b) =>
-          b[1].count -
-          a[1].count
+        (a, b) =>
+          b[1] -
+          a[1]
       )
       .slice(
         0,
@@ -1290,91 +1587,42 @@ function renderCountries(
       );
 
 
-  const total =
-    views.length ||
-    1;
+  if (!rows.length) {
 
+    topPages.innerHTML = `
 
-  if (!sorted.length) {
-
-    countryAnalytics.innerHTML = `
       <p class="note">
-        No country information yet.
+        No page activity yet.
       </p>
+
     `;
 
+
     return;
+
   }
 
 
-  countryAnalytics.innerHTML =
-    sorted.map(
-      ([country,data]) => {
+  topPages.innerHTML =
+    rows
+      .map(
+        ([page, count]) => `
 
+          <div class="analytics-row">
 
-        const percentage =
-          Math.round(
+            <span>
+              ${escapeHtml(page)}
+            </span>
 
-            (
-              data.count /
-              total
-            ) *
-
-            100
-
-          );
-
-
-        return `
-
-          <div class="analytics-country">
-
-            <div
-              class="analytics-country-top"
-            >
-
-              <span>
-
-                ${countryFlag(
-                  data.code
-                )}
-
-                ${escapeHtml(
-                  country
-                )}
-
-              </span>
-
-
-              <strong>
-
-                ${data.count}
-
-                <small>
-                  ${percentage}%
-                </small>
-
-              </strong>
-
-            </div>
-
-
-            <div class="analytics-bar">
-
-              <span
-                style="
-                  width:${percentage}%;
-                "
-              ></span>
-
-            </div>
+            <strong>
+              ${count.toLocaleString()}
+            </strong>
 
           </div>
 
-        `;
-
-      }
-    ).join("");
+        `
+      )
+      .join("");
 
 }
 
@@ -1394,19 +1642,181 @@ function countryFlag(
   ) {
 
     return "🌎";
+
   }
 
 
   return code
     .toUpperCase()
     .replace(
+
       /./g,
+
       character =>
         String.fromCodePoint(
+
           127397 +
           character.charCodeAt()
+
         )
+
     );
+
+}
+
+
+// =====================================================
+// COUNTRIES
+// =====================================================
+
+function renderCountries(
+  views
+) {
+
+  if (!countryAnalytics) {
+
+    return;
+
+  }
+
+
+  const countries =
+    {};
+
+
+  views.forEach(
+    view => {
+
+      const name =
+        view.country_name ||
+        "Unknown";
+
+
+      if (!countries[name]) {
+
+        countries[name] = {
+
+          count:
+            0,
+
+          code:
+            view.country_code ||
+            ""
+
+        };
+
+      }
+
+
+      countries[name].count +=
+        1;
+
+    }
+  );
+
+
+  const rows =
+    Object.entries(
+      countries
+    )
+      .sort(
+        (a, b) =>
+          b[1].count -
+          a[1].count
+      )
+      .slice(
+        0,
+        10
+      );
+
+
+  if (!rows.length) {
+
+    countryAnalytics.innerHTML = `
+
+      <p class="note">
+        No country information yet.
+      </p>
+
+    `;
+
+
+    return;
+
+  }
+
+
+  const total =
+    views.length ||
+    1;
+
+
+  countryAnalytics.innerHTML =
+    rows
+      .map(
+        ([country, data]) => {
+
+
+          const percentage =
+            Math.round(
+
+              (
+                data.count /
+                total
+              )
+              *
+              100
+
+            );
+
+
+          return `
+
+            <div class="analytics-country">
+
+              <div class="analytics-country-top">
+
+                <span>
+
+                  ${countryFlag(
+                    data.code
+                  )}
+
+                  ${escapeHtml(
+                    country
+                  )}
+
+                </span>
+
+
+                <strong>
+
+                  ${data.count}
+
+                  <small>
+                    ${percentage}%
+                  </small>
+
+                </strong>
+
+              </div>
+
+
+              <div class="analytics-bar">
+
+                <span
+                  style="width:${percentage}%"
+                ></span>
+
+              </div>
+
+            </div>
+
+          `;
+
+        }
+      )
+      .join("");
 
 }
 
@@ -1420,7 +1830,9 @@ function renderTrafficSources(
 ) {
 
   if (!trafficSources) {
+
     return;
+
   }
 
 
@@ -1440,19 +1852,22 @@ function renderTrafficSources(
         (
           counts[source] ||
           0
-        ) + 1;
+        )
+        +
+        1;
 
     }
   );
 
 
-  const sorted =
+  const rows =
     Object.entries(
       counts
     )
       .sort(
-        (a,b) =>
-          b[1] - a[1]
+        (a, b) =>
+          b[1] -
+          a[1]
       )
       .slice(
         0,
@@ -1460,36 +1875,44 @@ function renderTrafficSources(
       );
 
 
-  if (!sorted.length) {
+  if (!rows.length) {
 
     trafficSources.innerHTML = `
+
       <p class="note">
         No traffic data yet.
       </p>
+
     `;
 
+
     return;
+
   }
 
 
   trafficSources.innerHTML =
-    sorted.map(
-      ([source,count]) => `
+    rows
+      .map(
+        ([source, count]) => `
 
-        <div class="analytics-row">
+          <div class="analytics-row">
 
-          <span>
-            ${escapeHtml(source)}
-          </span>
+            <span>
+              ${escapeHtml(
+                source
+              )}
+            </span>
 
-          <strong>
-            ${count}
-          </strong>
+            <strong>
+              ${count}
+            </strong>
 
-        </div>
+          </div>
 
-      `
-    ).join("");
+        `
+      )
+      .join("");
 
 }
 
@@ -1503,7 +1926,9 @@ function renderRecentVisits(
 ) {
 
   if (!recentVisits) {
+
     return;
+
   }
 
 
@@ -1517,63 +1942,69 @@ function renderRecentVisits(
   if (!recent.length) {
 
     recentVisits.innerHTML = `
+
       <p class="note">
         No visits yet.
       </p>
+
     `;
 
+
     return;
+
   }
 
 
   recentVisits.innerHTML =
-    recent.map(
-      view => `
+    recent
+      .map(
+        view => `
 
-        <div class="analytics-visit">
+          <div class="analytics-visit">
 
-          <div>
+            <div>
 
-            <strong>
+              <strong>
+
+                ${escapeHtml(
+                  view.page ||
+                  "Unknown"
+                )}
+
+              </strong>
+
+
+              <span>
+
+                ${countryFlag(
+                  view.country_code
+                )}
+
+                ${escapeHtml(
+                  view.country_name ||
+                  "Unknown"
+                )}
+
+              </span>
+
+            </div>
+
+
+            <small>
 
               ${escapeHtml(
-                view.page ||
-                "Unknown"
+                formatDate(
+                  view.created_at
+                )
               )}
 
-            </strong>
-
-
-            <span>
-
-              ${countryFlag(
-                view.country_code
-              )}
-
-              ${escapeHtml(
-                view.country_name ||
-                "Unknown"
-              )}
-
-            </span>
+            </small>
 
           </div>
 
-
-          <small>
-
-            ${escapeHtml(
-              formatDate(
-                view.created_at
-              )
-            )}
-
-          </small>
-
-        </div>
-
-      `
-    ).join("");
+        `
+      )
+      .join("");
 
 }
 
@@ -1585,93 +2016,71 @@ function renderRecentVisits(
 async function loadInquiryCounts() {
 
   if (!accessToken) {
+
     return;
+
   }
 
 
   try {
 
-    const response =
-      await fetch(
-
-        `${SUPABASE_URL}/rest/v1/contact_inquiries?select=id,status`,
-
-        {
-          headers: {
-
-            apikey:
-              SUPABASE_PUBLISHABLE_KEY,
-
-            Authorization:
-              `Bearer ${accessToken}`
-
-          }
-        }
-
-      );
-
-
-    if (!response.ok) {
-
-      throw new Error(
-        await response.text()
-      );
-    }
-
-
     const inquiries =
-      await response.json();
+      await adminRequest(
+
+        "contact_inquiries?" +
+        "select=id,status"
+
+      );
 
 
-    const newCount =
-      inquiries.filter(
-        inquiry =>
-          inquiry.status ===
-          "new"
-      ).length;
-
-
-    const contactedCount =
-      inquiries.filter(
-        inquiry =>
-          inquiry.status ===
-          "contacted"
-      ).length;
-
-
-    const closedCount =
-      inquiries.filter(
-        inquiry =>
-          inquiry.status ===
-          "closed"
-      ).length;
+    const list =
+      Array.isArray(
+        inquiries
+      )
+        ? inquiries
+        : [];
 
 
     if (newInquiryCount) {
 
       newInquiryCount.textContent =
-        newCount;
+        list.filter(
+          inquiry =>
+            inquiry.status ===
+            "new"
+        ).length;
+
     }
 
 
     if (contactedInquiryCount) {
 
       contactedInquiryCount.textContent =
-        contactedCount;
+        list.filter(
+          inquiry =>
+            inquiry.status ===
+            "contacted"
+        ).length;
+
     }
 
 
     if (closedInquiryCount) {
 
       closedInquiryCount.textContent =
-        closedCount;
+        list.filter(
+          inquiry =>
+            inquiry.status ===
+            "closed"
+        ).length;
+
     }
 
 
   } catch (error) {
 
     console.error(
-      "Inquiry count error:",
+      "Inquiry counts:",
       error
     );
 
@@ -1692,23 +2101,38 @@ async function loadInquiries() {
   ) {
 
     return;
+
   }
 
 
   inquiryList.innerHTML = `
+
     <p class="note">
       Loading inquiries...
     </p>
+
   `;
 
 
   let endpoint =
 
-    `${SUPABASE_URL}/rest/v1/contact_inquiries` +
+    "contact_inquiries?" +
 
-    `?select=id,name,email,phone,business,service,budget,timeline,message,status,created_at` +
+    "select=" +
 
-    `&order=created_at.desc`;
+    "id," +
+    "name," +
+    "email," +
+    "phone," +
+    "business," +
+    "service," +
+    "budget," +
+    "timeline," +
+    "message," +
+    "status," +
+    "created_at" +
+
+    "&order=created_at.desc";
 
 
   if (
@@ -1727,55 +2151,31 @@ async function loadInquiries() {
 
   try {
 
-    const response =
-      await fetch(
-
-        endpoint,
-
-        {
-          headers: {
-
-            apikey:
-              SUPABASE_PUBLISHABLE_KEY,
-
-            Authorization:
-              `Bearer ${accessToken}`
-
-          }
-        }
-
-      );
-
-
-    if (!response.ok) {
-
-      throw new Error(
-        await response.text()
-      );
-    }
-
-
     const inquiries =
-      await response.json();
+      await adminRequest(
+        endpoint
+      );
 
 
     renderInquiries(
-      inquiries
+      inquiries || []
     );
 
 
   } catch (error) {
 
     console.error(
-      "Unable to load inquiries:",
+      "Inquiries:",
       error
     );
 
 
     inquiryList.innerHTML = `
+
       <p class="note">
         Unable to load inquiries.
       </p>
+
     `;
 
   }
@@ -1792,7 +2192,9 @@ function renderInquiries(
 ) {
 
   if (!inquiryList) {
+
     return;
+
   }
 
 
@@ -1802,253 +2204,252 @@ function renderInquiries(
   ) {
 
     inquiryList.innerHTML = `
+
       <p class="note">
         No ${escapeHtml(
           currentInquiryFilter
         )} inquiries found.
       </p>
+
     `;
 
+
     return;
+
   }
 
 
   inquiryList.innerHTML =
-    inquiries.map(
-      inquiry => `
+    inquiries
+      .map(
+        inquiry => `
 
-        <article
-          class="admin-inquiry-card"
-        >
+          <article class="admin-inquiry-card">
 
-          <div class="admin-inquiry-top">
+            <div class="admin-inquiry-top">
 
-            <div>
+              <div>
 
-              <h3>
+                <h3>
+
+                  ${escapeHtml(
+                    inquiry.name
+                  )}
+
+                </h3>
+
+
+                <a
+                  class="inquiry-email"
+                  href="mailto:${escapeHtml(
+                    inquiry.email
+                  )}"
+                >
+
+                  ${escapeHtml(
+                    inquiry.email
+                  )}
+
+                </a>
+
+              </div>
+
+
+              <span
+                class="
+                  admin-status
+                  status-${escapeHtml(
+                    inquiry.status
+                  )}
+                "
+              >
 
                 ${escapeHtml(
-                  inquiry.name
+                  inquiry.status
                 )}
 
-              </h3>
+              </span>
+
+            </div>
+
+
+            <div class="admin-inquiry-details">
+
+              <div class="admin-inquiry-field">
+
+                <strong>
+                  Business
+                </strong>
+
+                ${escapeHtml(
+                  inquiry.business ||
+                  "—"
+                )}
+
+              </div>
+
+
+              <div class="admin-inquiry-field">
+
+                <strong>
+                  Phone
+                </strong>
+
+                ${escapeHtml(
+                  inquiry.phone ||
+                  "—"
+                )}
+
+              </div>
+
+
+              <div class="admin-inquiry-field">
+
+                <strong>
+                  Service
+                </strong>
+
+                ${escapeHtml(
+                  inquiry.service ||
+                  "—"
+                )}
+
+              </div>
+
+
+              <div class="admin-inquiry-field">
+
+                <strong>
+                  Budget
+                </strong>
+
+                ${escapeHtml(
+                  inquiry.budget ||
+                  "—"
+                )}
+
+              </div>
+
+
+              <div class="admin-inquiry-field">
+
+                <strong>
+                  Timeline
+                </strong>
+
+                ${escapeHtml(
+                  inquiry.timeline ||
+                  "—"
+                )}
+
+              </div>
+
+
+              <div class="admin-inquiry-field">
+
+                <strong>
+                  Submitted
+                </strong>
+
+                ${escapeHtml(
+                  formatDate(
+                    inquiry.created_at
+                  )
+                )}
+
+              </div>
+
+            </div>
+
+
+            <div class="admin-inquiry-message">
+
+              <strong>
+                Project details
+              </strong>
+
+              <p>
+
+                ${escapeHtml(
+                  inquiry.message ||
+                  ""
+                )}
+
+              </p>
+
+            </div>
+
+
+            <div class="admin-actions">
+
+              ${
+                inquiry.status !==
+                "contacted"
+
+                  ? `
+
+                    <button
+                      class="btn"
+                      type="button"
+                      data-inquiry-action="contacted"
+                      data-inquiry-id="${inquiry.id}"
+                    >
+                      Mark Contacted
+                    </button>
+
+                  `
+
+                  : ""
+              }
+
+
+              ${
+                inquiry.status !==
+                "closed"
+
+                  ? `
+
+                    <button
+                      class="btn"
+                      type="button"
+                      data-inquiry-action="closed"
+                      data-inquiry-id="${inquiry.id}"
+                    >
+                      Close
+                    </button>
+
+                  `
+
+                  : ""
+              }
 
 
               <a
-                class="inquiry-email"
+                class="btn btn-primary"
                 href="mailto:${escapeHtml(
                   inquiry.email
                 )}"
               >
-
-                ${escapeHtml(
-                  inquiry.email
-                )}
-
+                Email Client
               </a>
 
-            </div>
 
-
-            <span
-              class="
-                admin-status
-                status-${escapeHtml(
-                  inquiry.status
-                )}
-              "
-            >
-
-              ${escapeHtml(
-                inquiry.status
-              )}
-
-            </span>
-
-          </div>
-
-
-
-          <div class="admin-inquiry-details">
-
-
-            <div class="admin-inquiry-field">
-
-              <strong>
-                Business
-              </strong>
-
-              ${escapeHtml(
-                inquiry.business ||
-                "—"
-              )}
+              <button
+                class="btn admin-delete"
+                type="button"
+                data-inquiry-action="delete"
+                data-inquiry-id="${inquiry.id}"
+              >
+                Delete
+              </button>
 
             </div>
 
+          </article>
 
-            <div class="admin-inquiry-field">
-
-              <strong>
-                Phone
-              </strong>
-
-              ${escapeHtml(
-                inquiry.phone ||
-                "—"
-              )}
-
-            </div>
-
-
-            <div class="admin-inquiry-field">
-
-              <strong>
-                Service
-              </strong>
-
-              ${escapeHtml(
-                inquiry.service ||
-                "—"
-              )}
-
-            </div>
-
-
-            <div class="admin-inquiry-field">
-
-              <strong>
-                Budget
-              </strong>
-
-              ${escapeHtml(
-                inquiry.budget ||
-                "—"
-              )}
-
-            </div>
-
-
-            <div class="admin-inquiry-field">
-
-              <strong>
-                Timeline
-              </strong>
-
-              ${escapeHtml(
-                inquiry.timeline ||
-                "—"
-              )}
-
-            </div>
-
-
-            <div class="admin-inquiry-field">
-
-              <strong>
-                Submitted
-              </strong>
-
-              ${escapeHtml(
-                formatDate(
-                  inquiry.created_at
-                )
-              )}
-
-            </div>
-
-          </div>
-
-
-
-          <div class="admin-inquiry-message">
-
-            <strong>
-              Project details
-            </strong>
-
-            <p>
-
-              ${escapeHtml(
-                inquiry.message ||
-                ""
-              )}
-
-            </p>
-
-          </div>
-
-
-
-          <div class="admin-actions">
-
-
-            ${
-              inquiry.status !==
-              "contacted"
-
-                ? `
-
-                  <button
-                    class="btn"
-                    type="button"
-                    data-inquiry-action="contacted"
-                    data-inquiry-id="${inquiry.id}"
-                  >
-                    Mark Contacted
-                  </button>
-
-                `
-
-                : ""
-            }
-
-
-            ${
-              inquiry.status !==
-              "closed"
-
-                ? `
-
-                  <button
-                    class="btn"
-                    type="button"
-                    data-inquiry-action="closed"
-                    data-inquiry-id="${inquiry.id}"
-                  >
-                    Close
-                  </button>
-
-                `
-
-                : ""
-            }
-
-
-            <a
-              class="btn btn-primary"
-              href="mailto:${escapeHtml(
-                inquiry.email
-              )}"
-            >
-              Email Client
-            </a>
-
-
-            <button
-              class="btn admin-delete"
-              type="button"
-              data-inquiry-action="delete"
-              data-inquiry-id="${inquiry.id}"
-            >
-              Delete
-            </button>
-
-          </div>
-
-        </article>
-
-      `
-    ).join("");
+        `
+      )
+      .join("");
 
 
   document
@@ -2059,8 +2460,11 @@ function renderInquiries(
       button => {
 
         button.addEventListener(
+
           "click",
+
           handleInquiryAction
+
         );
 
       }
@@ -2095,6 +2499,7 @@ async function handleInquiryAction(
   ) {
 
     return;
+
   }
 
 
@@ -2110,6 +2515,7 @@ async function handleInquiryAction(
     ) {
 
       return;
+
     }
 
 
@@ -2117,20 +2523,25 @@ async function handleInquiryAction(
       id
     );
 
+
     return;
+
   }
 
 
   await updateInquiryStatus(
+
     id,
+
     action
+
   );
 
 }
 
 
 // =====================================================
-// UPDATE INQUIRY
+// UPDATE INQUIRY STATUS
 // =====================================================
 
 async function updateInquiryStatus(
@@ -2140,48 +2551,34 @@ async function updateInquiryStatus(
 
   try {
 
-    const response =
-      await fetch(
+    await adminRequest(
 
-        `${SUPABASE_URL}/rest/v1/contact_inquiries?id=eq.${encodeURIComponent(
-          id
-        )}`,
+      `contact_inquiries?id=eq.${encodeURIComponent(
+        id
+      )}`,
 
-        {
-          method:
-            "PATCH",
+      {
 
-          headers: {
+        method:
+          "PATCH",
 
-            apikey:
-              SUPABASE_PUBLISHABLE_KEY,
+        headers: {
 
-            Authorization:
-              `Bearer ${accessToken}`,
+          Prefer:
+            "return=minimal"
 
-            "Content-Type":
-              "application/json",
+        },
 
-            Prefer:
-              "return=minimal"
+        body:
+          JSON.stringify({
 
-          },
+            status
 
-          body:
-            JSON.stringify({
-              status
-            })
-        }
+          })
 
-      );
+      }
 
-
-    if (!response.ok) {
-
-      throw new Error(
-        await response.text()
-      );
-    }
+    );
 
 
     showMessage(
@@ -2200,19 +2597,24 @@ async function updateInquiryStatus(
 
     await loadInquiryCounts();
 
+
     await loadInquiries();
 
 
   } catch (error) {
 
     console.error(
+      "Inquiry update:",
       error
     );
 
 
     showMessage(
+
       inquiryActionMessage,
+
       "Unable to update inquiry."
+
     );
 
   }
@@ -2230,46 +2632,40 @@ async function deleteInquiry(
 
   try {
 
-    const response =
-      await fetch(
+    await adminRequest(
 
-        `${SUPABASE_URL}/rest/v1/contact_inquiries?id=eq.${encodeURIComponent(
-          id
-        )}`,
+      `contact_inquiries?id=eq.${encodeURIComponent(
+        id
+      )}`,
 
-        {
-          method:
-            "DELETE",
+      {
 
-          headers: {
+        method:
+          "DELETE",
 
-            apikey:
-              SUPABASE_PUBLISHABLE_KEY,
+        headers: {
 
-            Authorization:
-              `Bearer ${accessToken}`
+          Prefer:
+            "return=minimal"
 
-          }
         }
 
-      );
+      }
 
-
-    if (!response.ok) {
-
-      throw new Error(
-        await response.text()
-      );
-    }
+    );
 
 
     showMessage(
+
       inquiryActionMessage,
+
       "Inquiry deleted."
+
     );
 
 
     await loadInquiryCounts();
+
 
     await loadInquiries();
 
@@ -2277,7 +2673,17 @@ async function deleteInquiry(
   } catch (error) {
 
     console.error(
+      "Inquiry delete:",
       error
+    );
+
+
+    showMessage(
+
+      inquiryActionMessage,
+
+      "Unable to delete inquiry."
+
     );
 
   }
@@ -2293,8 +2699,11 @@ inquiryFilterButtons.forEach(
   button => {
 
     button.addEventListener(
+
       "click",
+
       async () => {
+
 
         inquiryFilterButtons.forEach(
           item =>
@@ -2317,6 +2726,7 @@ inquiryFilterButtons.forEach(
         await loadInquiries();
 
       }
+
     );
 
   }
@@ -2330,81 +2740,71 @@ inquiryFilterButtons.forEach(
 async function loadReviewCounts() {
 
   if (!accessToken) {
+
     return;
+
   }
 
 
   try {
 
-    const response =
-      await fetch(
-
-        `${SUPABASE_URL}/rest/v1/reviews?select=id,status`,
-
-        {
-          headers: {
-
-            apikey:
-              SUPABASE_PUBLISHABLE_KEY,
-
-            Authorization:
-              `Bearer ${accessToken}`
-
-          }
-        }
-
-      );
-
-
-    if (!response.ok) {
-
-      throw new Error(
-        await response.text()
-      );
-    }
-
-
     const reviews =
-      await response.json();
+      await adminRequest(
+
+        "reviews?" +
+        "select=id,status"
+
+      );
+
+
+    const list =
+      Array.isArray(
+        reviews
+      )
+        ? reviews
+        : [];
 
 
     if (pendingCount) {
 
       pendingCount.textContent =
-        reviews.filter(
+        list.filter(
           review =>
             review.status ===
             "pending"
         ).length;
+
     }
 
 
     if (approvedCount) {
 
       approvedCount.textContent =
-        reviews.filter(
+        list.filter(
           review =>
             review.status ===
             "approved"
         ).length;
+
     }
 
 
     if (rejectedCount) {
 
       rejectedCount.textContent =
-        reviews.filter(
+        list.filter(
           review =>
             review.status ===
             "rejected"
         ).length;
+
     }
 
 
   } catch (error) {
 
     console.error(
-      "Review count error:",
+      "Review counts:",
       error
     );
 
@@ -2425,23 +2825,34 @@ async function loadReviews() {
   ) {
 
     return;
+
   }
 
 
   reviewList.innerHTML = `
+
     <p class="note">
       Loading reviews...
     </p>
+
   `;
 
 
   let endpoint =
 
-    `${SUPABASE_URL}/rest/v1/reviews` +
+    "reviews?" +
 
-    `?select=id,name,business,rating,text,status,created_at` +
+    "select=" +
 
-    `&order=created_at.desc`;
+    "id," +
+    "name," +
+    "business," +
+    "rating," +
+    "text," +
+    "status," +
+    "created_at" +
+
+    "&order=created_at.desc";
 
 
   if (
@@ -2450,6 +2861,7 @@ async function loadReviews() {
   ) {
 
     endpoint +=
+
       `&status=eq.${encodeURIComponent(
         currentReviewFilter
       )}`;
@@ -2459,54 +2871,31 @@ async function loadReviews() {
 
   try {
 
-    const response =
-      await fetch(
-
-        endpoint,
-
-        {
-          headers: {
-
-            apikey:
-              SUPABASE_PUBLISHABLE_KEY,
-
-            Authorization:
-              `Bearer ${accessToken}`
-
-          }
-        }
-
-      );
-
-
-    if (!response.ok) {
-
-      throw new Error(
-        await response.text()
-      );
-    }
-
-
     const reviews =
-      await response.json();
+      await adminRequest(
+        endpoint
+      );
 
 
     renderReviews(
-      reviews
+      reviews || []
     );
 
 
   } catch (error) {
 
     console.error(
+      "Reviews:",
       error
     );
 
 
     reviewList.innerHTML = `
+
       <p class="note">
         Unable to load reviews.
       </p>
+
     `;
 
   }
@@ -2523,7 +2912,9 @@ function renderReviews(
 ) {
 
   if (!reviewList) {
+
     return;
+
   }
 
 
@@ -2533,163 +2924,183 @@ function renderReviews(
   ) {
 
     reviewList.innerHTML = `
+
       <p class="note">
         No ${escapeHtml(
           currentReviewFilter
         )} reviews found.
       </p>
+
     `;
 
+
     return;
+
   }
 
 
   reviewList.innerHTML =
-    reviews.map(
-      review => `
+    reviews
+      .map(
+        review => {
 
-        <article class="admin-review-card">
 
-          <div class="admin-review-top">
+          const rating =
+            Math.max(
 
-            <div>
+              1,
 
-              <div class="stars">
+              Math.min(
 
-                ${"★".repeat(
+                5,
 
-                  Math.max(
-                    1,
-                    Math.min(
-                      5,
-                      Number(
-                        review.rating
-                      )
-                    )
-                  )
+                Number(
+                  review.rating
+                )
 
-                )}
+              )
+
+            );
+
+
+          return `
+
+            <article class="admin-review-card">
+
+              <div class="admin-review-top">
+
+                <div>
+
+                  <div class="stars">
+
+                    ${"★".repeat(
+                      rating
+                    )}
+
+                  </div>
+
+
+                  <h3>
+
+                    ${escapeHtml(
+                      review.name
+                    )}
+
+                  </h3>
+
+
+                  <p class="note">
+
+                    ${escapeHtml(
+                      review.business ||
+                      "Client"
+                    )}
+
+                  </p>
+
+                </div>
+
+
+                <span
+                  class="
+                    admin-status
+                    status-${escapeHtml(
+                      review.status
+                    )}
+                  "
+                >
+
+                  ${escapeHtml(
+                    review.status
+                  )}
+
+                </span>
 
               </div>
 
 
-              <h3>
-                ${escapeHtml(
-                  review.name
-                )}
-              </h3>
+              <p>
+
+                “${escapeHtml(
+                  review.text
+                )}”
+
+              </p>
 
 
               <p class="note">
 
                 ${escapeHtml(
-                  review.business ||
-                  "Client"
+                  formatDate(
+                    review.created_at
+                  )
                 )}
 
               </p>
 
-            </div>
+
+              <div class="admin-actions">
+
+                ${
+                  review.status !==
+                  "approved"
+
+                    ? `
+
+                      <button
+                        class="btn"
+                        type="button"
+                        data-review-action="approve"
+                        data-review-id="${review.id}"
+                      >
+                        Approve
+                      </button>
+
+                    `
+
+                    : ""
+                }
 
 
-            <span
-              class="
-                admin-status
-                status-${escapeHtml(
-                  review.status
-                )}
-              "
-            >
+                ${
+                  review.status !==
+                  "rejected"
 
-              ${escapeHtml(
-                review.status
-              )}
+                    ? `
 
-            </span>
+                      <button
+                        class="btn"
+                        type="button"
+                        data-review-action="reject"
+                        data-review-id="${review.id}"
+                      >
+                        Reject
+                      </button>
 
-          </div>
+                    `
 
-
-          <p>
-
-            “${escapeHtml(
-              review.text
-            )}”
-
-          </p>
+                    : ""
+                }
 
 
-          <p class="note">
+                <button
+                  class="btn admin-delete"
+                  type="button"
+                  data-review-action="delete"
+                  data-review-id="${review.id}"
+                >
+                  Delete
+                </button>
 
-            ${escapeHtml(
-              formatDate(
-                review.created_at
-              )
-            )}
+              </div>
 
-          </p>
+            </article>
 
+          `;
 
-          <div class="admin-actions">
-
-
-            ${
-              review.status !==
-              "approved"
-
-                ? `
-
-                  <button
-                    class="btn"
-                    type="button"
-                    data-review-action="approve"
-                    data-review-id="${review.id}"
-                  >
-                    Approve
-                  </button>
-
-                `
-
-                : ""
-            }
-
-
-            ${
-              review.status !==
-              "rejected"
-
-                ? `
-
-                  <button
-                    class="btn"
-                    type="button"
-                    data-review-action="reject"
-                    data-review-id="${review.id}"
-                  >
-                    Reject
-                  </button>
-
-                `
-
-                : ""
-            }
-
-
-            <button
-              class="btn admin-delete"
-              type="button"
-              data-review-action="delete"
-              data-review-id="${review.id}"
-            >
-              Delete
-            </button>
-
-          </div>
-
-        </article>
-
-      `
-    ).join("");
+        }
+      )
+      .join("");
 
 
   document
@@ -2700,8 +3111,11 @@ function renderReviews(
       button => {
 
         button.addEventListener(
+
           "click",
+
           handleReviewAction
+
         );
 
       }
@@ -2736,6 +3150,7 @@ async function handleReviewAction(
   ) {
 
     return;
+
   }
 
 
@@ -2751,6 +3166,7 @@ async function handleReviewAction(
     ) {
 
       return;
+
     }
 
 
@@ -2758,7 +3174,9 @@ async function handleReviewAction(
       id
     );
 
+
     return;
+
   }
 
 
@@ -2772,8 +3190,11 @@ async function handleReviewAction(
 
 
   await updateReviewStatus(
+
     id,
+
     status
+
   );
 
 }
@@ -2790,48 +3211,34 @@ async function updateReviewStatus(
 
   try {
 
-    const response =
-      await fetch(
+    await adminRequest(
 
-        `${SUPABASE_URL}/rest/v1/reviews?id=eq.${encodeURIComponent(
-          id
-        )}`,
+      `reviews?id=eq.${encodeURIComponent(
+        id
+      )}`,
 
-        {
-          method:
-            "PATCH",
+      {
 
-          headers: {
+        method:
+          "PATCH",
 
-            apikey:
-              SUPABASE_PUBLISHABLE_KEY,
+        headers: {
 
-            Authorization:
-              `Bearer ${accessToken}`,
+          Prefer:
+            "return=minimal"
 
-            "Content-Type":
-              "application/json",
+        },
 
-            Prefer:
-              "return=minimal"
+        body:
+          JSON.stringify({
 
-          },
+            status
 
-          body:
-            JSON.stringify({
-              status
-            })
-        }
+          })
 
-      );
+      }
 
-
-    if (!response.ok) {
-
-      throw new Error(
-        await response.text()
-      );
-    }
+    );
 
 
     showMessage(
@@ -2850,13 +3257,24 @@ async function updateReviewStatus(
 
     await loadReviewCounts();
 
+
     await loadReviews();
 
 
   } catch (error) {
 
     console.error(
+      "Review update:",
       error
+    );
+
+
+    showMessage(
+
+      actionMessage,
+
+      "Unable to update review."
+
     );
 
   }
@@ -2874,46 +3292,40 @@ async function deleteReview(
 
   try {
 
-    const response =
-      await fetch(
+    await adminRequest(
 
-        `${SUPABASE_URL}/rest/v1/reviews?id=eq.${encodeURIComponent(
-          id
-        )}`,
+      `reviews?id=eq.${encodeURIComponent(
+        id
+      )}`,
 
-        {
-          method:
-            "DELETE",
+      {
 
-          headers: {
+        method:
+          "DELETE",
 
-            apikey:
-              SUPABASE_PUBLISHABLE_KEY,
+        headers: {
 
-            Authorization:
-              `Bearer ${accessToken}`
+          Prefer:
+            "return=minimal"
 
-          }
         }
 
-      );
+      }
 
-
-    if (!response.ok) {
-
-      throw new Error(
-        await response.text()
-      );
-    }
+    );
 
 
     showMessage(
+
       actionMessage,
+
       "Review deleted."
+
     );
 
 
     await loadReviewCounts();
+
 
     await loadReviews();
 
@@ -2921,7 +3333,17 @@ async function deleteReview(
   } catch (error) {
 
     console.error(
+      "Review delete:",
       error
+    );
+
+
+    showMessage(
+
+      actionMessage,
+
+      "Unable to delete review."
+
     );
 
   }
@@ -2937,8 +3359,11 @@ reviewFilterButtons.forEach(
   button => {
 
     button.addEventListener(
+
       "click",
+
       async () => {
+
 
         reviewFilterButtons.forEach(
           item =>
@@ -2961,73 +3386,11 @@ reviewFilterButtons.forEach(
         await loadReviews();
 
       }
+
     );
 
   }
 );
-
-
-// =====================================================
-// ADMIN PRICING API
-// =====================================================
-
-async function pricingAdminRequest(
-  endpoint,
-  options = {}
-) {
-
-  if (!accessToken) {
-
-    throw new Error(
-      "Admin session unavailable."
-    );
-  }
-
-
-  const response =
-    await fetch(
-
-      `${SUPABASE_URL}/rest/v1/${endpoint}`,
-
-      {
-        ...options,
-
-        headers: {
-
-          apikey:
-            SUPABASE_PUBLISHABLE_KEY,
-
-          Authorization:
-            `Bearer ${accessToken}`,
-
-          "Content-Type":
-            "application/json",
-
-          ...(options.headers || {})
-
-        }
-      }
-
-    );
-
-
-  if (!response.ok) {
-
-    throw new Error(
-      await response.text()
-    );
-  }
-
-
-  const text =
-    await response.text();
-
-
-  return text
-    ? JSON.parse(text)
-    : null;
-
-}
 
 
 // =====================================================
@@ -3039,7 +3402,9 @@ function showPricingMessage(
 ) {
 
   if (!pricingAdminMessage) {
+
     return;
+
   }
 
 
@@ -3058,14 +3423,14 @@ function showPricingMessage(
         "none";
 
     },
-    3000
+    3500
   );
 
 }
 
 
 // =====================================================
-// LOAD PRICING
+// LOAD ALL ADMIN PRICING
 // =====================================================
 
 async function loadAdminPricing() {
@@ -3085,35 +3450,58 @@ async function loadAdminPricing() {
 
 
 // =====================================================
-// LOAD SERVICE PRICES
+// LOAD USD MASTER SERVICE PRICES
 // =====================================================
 
 async function loadAdminServicePricing() {
 
   if (!adminServicePricing) {
+
     return;
+
   }
 
 
   adminServicePricing.innerHTML = `
+
     <p class="note">
       Loading service prices...
     </p>
+
   `;
 
 
   try {
 
     adminPricingServices =
-      await pricingAdminRequest(
+      await adminRequest(
 
         "services_pricing?" +
 
-        "select=id,service_code,service_name,base_price_usd,price_type,active" +
+        "select=" +
+
+        "id," +
+        "service_code," +
+        "service_name," +
+        "base_price_usd," +
+        "price_type," +
+        "active" +
 
         "&order=id.asc"
 
       );
+
+
+    if (
+      !Array.isArray(
+        adminPricingServices
+      )
+    ) {
+
+      adminPricingServices =
+        [];
+
+    }
 
 
     renderAdminServicePricing();
@@ -3131,9 +3519,11 @@ async function loadAdminServicePricing() {
 
 
     adminServicePricing.innerHTML = `
+
       <p class="note">
         Unable to load service pricing.
       </p>
+
     `;
 
   }
@@ -3142,124 +3532,146 @@ async function loadAdminServicePricing() {
 
 
 // =====================================================
-// RENDER SERVICE PRICES
+// RENDER USD SERVICE PRICES
 // =====================================================
 
 function renderAdminServicePricing() {
 
   if (!adminServicePricing) {
+
     return;
+
+  }
+
+
+  if (
+    !adminPricingServices.length
+  ) {
+
+    adminServicePricing.innerHTML = `
+
+      <p class="note">
+        No services found.
+      </p>
+
+    `;
+
+
+    return;
+
   }
 
 
   adminServicePricing.innerHTML =
-    adminPricingServices.map(
-      service => `
+    adminPricingServices
+      .map(
+        service => `
 
-        <article class="pricing-admin-card">
+          <article class="pricing-admin-card">
 
-          <span class="pricing-admin-code">
+            <span class="pricing-admin-code">
 
-            ${escapeHtml(
-              service.service_code
-            )}
+              ${escapeHtml(
+                service.service_code
+              )}
 
-          </span>
-
-
-          <h3>
-
-            ${escapeHtml(
-              service.service_name
-            )}
-
-          </h3>
+            </span>
 
 
-          <label>
-            Base Price (CAD)
-          </label>
+            <h3>
+
+              ${escapeHtml(
+                service.service_name
+              )}
+
+            </h3>
 
 
-          <input
-            type="number"
-            min="0"
-            step="0.01"
-            value="${Number(
-              service.base_price_usd
-            )}"
-            data-service-price-id="${service.id}"
-          >
+            <label>
+              Base Price (USD)
+            </label>
 
 
-          <label>
-            Display Type
-          </label>
-
-
-          <select
-            data-service-type-id="${service.id}"
-          >
-
-            <option
-              value="starting_at"
-              ${
-                service.price_type ===
-                "starting_at"
-
-                  ? "selected"
-
-                  : ""
-              }
+            <input
+              type="number"
+              min="0"
+              step="0.01"
+              value="${Number(
+                service.base_price_usd
+              )}"
+              data-service-price-id="${service.id}"
             >
-              Starting at
-            </option>
 
 
-            <option
-              value="fixed"
-              ${
-                service.price_type ===
-                "fixed"
+            <label>
+              Display Type
+            </label>
 
-                  ? "selected"
 
-                  : ""
-              }
+            <select
+              data-service-type-id="${service.id}"
             >
-              Fixed price
-            </option>
+
+              <option
+                value="starting_at"
+                ${
+                  service.price_type ===
+                  "starting_at"
+
+                    ? "selected"
+
+                    : ""
+                }
+              >
+                Starting at
+              </option>
 
 
-            <option
-              value="contact"
-              ${
-                service.price_type ===
-                "contact"
+              <option
+                value="fixed"
+                ${
+                  service.price_type ===
+                  "fixed"
 
-                  ? "selected"
+                    ? "selected"
 
-                  : ""
-              }
+                    : ""
+                }
+              >
+                Fixed price
+              </option>
+
+
+              <option
+                value="contact"
+                ${
+                  service.price_type ===
+                  "contact"
+
+                    ? "selected"
+
+                    : ""
+                }
+              >
+                Contact for pricing
+              </option>
+
+            </select>
+
+
+            <button
+              class="btn btn-primary"
+              type="button"
+              data-save-service="${service.id}"
             >
-              Contact for pricing
-            </option>
+              Save Price
+            </button>
 
-          </select>
+          </article>
 
-
-          <button
-            class="btn btn-primary"
-            type="button"
-            data-save-service="${service.id}"
-          >
-            Save Price
-          </button>
-
-        </article>
-
-      `
-    ).join("");
+        `
+      )
+      .join("");
 
 
   document
@@ -3270,8 +3682,11 @@ function renderAdminServicePricing() {
       button => {
 
         button.addEventListener(
+
           "click",
+
           saveAdminServicePricing
+
         );
 
       }
@@ -3281,7 +3696,7 @@ function renderAdminServicePricing() {
 
 
 // =====================================================
-// SAVE SERVICE PRICE
+// SAVE USD SERVICE PRICE
 // =====================================================
 
 async function saveAdminServicePricing(
@@ -3314,6 +3729,7 @@ async function saveAdminServicePricing(
   ) {
 
     return;
+
   }
 
 
@@ -3324,20 +3740,26 @@ async function saveAdminServicePricing(
 
 
   if (
-    !Number.isFinite(price) ||
-    price < 0
+    !Number.isFinite(
+      price
+    ) ||
+    price <
+    0
   ) {
 
     showPricingMessage(
-      "Enter a valid price."
+      "Enter a valid USD price."
     );
 
+
     return;
+
   }
 
 
   button.disabled =
     true;
+
 
   button.textContent =
     "Saving...";
@@ -3345,19 +3767,22 @@ async function saveAdminServicePricing(
 
   try {
 
-    await pricingAdminRequest(
+    await adminRequest(
 
       `services_pricing?id=eq.${encodeURIComponent(
         id
       )}`,
 
       {
+
         method:
           "PATCH",
 
         headers: {
+
           Prefer:
             "return=minimal"
+
         },
 
         body:
@@ -3374,13 +3799,14 @@ async function saveAdminServicePricing(
                 .toISOString()
 
           })
+
       }
 
     );
 
 
     showPricingMessage(
-      "Service price updated."
+      "USD master price updated."
     );
 
 
@@ -3390,6 +3816,7 @@ async function saveAdminServicePricing(
   } catch (error) {
 
     console.error(
+      "Service price update:",
       error
     );
 
@@ -3404,6 +3831,7 @@ async function saveAdminServicePricing(
     button.disabled =
       false;
 
+
     button.textContent =
       "Save Price";
 
@@ -3413,35 +3841,59 @@ async function saveAdminServicePricing(
 
 
 // =====================================================
-// LOAD COUNTRIES
+// LOAD REGIONAL PRICING
 // =====================================================
 
 async function loadAdminRegionPricing() {
 
   if (!adminRegionPricing) {
+
     return;
+
   }
 
 
   adminRegionPricing.innerHTML = `
+
     <p class="note">
       Loading countries...
     </p>
+
   `;
 
 
   try {
 
     adminPricingRegions =
-      await pricingAdminRequest(
+      await adminRequest(
 
         "pricing_regions?" +
 
-        "select=country_code,country_name,currency_code,currency_symbol,multiplier,active" +
+        "select=" +
+
+        "country_code," +
+        "country_name," +
+        "currency_code," +
+        "currency_symbol," +
+        "exchange_rate," +
+        "market_multiplier," +
+        "active" +
 
         "&order=country_name.asc"
 
       );
+
+
+    if (
+      !Array.isArray(
+        adminPricingRegions
+      )
+    ) {
+
+      adminPricingRegions =
+        [];
+
+    }
 
 
     renderAdminRegions();
@@ -3453,14 +3905,17 @@ async function loadAdminRegionPricing() {
   } catch (error) {
 
     console.error(
+      "Regional pricing:",
       error
     );
 
 
     adminRegionPricing.innerHTML = `
+
       <p class="note">
         Unable to load countries.
       </p>
+
     `;
 
   }
@@ -3469,112 +3924,166 @@ async function loadAdminRegionPricing() {
 
 
 // =====================================================
-// RENDER COUNTRIES
+// RENDER REGIONAL PRICING
 // =====================================================
 
 function renderAdminRegions() {
 
   if (!adminRegionPricing) {
+
     return;
+
+  }
+
+
+  if (
+    !adminPricingRegions.length
+  ) {
+
+    adminRegionPricing.innerHTML = `
+
+      <p class="note">
+        No pricing regions found.
+      </p>
+
+    `;
+
+
+    return;
+
   }
 
 
   adminRegionPricing.innerHTML =
-    adminPricingRegions.map(
-      region => `
+    adminPricingRegions
+      .map(
+        region => `
 
-        <article
-          class="pricing-region-row"
-        >
+          <article class="pricing-region-row">
 
-          <div class="pricing-region-country">
+            <div class="pricing-region-country">
 
-            <strong>
+              <strong>
 
-              ${escapeHtml(
-                region.country_name
-              )}
+                ${escapeHtml(
+                  region.country_name
+                )}
 
-            </strong>
+              </strong>
 
-            <span>
 
-              ${escapeHtml(
+              <span>
+
+                ${escapeHtml(
+                  region.country_code
+                )}
+
+              </span>
+
+            </div>
+
+
+            <div>
+
+              <label>
+                Currency
+              </label>
+
+
+              <input
+                type="text"
+                maxlength="3"
+                value="${escapeHtml(
+                  region.currency_code
+                )}"
+                data-region-currency="${escapeHtml(
+                  region.country_code
+                )}"
+              >
+
+            </div>
+
+
+            <div>
+
+              <label>
+                Symbol
+              </label>
+
+
+              <input
+                type="text"
+                maxlength="8"
+                value="${escapeHtml(
+                  region.currency_symbol
+                )}"
+                data-region-symbol="${escapeHtml(
+                  region.country_code
+                )}"
+              >
+
+            </div>
+
+
+            <div>
+
+              <label>
+                USD Exchange Rate
+              </label>
+
+
+              <input
+                type="number"
+                min="0.000001"
+                step="0.000001"
+                value="${Number(
+                  region.exchange_rate
+                )}"
+                data-region-exchange-rate="${escapeHtml(
+                  region.country_code
+                )}"
+              >
+
+            </div>
+
+
+            <div>
+
+              <label>
+                Market Multiplier
+              </label>
+
+
+              <input
+                type="number"
+                min="0.0001"
+                step="0.0001"
+                value="${Number(
+                  region.market_multiplier
+                )}"
+                data-region-market-multiplier="${escapeHtml(
+                  region.country_code
+                )}"
+              >
+
+            </div>
+
+
+            <button
+              class="btn"
+              type="button"
+              data-save-region="${escapeHtml(
                 region.country_code
-              )}
-
-            </span>
-
-          </div>
-
-
-          <div>
-
-            <label>
-              Currency
-            </label>
-
-            <input
-              type="text"
-              maxlength="3"
-              value="${escapeHtml(
-                region.currency_code
               )}"
-              data-region-currency="${region.country_code}"
             >
+              Save
+            </button>
 
-          </div>
+          </article>
 
-
-          <div>
-
-            <label>
-              Symbol
-            </label>
-
-            <input
-              type="text"
-              maxlength="6"
-              value="${escapeHtml(
-                region.currency_symbol
-              )}"
-              data-region-symbol="${region.country_code}"
-            >
-
-          </div>
-
-
-          <div>
-
-            <label>
-              Multiplier
-            </label>
-
-            <input
-              type="number"
-              min="0.0001"
-              step="0.0001"
-              value="${Number(
-                region.multiplier
-              )}"
-              data-region-multiplier="${region.country_code}"
-            >
-
-          </div>
-
-
-          <button
-            class="btn"
-            type="button"
-            data-save-region="${region.country_code}"
-          >
-            Save
-          </button>
-
-        </article>
-
-      `
-    ).join("");
+        `
+      )
+      .join("");
 
 
   document
@@ -3585,8 +4094,11 @@ function renderAdminRegions() {
       button => {
 
         button.addEventListener(
+
           "click",
+
           saveAdminRegion
+
         );
 
       }
@@ -3596,7 +4108,7 @@ function renderAdminRegions() {
 
 
 // =====================================================
-// SAVE REGION
+// SAVE REGIONAL PRICING
 // =====================================================
 
 async function saveAdminRegion(
@@ -3611,57 +4123,143 @@ async function saveAdminRegion(
     button.dataset.saveRegion;
 
 
-  const currency =
+  if (!code) {
+
+    return;
+
+  }
+
+
+  const currencyInput =
     document.querySelector(
       `[data-region-currency="${code}"]`
     );
 
 
-  const symbol =
+  const symbolInput =
     document.querySelector(
       `[data-region-symbol="${code}"]`
     );
 
 
-  const multiplier =
+  const exchangeRateInput =
     document.querySelector(
-      `[data-region-multiplier="${code}"]`
+      `[data-region-exchange-rate="${code}"]`
+    );
+
+
+  const marketMultiplierInput =
+    document.querySelector(
+      `[data-region-market-multiplier="${code}"]`
     );
 
 
   if (
-    !currency ||
-    !symbol ||
-    !multiplier
+    !currencyInput ||
+    !symbolInput ||
+    !exchangeRateInput ||
+    !marketMultiplierInput
   ) {
 
+    showPricingMessage(
+      "Unable to find the regional pricing fields."
+    );
+
+
     return;
+
   }
 
 
-  const multiplierNumber =
+  const currency =
+    currencyInput.value
+      .trim()
+      .toUpperCase();
+
+
+  const symbol =
+    symbolInput.value
+      .trim();
+
+
+  const exchangeRate =
     Number(
-      multiplier.value
+      exchangeRateInput.value
     );
+
+
+  const marketMultiplier =
+    Number(
+      marketMultiplierInput.value
+    );
+
+
+  if (
+    currency.length !==
+    3
+  ) {
+
+    showPricingMessage(
+      "Currency code must contain exactly 3 characters."
+    );
+
+
+    return;
+
+  }
+
+
+  if (!symbol) {
+
+    showPricingMessage(
+      "Currency symbol is required."
+    );
+
+
+    return;
+
+  }
 
 
   if (
     !Number.isFinite(
-      multiplierNumber
+      exchangeRate
     ) ||
-    multiplierNumber <= 0
+    exchangeRate <=
+    0
   ) {
 
     showPricingMessage(
-      "Multiplier must be greater than zero."
+      "Exchange rate must be greater than zero."
     );
 
+
     return;
+
+  }
+
+
+  if (
+    !Number.isFinite(
+      marketMultiplier
+    ) ||
+    marketMultiplier <=
+    0
+  ) {
+
+    showPricingMessage(
+      "Market multiplier must be greater than zero."
+    );
+
+
+    return;
+
   }
 
 
   button.disabled =
     true;
+
 
   button.textContent =
     "Saving...";
@@ -3669,54 +4267,67 @@ async function saveAdminRegion(
 
   try {
 
-    await pricingAdminRequest(
+    await adminRequest(
 
       `pricing_regions?country_code=eq.${encodeURIComponent(
         code
       )}`,
 
       {
+
         method:
           "PATCH",
 
         headers: {
+
           Prefer:
             "return=minimal"
+
         },
 
         body:
           JSON.stringify({
 
             currency_code:
-              currency.value
-                .trim()
-                .toUpperCase(),
+              currency,
 
             currency_symbol:
-              symbol.value
-                .trim(),
+              symbol,
 
-            multiplier:
-              multiplierNumber,
+            exchange_rate:
+              exchangeRate,
+
+            market_multiplier:
+              marketMultiplier,
 
             updated_at:
               new Date()
                 .toISOString()
 
           })
+
       }
 
     );
 
 
     showPricingMessage(
-      `${code} pricing updated.`
+
+      `${code} regional pricing updated.`
+
     );
+
+
+    await loadAdminRegionPricing();
+
+
+    await loadAdminOverrides();
 
 
   } catch (error) {
 
     console.error(
+      "Regional pricing update:",
       error
     );
 
@@ -3731,6 +4342,7 @@ async function saveAdminRegion(
     button.disabled =
       false;
 
+
     button.textContent =
       "Save";
 
@@ -3740,114 +4352,134 @@ async function saveAdminRegion(
 
 
 // =====================================================
-// POPULATE OVERRIDE SERVICE SELECT
+// POPULATE OVERRIDE SERVICES
 // =====================================================
 
 function populateOverrideServices() {
 
   if (!overrideService) {
+
     return;
+
   }
 
 
   overrideService.innerHTML =
-    adminPricingServices.map(
-      service => `
+    adminPricingServices
+      .map(
+        service => `
 
-        <option
-          value="${escapeHtml(
-            service.service_code
-          )}"
-        >
+          <option
+            value="${escapeHtml(
+              service.service_code
+            )}"
+          >
 
-          ${escapeHtml(
-            service.service_name
-          )}
+            ${escapeHtml(
+              service.service_name
+            )}
 
-        </option>
+          </option>
 
-      `
-    ).join("");
+        `
+      )
+      .join("");
 
 }
 
 
 // =====================================================
-// POPULATE COUNTRY SELECT
+// POPULATE OVERRIDE COUNTRIES
 // =====================================================
 
 function populateOverrideCountries() {
 
   if (!overrideCountry) {
+
     return;
+
   }
 
 
   overrideCountry.innerHTML =
-    adminPricingRegions.map(
-      region => `
+    adminPricingRegions
+      .map(
+        region => `
 
-        <option
-          value="${escapeHtml(
-            region.country_code
-          )}"
-        >
+          <option
+            value="${escapeHtml(
+              region.country_code
+            )}"
+          >
 
-          ${escapeHtml(
-            region.country_name
-          )}
+            ${escapeHtml(
+              region.country_name
+            )}
 
-          (${escapeHtml(
-            region.currency_code
-          )})
+            (${escapeHtml(
+              region.currency_code
+            )})
 
-        </option>
+          </option>
 
-      `
-    ).join("");
+        `
+      )
+      .join("");
 
 }
 
 
 // =====================================================
-// SAVE COUNTRY OVERRIDE
+// SAVE COUNTRY-SPECIFIC OVERRIDE
 // =====================================================
 
 saveOverrideButton?.addEventListener(
+
   "click",
+
   async () => {
 
+
     const serviceCode =
-      overrideService?.value;
+      overrideService
+        ?.value;
 
 
     const countryCode =
-      overrideCountry?.value;
+      overrideCountry
+        ?.value;
 
 
     const price =
       Number(
-        overridePrice?.value
+        overridePrice
+          ?.value
       );
 
 
     if (
       !serviceCode ||
       !countryCode ||
-      !Number.isFinite(price) ||
-      price < 0
+      !Number.isFinite(
+        price
+      ) ||
+      price <
+      0
     ) {
 
       showPricingMessage(
-        "Enter a valid override price."
+        "Enter a valid country-specific price."
       );
 
+
       return;
+
     }
 
 
     saveOverrideButton.disabled =
       true;
+
 
     saveOverrideButton.textContent =
       "Saving...";
@@ -3855,18 +4487,21 @@ saveOverrideButton?.addEventListener(
 
     try {
 
-      await pricingAdminRequest(
+      await adminRequest(
 
         "pricing_overrides?" +
         "on_conflict=service_code,country_code",
 
         {
+
           method:
             "POST",
 
           headers: {
+
             Prefer:
               "resolution=merge-duplicates,return=minimal"
+
           },
 
           body:
@@ -3886,6 +4521,7 @@ saveOverrideButton?.addEventListener(
                   .toISOString()
 
             })
+
         }
 
       );
@@ -3895,6 +4531,7 @@ saveOverrideButton?.addEventListener(
 
         overridePrice.value =
           "";
+
       }
 
 
@@ -3909,6 +4546,7 @@ saveOverrideButton?.addEventListener(
     } catch (error) {
 
       console.error(
+        "Override save:",
         error
       );
 
@@ -3923,41 +4561,53 @@ saveOverrideButton?.addEventListener(
       saveOverrideButton.disabled =
         false;
 
+
       saveOverrideButton.textContent =
         "Save Override";
 
     }
 
   }
+
 );
 
 
 // =====================================================
-// LOAD OVERRIDES
+// LOAD PRICE OVERRIDES
 // =====================================================
 
 async function loadAdminOverrides() {
 
   if (!adminPricingOverrides) {
+
     return;
+
   }
 
 
   adminPricingOverrides.innerHTML = `
+
     <p class="note">
       Loading overrides...
     </p>
+
   `;
 
 
   try {
 
     const overrides =
-      await pricingAdminRequest(
+      await adminRequest(
 
         "pricing_overrides?" +
 
-        "select=id,service_code,country_code,local_price,updated_at" +
+        "select=" +
+
+        "id," +
+        "service_code," +
+        "country_code," +
+        "local_price," +
+        "updated_at" +
 
         "&order=country_code.asc"
 
@@ -3965,22 +4615,30 @@ async function loadAdminOverrides() {
 
 
     renderAdminOverrides(
-      overrides ||
-      []
+
+      Array.isArray(
+        overrides
+      )
+        ? overrides
+        : []
+
     );
 
 
   } catch (error) {
 
     console.error(
+      "Overrides:",
       error
     );
 
 
     adminPricingOverrides.innerHTML = `
+
       <p class="note">
         Unable to load overrides.
       </p>
+
     `;
 
   }
@@ -3997,111 +4655,117 @@ function renderAdminOverrides(
 ) {
 
   if (!adminPricingOverrides) {
+
     return;
+
   }
 
 
   if (!overrides.length) {
 
     adminPricingOverrides.innerHTML = `
+
       <p class="note">
         No country-specific prices yet.
       </p>
+
     `;
 
+
     return;
+
   }
 
 
   adminPricingOverrides.innerHTML =
-    overrides.map(
-      item => {
+    overrides
+      .map(
+        item => {
 
 
-        const service =
-          adminPricingServices.find(
-            serviceItem =>
-              serviceItem.service_code ===
-              item.service_code
-          );
+          const service =
+            adminPricingServices.find(
+              serviceItem =>
+                serviceItem.service_code ===
+                item.service_code
+            );
 
 
-        const region =
-          adminPricingRegions.find(
-            regionItem =>
-              regionItem.country_code ===
-              item.country_code
-          );
+          const region =
+            adminPricingRegions.find(
+              regionItem =>
+                regionItem.country_code ===
+                item.country_code
+            );
 
 
-        return `
+          return `
 
-          <article
-            class="pricing-override-row"
-          >
+            <article class="pricing-override-row">
 
-            <div>
+              <div>
 
-              <strong>
+                <strong>
+
+                  ${escapeHtml(
+                    service?.service_name ||
+                    item.service_code
+                  )}
+
+                </strong>
+
+              </div>
+
+
+              <div>
 
                 ${escapeHtml(
-                  service?.service_name ||
-                  item.service_code
+                  region?.country_name ||
+                  item.country_code
                 )}
 
-              </strong>
-
-            </div>
+              </div>
 
 
-            <div>
+              <div>
 
-              ${escapeHtml(
-                region?.country_name ||
-                item.country_code
-              )}
+                ${escapeHtml(
+                  region?.currency_symbol ||
+                  ""
+                )}
 
-            </div>
+                ${Number(
+                  item.local_price
+                ).toLocaleString()}
 
-
-            <div>
-
-              ${escapeHtml(
-                region?.currency_symbol ||
-                ""
-              )}
-
-              ${Number(
-                item.local_price
-              ).toLocaleString()}
-
-            </div>
+              </div>
 
 
-            <div>
+              <div>
 
-              ${escapeHtml(
-                region?.currency_code ||
-                ""
-              )}
+                ${escapeHtml(
+                  region?.currency_code ||
+                  ""
+                )}
 
-            </div>
+              </div>
 
 
-            <button
-              class="btn admin-delete"
-              type="button"
-              data-delete-override="${item.id}"
-            >
-              Delete
-            </button>
+              <button
+                class="btn admin-delete"
+                type="button"
+                data-delete-override="${item.id}"
+              >
+                Delete
+              </button>
 
-          </article>
+            </article>
 
-        `;
+          `;
 
-      }
-    ).join("");
+        }
+      )
+      .join("");
 
 
   document
@@ -4112,8 +4776,11 @@ function renderAdminOverrides(
       button => {
 
         button.addEventListener(
+
           "click",
+
           deletePricingOverride
+
         );
 
       }
@@ -4123,7 +4790,7 @@ function renderAdminOverrides(
 
 
 // =====================================================
-// DELETE OVERRIDE
+// DELETE PRICE OVERRIDE
 // =====================================================
 
 async function deletePricingOverride(
@@ -4138,6 +4805,13 @@ async function deletePricingOverride(
     button.dataset.deleteOverride;
 
 
+  if (!id) {
+
+    return;
+
+  }
+
+
   if (
     !window.confirm(
       "Delete this country-specific price?"
@@ -4145,25 +4819,30 @@ async function deletePricingOverride(
   ) {
 
     return;
+
   }
 
 
   try {
 
-    await pricingAdminRequest(
+    await adminRequest(
 
       `pricing_overrides?id=eq.${encodeURIComponent(
         id
       )}`,
 
       {
+
         method:
           "DELETE",
 
         headers: {
+
           Prefer:
             "return=minimal"
+
         }
+
       }
 
     );
@@ -4180,6 +4859,7 @@ async function deletePricingOverride(
   } catch (error) {
 
     console.error(
+      "Override delete:",
       error
     );
 
@@ -4194,12 +4874,64 @@ async function deletePricingOverride(
 
 
 // =====================================================
+// TOKEN VALIDATION
+// =====================================================
+
+async function tokenIsValid() {
+
+  if (!accessToken) {
+
+    return false;
+
+  }
+
+
+  try {
+
+    const response =
+      await fetch(
+
+        `${SUPABASE_URL}/auth/v1/user`,
+
+        {
+
+          headers: {
+
+            apikey:
+              SUPABASE_PUBLISHABLE_KEY,
+
+            Authorization:
+              `Bearer ${accessToken}`
+
+          }
+
+        }
+
+      );
+
+
+    return response.ok;
+
+
+  } catch {
+
+    return false;
+
+  }
+
+}
+
+
+// =====================================================
 // LOGOUT
 // =====================================================
 
 logoutButton?.addEventListener(
+
   "click",
+
   async () => {
+
 
     try {
 
@@ -4210,6 +4942,7 @@ logoutButton?.addEventListener(
           `${SUPABASE_URL}/auth/v1/logout`,
 
           {
+
             method:
               "POST",
 
@@ -4222,6 +4955,7 @@ logoutButton?.addEventListener(
                 `Bearer ${accessToken}`
 
             }
+
           }
 
         );
@@ -4232,7 +4966,7 @@ logoutButton?.addEventListener(
     } catch (error) {
 
       console.warn(
-        "Logout error:",
+        "Logout:",
         error
       );
 
@@ -4252,6 +4986,7 @@ logoutButton?.addEventListener(
 
       dashboard.style.display =
         "none";
+
     }
 
 
@@ -4259,61 +4994,20 @@ logoutButton?.addEventListener(
 
       loginSection.style.display =
         "block";
+
     }
 
 
-    loginForm?.reset();
+    loginForm
+      ?.reset();
 
   }
+
 );
 
 
 // =====================================================
-// TOKEN VALIDATION
-// =====================================================
-
-async function tokenIsValid() {
-
-  if (!accessToken) {
-    return false;
-  }
-
-
-  try {
-
-    const response =
-      await fetch(
-
-        `${SUPABASE_URL}/auth/v1/user`,
-
-        {
-          headers: {
-
-            apikey:
-              SUPABASE_PUBLISHABLE_KEY,
-
-            Authorization:
-              `Bearer ${accessToken}`
-
-          }
-        }
-
-      );
-
-
-    return response.ok;
-
-
-  } catch {
-
-    return false;
-  }
-
-}
-
-
-// =====================================================
-// RESTORE SESSION
+// RESTORE ADMIN SESSION
 // =====================================================
 
 async function restoreAdminSession() {
@@ -4325,7 +5019,9 @@ async function restoreAdminSession() {
 
 
   if (!storedToken) {
+
     return;
+
   }
 
 
@@ -4333,37 +5029,43 @@ async function restoreAdminSession() {
     storedToken;
 
 
-  const validToken =
+  const valid =
     await tokenIsValid();
 
 
-  if (!validToken) {
+  if (!valid) {
 
     sessionStorage.removeItem(
       "doanaAdminToken"
     );
 
+
     accessToken =
       null;
 
+
     return;
+
   }
 
 
-  const isAdmin =
+  const admin =
     await verifyAdmin();
 
 
-  if (!isAdmin) {
+  if (!admin) {
 
     sessionStorage.removeItem(
       "doanaAdminToken"
     );
 
+
     accessToken =
       null;
 
+
     return;
+
   }
 
 

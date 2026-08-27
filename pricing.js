@@ -5,14 +5,19 @@
 
   // =====================================================
   // DOANA DIGITAL
-  // REGIONAL PRICING SYSTEM
+  // REGIONAL PRICING
   //
-  // Priority:
+  // Supports:
+  // - data-pricing-country
+  // - #pricingLocation
+  // - data-service-price="service-code"
+  // - data-service-code="service-code"
   //
-  // 1. Manual / detected country
-  // 2. Exact pricing override
-  // 3. USD base × exchange rate × market multiplier
-  // 4. USD fallback
+  // Pricing priority:
+  //
+  // 1. Exact country override
+  // 2. USD base × exchange rate × market multiplier
+  // 3. USD fallback
   // =====================================================
 
 
@@ -25,7 +30,7 @@
     "https://efbmmxtteekbjayiesft.supabase.co";
 
 
-  const SUPABASE_PUBLISHABLE_KEY =
+  const SUPABASE_KEY =
     "sb_publishable_xBSJ2JvLfmitO7-e-JJHpw_Ak3R7joj";
 
 
@@ -35,11 +40,11 @@
   // =====================================================
 
   const COUNTRY_CACHE_KEY =
-    "doanaPricingCountry";
+    "doanaPricingCountryV2";
 
 
   const COUNTRY_CACHE_TIME_KEY =
-    "doanaPricingCountryTime";
+    "doanaPricingCountryTimeV2";
 
 
   const MANUAL_COUNTRY_KEY =
@@ -47,10 +52,10 @@
 
 
   const COUNTRY_CACHE_DURATION =
-    1000 *
+    24 *
     60 *
     60 *
-    24;
+    1000;
 
 
 
@@ -89,22 +94,26 @@
   // STATE
   // =====================================================
 
-  let pricingData = {
-
-    services:
-      [],
-
-    regions:
-      [],
-
-    overrides:
-      []
-
-  };
+  let services =
+    [];
 
 
-  let activeRegion =
-    FALLBACK_REGION;
+  let regions =
+    [];
+
+
+  let overrides =
+    [];
+
+
+
+  // =====================================================
+  // DEBUG
+  // =====================================================
+
+  console.log(
+    "Doana pricing.js loaded"
+  );
 
 
 
@@ -112,14 +121,14 @@
   // SUPABASE GET
   // =====================================================
 
-  async function supabaseRequest(
-    path
+  async function supabaseGet(
+    endpoint
   ) {
 
     const response =
       await fetch(
 
-        `${SUPABASE_URL}/rest/v1/${path}`,
+        `${SUPABASE_URL}/rest/v1/${endpoint}`,
 
         {
 
@@ -129,7 +138,7 @@
           headers: {
 
             apikey:
-              SUPABASE_PUBLISHABLE_KEY,
+              SUPABASE_KEY,
 
             Accept:
               "application/json"
@@ -148,7 +157,7 @@
 
 
       throw new Error(
-        `Supabase pricing request failed: ${response.status} ${errorText}`
+        `Supabase ${response.status}: ${errorText}`
       );
 
     }
@@ -166,21 +175,21 @@
 
   async function fetchWithTimeout(
     url,
-    milliseconds = 4500
+    timeout = 4000
   ) {
 
     const controller =
       new AbortController();
 
 
-    const timer =
+    const timeoutId =
       window.setTimeout(
         () => {
 
           controller.abort();
 
         },
-        milliseconds
+        timeout
       );
 
 
@@ -189,11 +198,13 @@
       return await fetch(
         url,
         {
+
           signal:
             controller.signal,
 
           cache:
             "no-store"
+
         }
       );
 
@@ -201,7 +212,7 @@
     } finally {
 
       window.clearTimeout(
-        timer
+        timeoutId
       );
 
     }
@@ -211,7 +222,7 @@
 
 
   // =====================================================
-  // MANUAL COUNTRY
+  // STORAGE HELPERS
   // =====================================================
 
   function getManualCountry() {
@@ -238,21 +249,10 @@
 
     try {
 
-      if (countryCode) {
-
-        localStorage.setItem(
-          MANUAL_COUNTRY_KEY,
-          countryCode
-        );
-
-
-      } else {
-
-        localStorage.removeItem(
-          MANUAL_COUNTRY_KEY
-        );
-
-      }
+      localStorage.setItem(
+        MANUAL_COUNTRY_KEY,
+        countryCode
+      );
 
     } catch {
 
@@ -264,15 +264,11 @@
 
 
 
-  // =====================================================
-  // COUNTRY CACHE
-  // =====================================================
-
   function getCachedCountry() {
 
     try {
 
-      const country =
+      const countryCode =
         localStorage.getItem(
           COUNTRY_CACHE_KEY
         );
@@ -287,7 +283,7 @@
 
 
       if (
-        !country ||
+        !countryCode ||
         !timestamp
       ) {
 
@@ -307,7 +303,7 @@
       }
 
 
-      return country;
+      return countryCode;
 
     } catch {
 
@@ -349,180 +345,183 @@
 
 
   // =====================================================
-  // COUNTRY LOOKUP — IPWHO.IS
-  // =====================================================
-
-  async function detectCountryWithIpWho() {
-
-    const response =
-      await fetchWithTimeout(
-        "https://ipwho.is/",
-        4500
-      );
-
-
-    if (!response.ok) {
-
-      throw new Error(
-        "ipwho.is unavailable"
-      );
-
-    }
-
-
-    const data =
-      await response.json();
-
-
-    if (
-      data.success !== true ||
-      !data.country_code
-    ) {
-
-      throw new Error(
-        "ipwho.is returned no country"
-      );
-
-    }
-
-
-    return String(
-      data.country_code
-    )
-      .trim()
-      .toUpperCase();
-
-  }
-
-
-
-  // =====================================================
-  // COUNTRY LOOKUP — IPAPI
-  // FALLBACK PROVIDER
-  // =====================================================
-
-  async function detectCountryWithIpApi() {
-
-    const response =
-      await fetchWithTimeout(
-        "https://ipapi.co/json/",
-        4500
-      );
-
-
-    if (!response.ok) {
-
-      throw new Error(
-        "ipapi.co unavailable"
-      );
-
-    }
-
-
-    const data =
-      await response.json();
-
-
-    if (!data.country_code) {
-
-      throw new Error(
-        "ipapi.co returned no country"
-      );
-
-    }
-
-
-    return String(
-      data.country_code
-    )
-      .trim()
-      .toUpperCase();
-
-  }
-
-
-
-  // =====================================================
-  // DETECT COUNTRY
+  // COUNTRY DETECTION
   // =====================================================
 
   async function detectCountry() {
 
-    // User manually selected country.
-    const manual =
+    const manualCountry =
       getManualCountry();
 
 
-    if (manual) {
+    if (manualCountry) {
 
-      return manual;
+      console.log(
+        "Using manually selected country:",
+        manualCountry
+      );
+
+
+      return manualCountry;
 
     }
 
 
-    // Recently detected country.
-    const cached =
+
+    const cachedCountry =
       getCachedCountry();
 
 
-    if (cached) {
+    if (cachedCountry) {
 
-      return cached;
+      console.log(
+        "Using cached country:",
+        cachedCountry
+      );
+
+
+      return cachedCountry;
 
     }
 
 
-    // Provider 1
+
+    // =================================================
+    // FIRST PROVIDER
+    // =================================================
+
     try {
 
-      const country =
-        await detectCountryWithIpWho();
+      const response =
+        await fetchWithTimeout(
+          "https://ipwho.is/",
+          4000
+        );
 
 
-      cacheCountry(
-        country
-      );
+      if (!response.ok) {
+
+        throw new Error(
+          "ipwho.is request failed"
+        );
+
+      }
 
 
-      return country;
+      const result =
+        await response.json();
+
+
+      if (
+        result.success === true &&
+        result.country_code
+      ) {
+
+        const countryCode =
+          String(
+            result.country_code
+          )
+            .trim()
+            .toUpperCase();
+
+
+        cacheCountry(
+          countryCode
+        );
+
+
+        console.log(
+          "Detected country through ipwho.is:",
+          countryCode
+        );
+
+
+        return countryCode;
+
+      }
 
 
     } catch (error) {
 
       console.warn(
-        "Primary country detection failed:",
+        "Primary country lookup failed:",
         error
       );
 
     }
 
 
-    // Provider 2
+
+    // =================================================
+    // SECOND PROVIDER
+    // =================================================
+
     try {
 
-      const country =
-        await detectCountryWithIpApi();
+      const response =
+        await fetchWithTimeout(
+          "https://ipapi.co/json/",
+          4000
+        );
 
 
-      cacheCountry(
-        country
-      );
+      if (!response.ok) {
+
+        throw new Error(
+          "ipapi.co request failed"
+        );
+
+      }
 
 
-      return country;
+      const result =
+        await response.json();
+
+
+      if (
+        result.country_code
+      ) {
+
+        const countryCode =
+          String(
+            result.country_code
+          )
+            .trim()
+            .toUpperCase();
+
+
+        cacheCountry(
+          countryCode
+        );
+
+
+        console.log(
+          "Detected country through ipapi.co:",
+          countryCode
+        );
+
+
+        return countryCode;
+
+      }
 
 
     } catch (error) {
 
       console.warn(
-        "Secondary country detection failed:",
+        "Secondary country lookup failed:",
         error
       );
 
     }
 
 
-    // Never leave UI waiting.
+
+    console.warn(
+      "Country detection unavailable. Falling back to USD."
+    );
+
+
     return "US";
 
   }
@@ -530,34 +529,45 @@
 
 
   // =====================================================
-  // LOAD PRICING
+  // LOAD DATABASE DATA
   // =====================================================
 
-  async function loadPricingData() {
+  async function loadDatabasePricing() {
 
-    const [
-      services,
-      regions,
-      overrides
-    ] =
+    const results =
       await Promise.all([
 
-        supabaseRequest(
+
+        // SERVICES
+
+        supabaseGet(
+
           "services_pricing" +
+
           "?select=" +
+
           "service_code," +
           "service_name," +
           "base_price_usd," +
           "price_type," +
           "active" +
+
           "&active=eq.true" +
+
           "&order=id.asc"
+
         ),
 
 
-        supabaseRequest(
+
+        // REGIONS
+
+        supabaseGet(
+
           "pricing_regions" +
+
           "?select=" +
+
           "country_code," +
           "country_name," +
           "currency_code," +
@@ -565,48 +575,72 @@
           "exchange_rate," +
           "market_multiplier," +
           "active" +
+
           "&active=eq.true" +
+
           "&order=country_name.asc"
+
         ),
 
 
-        supabaseRequest(
+
+        // OVERRIDES
+
+        supabaseGet(
+
           "pricing_overrides" +
+
           "?select=" +
+
           "service_code," +
           "country_code," +
           "local_price"
+
         )
+
 
       ]);
 
 
-    return {
-
-      services:
-        Array.isArray(
-          services
-        )
-          ? services
-          : [],
+    services =
+      Array.isArray(
+        results[0]
+      )
+        ? results[0]
+        : [];
 
 
-      regions:
-        Array.isArray(
-          regions
-        )
-          ? regions
-          : [],
+    regions =
+      Array.isArray(
+        results[1]
+      )
+        ? results[1]
+        : [];
 
 
-      overrides:
-        Array.isArray(
-          overrides
-        )
-          ? overrides
-          : []
+    overrides =
+      Array.isArray(
+        results[2]
+      )
+        ? results[2]
+        : [];
 
-    };
+
+    console.log(
+      "Pricing database loaded:",
+      {
+
+        services:
+          services.length,
+
+        regions:
+          regions.length,
+
+        overrides:
+          overrides.length
+
+      }
+    );
 
   }
 
@@ -620,30 +654,30 @@
     countryCode
   ) {
 
-    const region =
-      pricingData.regions.find(
-        item =>
-          item.country_code ===
+    const matchingRegion =
+      regions.find(
+        region =>
+          region.country_code ===
           countryCode
       );
 
 
-    if (region) {
+    if (matchingRegion) {
 
-      return region;
+      return matchingRegion;
 
     }
 
 
-    const us =
-      pricingData.regions.find(
-        item =>
-          item.country_code ===
+    const usRegion =
+      regions.find(
+        region =>
+          region.country_code ===
           "US"
       );
 
 
-    return us ||
+    return usRegion ||
       FALLBACK_REGION;
 
   }
@@ -659,16 +693,14 @@
     countryCode
   ) {
 
-    return pricingData
-      .overrides
-      .find(
-        item =>
-          item.service_code ===
-            serviceCode
-          &&
-          item.country_code ===
-            countryCode
-      );
+    return overrides.find(
+      item =>
+        item.service_code ===
+          serviceCode
+        &&
+        item.country_code ===
+          countryCode
+    );
 
   }
 
@@ -693,7 +725,9 @@
       );
 
 
-    // Exact regional override wins.
+    // =================================================
+    // EXACT COUNTRY PRICE
+    // =================================================
 
     if (
       override &&
@@ -720,7 +754,11 @@
 
 
 
-    const baseUsd =
+    // =================================================
+    // CALCULATED PRICE
+    // =================================================
+
+    const basePrice =
       Number(
         service.base_price_usd
       );
@@ -738,17 +776,24 @@
       );
 
 
-
     if (
-      Number.isFinite(baseUsd) &&
-      Number.isFinite(exchangeRate) &&
-      Number.isFinite(marketMultiplier)
+      Number.isFinite(
+        basePrice
+      )
+      &&
+      Number.isFinite(
+        exchangeRate
+      )
+      &&
+      Number.isFinite(
+        marketMultiplier
+      )
     ) {
 
       return {
 
         amount:
-          baseUsd *
+          basePrice *
           exchangeRate *
           marketMultiplier,
 
@@ -761,15 +806,21 @@
 
 
 
+    // =================================================
+    // USD FALLBACK
+    // =================================================
+
     return {
 
       amount:
-        Number.isFinite(baseUsd)
-          ? baseUsd
+        Number.isFinite(
+          basePrice
+        )
+          ? basePrice
           : 0,
 
       source:
-        "usd-fallback"
+        "fallback"
 
     };
 
@@ -778,16 +829,16 @@
 
 
   // =====================================================
-  // COMMERCIAL ROUNDING
+  // ROUND PRICES
   // =====================================================
 
-  function commercialRound(
+  function roundPrice(
     amount,
-    currencyCode,
+    currency,
     source
   ) {
 
-    // Never modify manually configured prices.
+    // Do not modify manual overrides.
 
     if (
       source ===
@@ -799,9 +850,8 @@
     }
 
 
-
     if (
-      currencyCode ===
+      currency ===
       "INR"
     ) {
 
@@ -817,9 +867,8 @@
     }
 
 
-
     if (
-      currencyCode ===
+      currency ===
       "AED"
     ) {
 
@@ -835,7 +884,6 @@
     }
 
 
-
     return Math.round(
       amount
     );
@@ -845,12 +893,12 @@
 
 
   // =====================================================
-  // FORMAT PRICE
+  // FORMAT CURRENCY
   // =====================================================
 
   function formatCurrency(
     amount,
-    currencyCode
+    currency
   ) {
 
     try {
@@ -864,8 +912,7 @@
           style:
             "currency",
 
-          currency:
-            currencyCode,
+          currency,
 
           minimumFractionDigits:
             0,
@@ -880,15 +927,9 @@
       );
 
 
-    } catch (error) {
+    } catch {
 
-      console.warn(
-        "Currency formatting failed:",
-        error
-      );
-
-
-      return `${currencyCode} ${amount}`;
+      return `${currency} ${amount}`;
 
     }
 
@@ -897,10 +938,10 @@
 
 
   // =====================================================
-  // PRICE LABEL
+  // CREATE PRICE TEXT
   // =====================================================
 
-  function createPriceLabel(
+  function getPriceText(
     service,
     region
   ) {
@@ -915,29 +956,38 @@
     }
 
 
-    const result =
+    const price =
       calculatePrice(
         service,
         region
       );
 
 
-    const finalPrice =
-      commercialRound(
+    const rounded =
+      roundPrice(
 
-        result.amount,
+        price.amount,
 
         region.currency_code,
 
-        result.source
+        price.source
 
       );
+
+
+    if (
+      rounded <= 0
+    ) {
+
+      return "Contact for pricing";
+
+    }
 
 
     const formatted =
       formatCurrency(
 
-        finalPrice,
+        rounded,
 
         region.currency_code
 
@@ -961,54 +1011,72 @@
 
 
   // =====================================================
-  // RENDER SERVICE PRICES
+  // UPDATE PRICE ELEMENTS
   // =====================================================
 
   function renderPrices(
     region
   ) {
 
+    // =================================================
+    // EXISTING HTML STYLE
+    //
+    // <span data-service-price="logo-branding">
+    // =================================================
+
     document
       .querySelectorAll(
-        "[data-service-code]"
+        "[data-service-price]"
       )
       .forEach(
-        card => {
+        priceElement => {
 
-          const serviceCode =
-            card.dataset.serviceCode;
-
-
-          const service =
-            pricingData.services.find(
-              item =>
-                item.service_code ===
-                serviceCode
-            );
+          let serviceCode =
+            priceElement.dataset.servicePrice;
 
 
-          const priceElement =
-            card.querySelector(
-              "[data-service-price]"
-            );
+          // Newer markup may have empty data-service-price
+          // and service code on parent.
+
+          if (!serviceCode) {
+
+            const parent =
+              priceElement.closest(
+                "[data-service-code]"
+              );
 
 
-          if (!priceElement) {
+            serviceCode =
+              parent?.dataset.serviceCode;
+
+          }
+
+
+          if (!serviceCode) {
 
             return;
 
           }
 
 
+          const service =
+            services.find(
+              item =>
+                item.service_code ===
+                serviceCode
+            );
+
+
           if (!service) {
+
+            console.warn(
+              "Service price not found:",
+              serviceCode
+            );
+
 
             priceElement.textContent =
               "Contact for pricing";
-
-
-            console.warn(
-              `Pricing service not found: ${serviceCode}`
-            );
 
 
             return;
@@ -1017,147 +1085,17 @@
 
 
           priceElement.textContent =
-            createPriceLabel(
+            getPriceText(
               service,
               region
             );
 
+
+          priceElement.dataset.currency =
+            region.currency_code;
+
         }
       );
-
-  }
-
-
-
-  // =====================================================
-  // LOCATION CONTROLLER
-  // =====================================================
-
-  function renderLocationControl(
-    selectedRegion,
-    detectedAutomatically = true
-  ) {
-
-    const container =
-      document.getElementById(
-        "pricingLocation"
-      );
-
-
-    if (!container) {
-
-      return;
-
-    }
-
-
-    const options =
-      pricingData.regions
-        .map(
-          region => {
-
-            const selected =
-              region.country_code ===
-              selectedRegion.country_code
-                ? "selected"
-                : "";
-
-
-            return `
-
-              <option
-                value="${escapeHtml(
-                  region.country_code
-                )}"
-                ${selected}
-              >
-
-                ${escapeHtml(
-                  region.country_name
-                )}
-                (${escapeHtml(
-                  region.currency_code
-                )})
-
-              </option>
-
-            `;
-
-          }
-        )
-        .join("");
-
-
-    container.innerHTML = `
-
-      <span>
-        Prices shown for:
-      </span>
-
-      <select
-        id="pricingCountrySelector"
-        aria-label="Select pricing country"
-      >
-
-        ${options}
-
-      </select>
-
-      ${
-        detectedAutomatically
-          ? `
-            <span class="pricing-auto-label">
-              Auto detected
-            </span>
-          `
-          : ""
-      }
-
-    `;
-
-
-
-    const selector =
-      document.getElementById(
-        "pricingCountrySelector"
-      );
-
-
-    selector?.addEventListener(
-      "change",
-      event => {
-
-        const countryCode =
-          event.target.value;
-
-
-        saveManualCountry(
-          countryCode
-        );
-
-
-        const region =
-          findRegion(
-            countryCode
-          );
-
-
-        activeRegion =
-          region;
-
-
-        renderPrices(
-          region
-        );
-
-
-        renderLocationControl(
-          region,
-          false
-        );
-
-      }
-    );
 
   }
 
@@ -1175,9 +1113,7 @@
       value ??
       ""
     ).replace(
-
       /[&<>"']/g,
-
       character => ({
 
         "&":
@@ -1196,7 +1132,6 @@
           "&#039;"
 
       })[character]
-
     );
 
   }
@@ -1204,32 +1139,250 @@
 
 
   // =====================================================
-  // ERROR / FALLBACK DISPLAY
+  // LOCATION DISPLAY
   // =====================================================
 
-  function renderFallbackLocation() {
+  function renderLocation(
+    region
+  ) {
 
-    const container =
+    // =================================================
+    // OLD HTML STYLE
+    //
+    // <strong data-pricing-country>
+    // =================================================
+
+    const oldCountryElements =
+      document.querySelectorAll(
+        "[data-pricing-country]"
+      );
+
+
+    oldCountryElements
+      .forEach(
+        element => {
+
+          element.textContent =
+
+            `${region.country_name} • ${region.currency_code}`;
+
+        }
+      );
+
+
+
+    // =================================================
+    // NEW HTML STYLE
+    //
+    // <div id="pricingLocation">
+    // =================================================
+
+    const locationContainer =
       document.getElementById(
         "pricingLocation"
       );
 
 
-    if (!container) {
+    if (!locationContainer) {
 
       return;
 
     }
 
 
-    container.innerHTML = `
 
-      Prices shown in
+    const regionOptions =
+      regions
+        .map(
+          item => {
+
+            const selected =
+              item.country_code ===
+              region.country_code
+
+                ? "selected"
+
+                : "";
+
+
+            return `
+
+              <option
+                value="${escapeHtml(
+                  item.country_code
+                )}"
+                ${selected}
+              >
+
+                ${escapeHtml(
+                  item.country_name
+                )}
+                —
+                ${escapeHtml(
+                  item.currency_code
+                )}
+
+              </option>
+
+            `;
+
+          }
+        )
+        .join("");
+
+
+
+    locationContainer.innerHTML = `
+
+      <span>
+        Prices shown for:
+      </span>
+
+
       <strong>
-        USD
+
+        ${escapeHtml(
+          region.country_name
+        )}
+
       </strong>
 
+
+      <span>
+        •
+        ${escapeHtml(
+          region.currency_code
+        )}
+      </span>
+
+
+      <select
+        id="pricingCountrySelector"
+        aria-label="Change pricing country"
+      >
+
+        ${regionOptions}
+
+      </select>
+
     `;
+
+
+
+    const selector =
+      document.getElementById(
+        "pricingCountrySelector"
+      );
+
+
+    selector
+      ?.addEventListener(
+        "change",
+        event => {
+
+          const selectedCountry =
+            event.target.value;
+
+
+          saveManualCountry(
+            selectedCountry
+          );
+
+
+          const selectedRegion =
+            findRegion(
+              selectedCountry
+            );
+
+
+          renderPrices(
+            selectedRegion
+          );
+
+
+          renderLocation(
+            selectedRegion
+          );
+
+        }
+      );
+
+  }
+
+
+
+  // =====================================================
+  // OLD LOCATION ELEMENT FALLBACK
+  // =====================================================
+
+  function renderOldLocationFallback() {
+
+    document
+      .querySelectorAll(
+        "[data-pricing-country]"
+      )
+      .forEach(
+        element => {
+
+          element.textContent =
+            "United States • USD";
+
+        }
+      );
+
+
+    const locationContainer =
+      document.getElementById(
+        "pricingLocation"
+      );
+
+
+    if (locationContainer) {
+
+      locationContainer.innerHTML = `
+
+        Prices shown in
+        <strong>
+          USD
+        </strong>
+
+      `;
+
+    }
+
+  }
+
+
+
+  // =====================================================
+  // PRICE FALLBACK
+  // =====================================================
+
+  function renderPriceFallback() {
+
+    document
+      .querySelectorAll(
+        "[data-service-price]"
+      )
+      .forEach(
+        element => {
+
+          if (
+            !element.textContent ||
+            element.textContent
+              .toLowerCase()
+              .includes(
+                "loading"
+              )
+          ) {
+
+            element.textContent =
+              "Contact for pricing";
+
+          }
+
+        }
+      );
 
   }
 
@@ -1241,70 +1394,58 @@
 
   async function initializePricing() {
 
-    const locationElement =
-      document.getElementById(
-        "pricingLocation"
-      );
-
-
-    if (locationElement) {
-
-      locationElement.innerHTML = `
-
-        Prices shown for:
-        <strong>
-          Detecting location...
-        </strong>
-
-      `;
-
-    }
+    console.log(
+      "Starting Doana regional pricing..."
+    );
 
 
     try {
 
-      // Load DB first.
+      // =================================================
+      // DATABASE
+      // =================================================
 
-      pricingData =
-        await loadPricingData();
+      await loadDatabasePricing();
 
 
       if (
-        !pricingData.services.length
+        services.length ===
+        0
       ) {
 
         throw new Error(
-          "No active services found."
+          "No active service prices were returned."
         );
 
       }
 
 
       if (
-        !pricingData.regions.length
+        regions.length ===
+        0
       ) {
 
         throw new Error(
-          "No active pricing regions found."
+          "No active pricing regions were returned."
         );
 
       }
 
 
 
-      // Detect visitor.
-
-      const manualCountry =
-        getManualCountry();
-
+      // =================================================
+      // LOCATION
+      // =================================================
 
       const countryCode =
-        manualCountry ||
         await detectCountry();
 
 
+      console.log(
+        "Visitor country:",
+        countryCode
+      );
 
-      // Find supported region.
 
       const region =
         findRegion(
@@ -1312,82 +1453,39 @@
         );
 
 
-      activeRegion =
-        region;
+      console.log(
+        "Pricing region:",
+        region
+      );
 
 
 
-      // Render everything.
+      // =================================================
+      // DISPLAY
+      // =================================================
 
       renderPrices(
         region
       );
 
 
-      renderLocationControl(
-
-        region,
-
-        !manualCountry
-
-      );
-
-
-      console.log(
-        "Doana pricing loaded:",
-        {
-          detectedCountry:
-            countryCode,
-
-          pricingCountry:
-            region.country_code,
-
-          currency:
-            region.currency_code
-        }
+      renderLocation(
+        region
       );
 
 
     } catch (error) {
 
       console.error(
-        "Regional pricing failed:",
+        "Doana regional pricing error:",
         error
       );
 
 
-      activeRegion =
-        FALLBACK_REGION;
+      renderOldLocationFallback();
 
 
-      renderFallbackLocation();
-
-
-      // Give cards a useful fallback instead of
-      // leaving "Loading..." forever.
-
-      document
-        .querySelectorAll(
-          "[data-service-price]"
-        )
-        .forEach(
-          element => {
-
-            if (
-              element.textContent
-                ?.toLowerCase()
-                .includes(
-                  "loading"
-                )
-            ) {
-
-              element.textContent =
-                "Contact for pricing";
-
-            }
-
-          }
-        );
+      renderPriceFallback();
 
     }
 
