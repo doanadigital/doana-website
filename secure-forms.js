@@ -6,17 +6,31 @@
   // =====================================================
   // DOANA DIGITAL
   // SECURE PUBLIC FORMS
+  //
+  // Handles:
+  // - Contact form submission
+  // - Feedback form submission
+  // - Cloudflare Turnstile token
+  // - Supabase Edge Function request
   // =====================================================
 
 
-  const SECURE_FORM_ENDPOINT =
 
+  // =====================================================
+  // SUPABASE PUBLIC CONFIG
+  // =====================================================
+
+  const SUPABASE_PUBLISHABLE_KEY =
+    "sb_publishable_xBSJ2JvLfmitO7-e-JJHpw_Ak3R7joj";
+
+
+  const SECURE_FORM_ENDPOINT =
     "https://efbmmxtteekbjayiesft.supabase.co/functions/v1/submit-public-form";
 
 
 
   // =====================================================
-  // HELPERS
+  // GET TURNSTILE TOKEN
   // =====================================================
 
   function getTurnstileToken(
@@ -29,14 +43,21 @@
       );
 
 
-    return tokenInput
-      ?.value
-      ?.trim() ||
-      "";
+    return (
+      tokenInput
+        ?.value
+        ?.trim()
+      ||
+      ""
+    );
 
   }
 
 
+
+  // =====================================================
+  // RESET TURNSTILE
+  // =====================================================
 
   function resetTurnstile() {
 
@@ -65,6 +86,63 @@
 
 
 
+  // =====================================================
+  // STATUS MESSAGE
+  // =====================================================
+
+  function showStatus(
+    element,
+    message
+  ) {
+
+    if (!element) {
+
+      return;
+
+    }
+
+
+    element.style.display =
+      "block";
+
+
+    element.textContent =
+      message;
+
+  }
+
+
+
+  // =====================================================
+  // CLEAR STATUS
+  // =====================================================
+
+  function clearStatus(
+    element
+  ) {
+
+    if (!element) {
+
+      return;
+
+    }
+
+
+    element.style.display =
+      "none";
+
+
+    element.textContent =
+      "";
+
+  }
+
+
+
+  // =====================================================
+  // SECURE EDGE FUNCTION REQUEST
+  // =====================================================
+
   async function submitSecureForm(
     payload
   ) {
@@ -81,7 +159,13 @@
 
           headers: {
 
+            apikey:
+              SUPABASE_PUBLISHABLE_KEY,
+
             "Content-Type":
+              "application/json",
+
+            Accept:
               "application/json"
 
           },
@@ -112,24 +196,24 @@
           false,
 
         message:
-          "Unexpected server response."
+          `Unexpected server response (${response.status}).`
 
       };
 
     }
 
 
+
     if (
       !response.ok ||
-      result.success !==
-      true
+      result.success !== true
     ) {
 
       throw new Error(
 
         result.message ||
 
-        "Unable to submit the form."
+        `Unable to submit the form (${response.status}).`
 
       );
 
@@ -143,7 +227,7 @@
 
 
   // =====================================================
-  // CONTACT
+  // CONTACT FORM
   // =====================================================
 
   const contactForm =
@@ -155,11 +239,19 @@
   if (contactForm) {
 
     contactForm.addEventListener(
+
       "submit",
+
       async event => {
+
 
         event.preventDefault();
 
+
+
+        // =================================================
+        // ELEMENTS
+        // =================================================
 
         const statusElement =
           document.getElementById(
@@ -180,9 +272,9 @@
 
 
 
-        // =============================================
+        // =================================================
         // TURNSTILE
-        // =============================================
+        // =================================================
 
         const turnstileToken =
           getTurnstileToken(
@@ -192,16 +284,14 @@
 
         if (!turnstileToken) {
 
-          if (statusElement) {
+          showStatus(
 
-            statusElement.style.display =
-              "block";
+            statusElement,
 
+            "Please complete the security verification."
 
-            statusElement.textContent =
-              "Please complete the security verification.";
+          );
 
-          }
 
           return;
 
@@ -209,9 +299,9 @@
 
 
 
-        // =============================================
+        // =================================================
         // PAYLOAD
-        // =============================================
+        // =================================================
 
         const payload = {
 
@@ -220,69 +310,101 @@
 
           turnstileToken,
 
+
           name:
             String(
               formData.get(
                 "name"
-              ) || ""
-            ).trim(),
+              )
+              ||
+              ""
+            )
+              .trim(),
+
 
           email:
             String(
               formData.get(
                 "email"
-              ) || ""
-            ).trim(),
+              )
+              ||
+              ""
+            )
+              .trim(),
+
 
           phone:
             String(
               formData.get(
                 "phone"
-              ) || ""
-            ).trim(),
+              )
+              ||
+              ""
+            )
+              .trim(),
+
 
           business:
             String(
               formData.get(
                 "business"
-              ) || ""
-            ).trim(),
+              )
+              ||
+              ""
+            )
+              .trim(),
+
 
           service:
             String(
               formData.get(
                 "service"
-              ) || ""
-            ).trim(),
+              )
+              ||
+              ""
+            )
+              .trim(),
+
 
           budget:
             String(
               formData.get(
                 "budget"
-              ) || ""
-            ).trim(),
+              )
+              ||
+              ""
+            )
+              .trim(),
+
 
           timeline:
             String(
               formData.get(
                 "timeline"
-              ) || ""
-            ).trim(),
+              )
+              ||
+              ""
+            )
+              .trim(),
+
 
           message:
             String(
               formData.get(
                 "message"
-              ) || ""
-            ).trim()
+              )
+              ||
+              ""
+            )
+              .trim()
 
         };
 
 
 
-        // =============================================
+        // =================================================
         // BASIC CLIENT VALIDATION
-        // =============================================
+        // =================================================
 
         if (
           !payload.name ||
@@ -291,16 +413,14 @@
           payload.message.length < 10
         ) {
 
-          if (statusElement) {
+          showStatus(
 
-            statusElement.style.display =
-              "block";
+            statusElement,
 
+            "Please complete all required fields."
 
-            statusElement.textContent =
-              "Please complete all required fields.";
+          );
 
-          }
 
           return;
 
@@ -308,9 +428,9 @@
 
 
 
-        // =============================================
-        // SUBMIT
-        // =============================================
+        // =================================================
+        // SUBMIT STATE
+        // =================================================
 
         if (submitButton) {
 
@@ -324,17 +444,15 @@
         }
 
 
-        if (statusElement) {
+        clearStatus(
+          statusElement
+        );
 
-          statusElement.style.display =
-            "none";
 
 
-          statusElement.textContent =
-            "";
-
-        }
-
+        // =================================================
+        // SUBMIT
+        // =================================================
 
         try {
 
@@ -350,19 +468,15 @@
           resetTurnstile();
 
 
-          if (statusElement) {
+          showStatus(
 
-            statusElement.style.display =
-              "block";
+            statusElement,
 
+            result.message
+            ||
+            "Thank you! Your inquiry has been sent."
 
-            statusElement.textContent =
-
-              result.message ||
-
-              "Thank you! Your inquiry has been sent.";
-
-          }
+          );
 
 
         } catch (error) {
@@ -376,19 +490,15 @@
           resetTurnstile();
 
 
-          if (statusElement) {
+          showStatus(
 
-            statusElement.style.display =
-              "block";
+            statusElement,
 
+            error.message
+            ||
+            "Unable to submit your inquiry. Please try again."
 
-            statusElement.textContent =
-
-              error.message ||
-
-              "Unable to submit your inquiry. Please try again.";
-
-          }
+          );
 
 
         } finally {
@@ -407,6 +517,7 @@
         }
 
       }
+
     );
 
   }
@@ -414,7 +525,7 @@
 
 
   // =====================================================
-  // FEEDBACK
+  // FEEDBACK FORM
   // =====================================================
 
   const feedbackForm =
@@ -426,11 +537,19 @@
   if (feedbackForm) {
 
     feedbackForm.addEventListener(
+
       "submit",
+
       async event => {
+
 
         event.preventDefault();
 
+
+
+        // =================================================
+        // ELEMENTS
+        // =================================================
 
         const statusElement =
           document.getElementById(
@@ -451,9 +570,9 @@
 
 
 
-        // =============================================
+        // =================================================
         // TURNSTILE
-        // =============================================
+        // =================================================
 
         const turnstileToken =
           getTurnstileToken(
@@ -463,22 +582,24 @@
 
         if (!turnstileToken) {
 
-          if (statusElement) {
+          showStatus(
 
-            statusElement.style.display =
-              "block";
+            statusElement,
 
+            "Please complete the security verification."
 
-            statusElement.textContent =
-              "Please complete the security verification.";
+          );
 
-          }
 
           return;
 
         }
 
 
+
+        // =================================================
+        // PAYLOAD
+        // =================================================
 
         const payload = {
 
@@ -487,19 +608,28 @@
 
           turnstileToken,
 
+
           name:
             String(
               formData.get(
                 "clientName"
-              ) || ""
-            ).trim(),
+              )
+              ||
+              ""
+            )
+              .trim(),
+
 
           business:
             String(
               formData.get(
                 "clientBusiness"
-              ) || ""
-            ).trim(),
+              )
+              ||
+              ""
+            )
+              .trim(),
+
 
           rating:
             Number(
@@ -508,38 +638,43 @@
               )
             ),
 
+
           text:
             String(
               formData.get(
                 "feedbackText"
-              ) || ""
-            ).trim()
+              )
+              ||
+              ""
+            )
+              .trim()
 
         };
 
 
 
-        // =============================================
+        // =================================================
         // BASIC VALIDATION
-        // =============================================
+        // =================================================
 
         if (
           !payload.name ||
+          !Number.isInteger(
+            payload.rating
+          ) ||
           payload.rating < 1 ||
           payload.rating > 5 ||
           payload.text.length < 10
         ) {
 
-          if (statusElement) {
+          showStatus(
 
-            statusElement.style.display =
-              "block";
+            statusElement,
 
+            "Please complete all required fields."
 
-            statusElement.textContent =
-              "Please complete all required fields.";
+          );
 
-          }
 
           return;
 
@@ -547,9 +682,9 @@
 
 
 
-        // =============================================
-        // SUBMIT
-        // =============================================
+        // =================================================
+        // SUBMIT STATE
+        // =================================================
 
         if (submitButton) {
 
@@ -563,17 +698,15 @@
         }
 
 
-        if (statusElement) {
+        clearStatus(
+          statusElement
+        );
 
-          statusElement.style.display =
-            "none";
 
 
-          statusElement.textContent =
-            "";
-
-        }
-
+        // =================================================
+        // SUBMIT
+        // =================================================
 
         try {
 
@@ -589,19 +722,15 @@
           resetTurnstile();
 
 
-          if (statusElement) {
+          showStatus(
 
-            statusElement.style.display =
-              "block";
+            statusElement,
 
+            result.message
+            ||
+            "Thank you! Your feedback has been submitted for review."
 
-            statusElement.textContent =
-
-              result.message ||
-
-              "Thank you! Your feedback has been submitted for review.";
-
-          }
+          );
 
 
         } catch (error) {
@@ -615,19 +744,15 @@
           resetTurnstile();
 
 
-          if (statusElement) {
+          showStatus(
 
-            statusElement.style.display =
-              "block";
+            statusElement,
 
+            error.message
+            ||
+            "Unable to submit feedback. Please try again."
 
-            statusElement.textContent =
-
-              error.message ||
-
-              "Unable to submit feedback. Please try again.";
-
-          }
+          );
 
 
         } finally {
@@ -646,6 +771,7 @@
         }
 
       }
+
     );
 
   }
