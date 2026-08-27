@@ -3109,7 +3109,7 @@ async function loadAdminServicePricing() {
 
         "services_pricing?" +
 
-        "select=id,service_code,service_name,base_price_cad,price_type,active" +
+        "select=id,service_code,service_name,base_price_usd,price_type,active" +
 
         "&order=id.asc"
 
@@ -3186,7 +3186,7 @@ function renderAdminServicePricing() {
             min="0"
             step="0.01"
             value="${Number(
-              service.base_price_cad
+              service.base_price_usd
             )}"
             data-service-price-id="${service.id}"
           >
@@ -3363,7 +3363,7 @@ async function saveAdminServicePricing(
         body:
           JSON.stringify({
 
-            base_price_cad:
+            base_price_usd:
               price,
 
             price_type:
